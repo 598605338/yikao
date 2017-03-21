@@ -1,0 +1,138 @@
+/*
+·ÖÒ³²å¼þ
+*/
+#div_pager{
+	clear:both;
+	height:30px;
+	line-height:30px;
+	margin-top:20px;
+	/* color:#8080c0; */
+	color: #666;
+	text-align: center;
+}
+
+#div_pager a{
+	/*padding:4px 8px;
+	margin:10px 3px;
+	font-size:12px;
+	border:1px solid #0080ff;
+	background-color:#FFF;
+	color:#9d9d9d;
+	text-decoration:none;*/
+	position: relative;
+	padding: 5px 12px;
+	margin-left: -1px;
+	line-height: 1.42857143;
+	/* color: #3bb3e0; */
+	color: #666;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+}
+
+#div_pager span{
+	padding:5px 12px;
+	/*margin:10px 3px;
+	font-size:14px;*/
+}
+
+#div_pager span.disabled{
+	padding:5px 12px;
+	font-size:12px;
+	border:1px solid #DFDFDF;
+	background-color:#FFF;
+	color:#DFDFDF;
+}
+
+#div_pager span.curr{
+	/*padding:4px 8px;
+	margin:10px 3px;
+	font-size:12px;
+	border:1px solid #005dff;
+	background-color:#005dff;
+	color:#FFF;*/
+	color: #fff;
+	cursor: default;
+	background-color: #3bb3e0;
+	border-color: #3bb3e0;
+	border: 1px solid #3bb3e0;
+	box-sizing: border-box;
+}
+
+#div_pager a:hover{
+	/*background-color:#FFEEE5;
+	border:1px solid #005dff;*/
+	color: #3bb3e0;
+	background-color: #eee;
+	border-color: #ddd;
+}
+
+#div_pager span.normalsize{
+	font-size:12px;
+}
+.ticket{
+	display:inline-block;
+	width:99%;
+	margin:1% 0 0% 0;
+/*	border:1px solid red;*/
+	height:auto;
+
+}
+.addList{
+	margin-left:2%;
+}
+.list{
+	float:left;
+	width:20%;
+	height:100px;
+    box-sizing: border-box;
+    padding-left: 5px;
+}
+.list_1{background:url(../../dist/images/pickit_1.png) no-repeat;background-size:100% 100%;color:#F0890F;}
+.list_2{background:url(../../dist/images/pickit_2.png) no-repeat;background-size:100% 100%;color:#E63C3C;}
+.list_3{background:url(../../dist/images/pickit_3.png) no-repeat;background-size:100% 100%;color:#2CB4E0;}
+
+.tickitTop{
+	width:76%;
+	display:inline-block;
+	margin:4% 1% 1% 6%;
+	height:auto;
+}
+.tickitTop_a{
+	float:left;
+	width:50%;
+	font-family: "Î¢ÈíÑÅºÚ";
+	display:inline-block;
+	font-size:16px;
+	line-height:27px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+.tickitTop_b{
+	    float: right;
+    width: 34%;
+    display: inline-block;
+    font-size: 12px;
+    font-family: "Î¢ÈíÑÅºÚ";
+    text-align: center;
+    line-height: 25px;
+    background: #3BB3E0;
+    margin-top: 4px;
+    border-radius: 10%;
+}
+.tickitWord{
+	width:81%;
+	display:inline-block;
+	margin:0% 7% 1% 6%;
+
+	height:auto;
+}
+.tickitWord p{
+	width:100%;
+	display:inline-block;
+	color:#646464;
+}
+#wrap{
+	overflow: hidden;
+}

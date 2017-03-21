@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.CardCouponProductMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.CardCouponProduct" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="card_coupon_id" property="cardCouponId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, card_coupon_id, product_id, p_code, p_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from card_coupon_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCardCouponId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT ccp.id,ccp.product_id,ccp.p_code,ccp.p_name,bp.market_price,CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',bp.image_path) AS image_path FROM `card_coupon_product` ccp INNER JOIN b_product bp ON ccp.product_id = bp.id
+	where ccp.card_coupon_id = #{cardCouponId,jdbcType=BIGINT}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from card_coupon_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.CardCouponProduct" >
+    insert into card_coupon_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardCouponId != null" >
+        card_coupon_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="pCode != null" >
+        p_code,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardCouponId != null" >
+        #{cardCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.CardCouponProduct" >
+    update card_coupon_product
+    <set >
+      <if test="cardCouponId != null" >
+        card_coupon_id = #{cardCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

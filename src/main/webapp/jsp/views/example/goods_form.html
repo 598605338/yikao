@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../../dist/css/common.css" />
+	</head>
+	<body>
+	<div id="wrap">
+		<section class="cont_section_section">
+					<form class="goods_new" enctype="multipart/form-data" method="post">						
+						<div class="height">
+							<label class="left">商品类型：</label>
+							<input class="left" type="radio" name="goods_display" value="门店商品" checked/>
+							<span class="left">门店商品</span>
+							<input class="left" type="radio" name="goods_display" value="非门店商品"/>	
+							<span class="left">非门店商品</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">商品名称：</label>
+							<input class="left" type="text" />
+						</div>
+						<div class="emp"></div>
+						<div class="height hit">
+							<label  class="left">商品描述：</label>
+							<textarea class="left" style="width:360px;height:100px;max-width:360px;max-height:100px;"></textarea>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">*商品价格：</label>
+							<input class="left" type="text" />
+							<span class="left">元</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">*商品保质期：</label>
+							<input type="text" class="left" />
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">商品品牌：</label>
+							<select name="goodsBrand_select" class="left">
+								<option>请选择</option>
+							</select>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">商品单位：</label>
+							<select name="goodsUnit_select" class="left">
+								<option>请选择</option>
+							</select>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">商品分类：</label>
+							<select name="goodsUnit_select" class="left">
+								<option>请选择一级分类</option>
+							</select>
+							<select name="goodsUnit_select" class="left">
+								<option>请选择二级分类</option>
+							</select>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">赠送积分：</label>
+							<input type="text" class="left" />
+						</div>
+						<div class="emp"></div>
+						<div class="height hit">
+							<label  class="left">商品图片：</label>
+							<span class="left">请上传1242*834尺寸的图片，最多六张！</span>
+							<div class="emp"></div>
+							<div style="height:120px;margin-left:130px;">
+								<div class="left" id="goodsPic_files"></div>
+								<span class="left btn add">	
+									+
+									<input id="goodsPic_file" class="left" type="file" name="goodsPic_file" style="position:absolute;font-size:100px;
+right:0;top:0;bottom:0;right:0;margin:auto;opacity:0;" multiple/>									
+								</span>
+							</div>							
+						</div>
+						<div class="emp"></div>
+						<div>
+							<label  class="left">商品详情图：</label>
+							<div class="left pic_edit"></div>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label class="left">商品标签：</label>
+							<span class="left">
+								<input class="left" type="radio" />
+								<span class="left">新品推荐</span>
+							</span>
+							
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label  class="left">促销标签</label>
+        					<input class="left btn" type="button" name="goodsLab_submit" value="+" />
+							<span class="left">添加</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">							
+							<label class="left">搜索关键词：</label>
+							<input class="left" type="text" />
+							<span class="left">请输入关键词，以"，"分隔开</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label class="left">重量：</label>
+							<input class="left" type="text" />
+							<span class="left">克(g)</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label class="left">商品体积(长)：</label>
+							<input class="left" type="text" />
+							<span class="left">mm</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label class="left">商品体积(宽)：</label>
+							<input class="left" type="text" />
+							<span class="left">mm</span>
+						</div>
+						<div class="emp"></div>
+						<div class="height">
+							<label class="left">商品体积(高)：</label>
+							<input class="left" type="text" />
+							<span class="left">mm</span>
+						</div>
+						<div class="emp"></div>
+						<div class="bgbtn">
+							<span  class="left btn back_dblue"><i class="icon-btn icon-save"></i>保存</span>
+							<span  class="left btn back_dblue"><i class="icon-btn icon-goback"></i>返回</span>
+						</div>
+					</form>
+				</section>
+			</div>
+	</body>	
+	<script src="../../../dist/js/jquery-1.11.2.js"></script>
+	<script src="../../../dist/js/common.js"></script>
+	<script src="../../../dist/js/goods.js"></script>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.TakeGoodsCodeGenerateMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.TakeGoodsCodeGenerate" >
+    <id column="mall_code" property="mallCode" jdbcType="VARCHAR" />
+    <id column="take_goods_code" property="takeGoodsCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mall_code, take_goods_code
+  </sql>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.TakeGoodsCodeGenerate" >
+    insert into b_take_goods_code_generate (mall_code, take_goods_code)
+    values (#{mallCode,jdbcType=VARCHAR}, #{takeGoodsCode,jdbcType=CHAR})
+  </insert>
+  
+  <!-- 查询是否存在 -->
+  <select id="selectCount" parameterType="com.linjia.web.model.TakeGoodsCodeGenerate" resultType="java.lang.Integer" >
+    select count(*) from b_take_goods_code_generate where mall_code = #{mallCode,jdbcType=VARCHAR} AND take_goods_code = #{takeGoodsCode,jdbcType=CHAR}
+  </select>
+</mapper>

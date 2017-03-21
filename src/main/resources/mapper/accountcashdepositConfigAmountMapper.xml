@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.AccountcashdepositConfigAmountMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.AccountcashdepositConfigAmount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="base_id" property="baseId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="gift_amount" property="giftAmount" jdbcType="DECIMAL" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, base_id, amount, gift_amount, cre_date
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_accountcashdeposit_config_amount
+    where id = #{id,jdbcType=INTEGER}
+    order by id desc
+  </select>
+  
+  <select id="selectAllByBaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_accountcashdeposit_config_amount
+    where base_id = #{baseId,jdbcType=INTEGER}
+    order by id desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_accountcashdeposit_config_amount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteAll" parameterType="java.lang.Integer" >
+    delete from b_accountcashdeposit_config_amount
+    where base_id = #{baseId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelectiveBatch" parameterType="list" >
+    insert into b_accountcashdeposit_config_amount(
+        base_id,
+        amount,
+        gift_amount,
+        cre_date) values
+     <foreach collection="list" item="item" index="index"  separator="," >  
+       ( #{item.baseId,jdbcType=INTEGER},
+        #{item.amount,jdbcType=DECIMAL},
+        #{item.giftAmount,jdbcType=DECIMAL},
+        SYSDATE())
+    </foreach>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.AccountcashdepositConfigAmount" >
+    update b_accountcashdeposit_config_amount
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="giftAmount != null" >
+        gift_amount = #{giftAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="creDate != null" >
+        cre_date = #{creDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

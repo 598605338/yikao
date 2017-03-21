@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linjia.web.dao.OrderListMapper">
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.OrderList">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="group_id" jdbcType="BIGINT" property="groupId" />
+    <result column="order_status" jdbcType="BIT" property="orderStatus" />
+    <result column="pay_status" jdbcType="BIT" property="payStatus" />
+    <result column="ship_status" jdbcType="BIT" property="shipStatus" />
+    <result column="send_type" jdbcType="BIT" property="sendType" />
+    <result column="logistics_id" jdbcType="INTEGER" property="logisticsId" />
+    <result column="pay_type" jdbcType="BIT" property="payType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="p_quantity" jdbcType="INTEGER" property="pQuantity" />
+    <result column="p_price" jdbcType="DECIMAL" property="pPrice" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="receive_name" jdbcType="VARCHAR" property="receiveName" />
+    <result column="receive_addr" jdbcType="VARCHAR" property="receiveAddr" />
+    <result column="receive_zip" jdbcType="VARCHAR" property="receiveZip" />
+    <result column="receive_phone" jdbcType="VARCHAR" property="receivePhone" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="take_goods_code" jdbcType="INTEGER" property="takeGoodsCode" />
+    <result column="cre_date" jdbcType="TIMESTAMP" property="creDate" />
+    <result column="mall_code" jdbcType="VARCHAR" property="mallCode" />
+    <result column="mall_name" jdbcType="VARCHAR" property="mallName" />
+    <result column="mall_phone" jdbcType="VARCHAR" property="mallPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, group_id, order_status, pay_status, ship_status, send_type, logistics_id, pay_type, 
+    name, p_quantity, p_price, user_id, receive_name, receive_addr, receive_zip, receive_phone, 
+    comment, take_goods_code, cre_date, mall_code, mall_name, mall_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_order_list
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

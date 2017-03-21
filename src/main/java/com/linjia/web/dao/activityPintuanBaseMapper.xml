@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="com.linjia.web.dao.ActivityPintuanBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ActivityPintuanBase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="detail_path" property="detailPath" jdbcType="VARCHAR" />
+    <result column="p_unit" property="pUnit" jdbcType="VARCHAR" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="pt_price" property="ptPrice" jdbcType="DECIMAL" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="sort_index" property="sortIndex" jdbcType="INTEGER" />
+    <result column="lower_limit" property="lowerLimit" jdbcType="SMALLINT" />
+    <result column="upper_limit" property="upperLimit" jdbcType="SMALLINT" />
+    <result column="sales_num" property="salesNum" jdbcType="INTEGER" />
+    <result column="cluster_num" property="clusterNum" jdbcType="INTEGER" />
+    <result column="cluster_success_num" property="clusterSuccessNum" jdbcType="INTEGER" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="online" property="online" jdbcType="BIT" />
+    <result column="work_time" property="work_time" jdbcType="INTEGER" />
+    <result column="give_score" property="giveScore" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    bapb.id, bapb.product_id, start_time, end_time, p_name,bapb.p_code,description,
+    CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',image_path) AS image_path,
+    p_unit, market_price, 
+    pt_price, sort_index, lower_limit, upper_limit, sales_num, cluster_num, 
+    cluster_success_num,bapb.cre_date,bapb.update_date,bapb.deleted,bapb.online,work_time
+  </sql> 
+  <select id="selectPintuanProductList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.ActivityPintuanBaseQuery" >
+    select 
+    <include refid="Base_Column_List" />,
+    <!-- 商品设置活动库存-安全库存量 -->
+    bapb.quantity AS quantity,
+    bapb.give_score
+    from b_activity_pintuan_base bapb
+    WHERE bapb.deleted =0 and bapb.online = 1
+    ORDER BY sort_index DESC 
+    LIMIT #{startIndex},#{pageSize}
+  </select>
+  
+  <select id="selectDetailById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,
+   <!--  商品设置活动库存-安全库存量 -->
+    bapb.quantity AS quantity,
+    bapb.give_score
+    from b_activity_pintuan_base bapb
+    WHERE bapb.deleted =0 
+    and bapb.id = #{id,jdbcType=INTEGER}
+  </select> 
+  
+   <select id="selectPtListManage" resultMap="BaseResultMap" parameterType="com.linjia.web.query.ActivityPintuanBaseQuery" >
+    select 
+    <include refid="Base_Column_List" />,
+    <!-- 商品设置活动库存-安全库存量 -->
+    bapb.quantity AS quantity,
+    bapb.give_score
+    from b_activity_pintuan_base bapb 
+    WHERE bapb.deleted =0 
+    <if test="pName !=null and pName !='' ">
+    	and  bapb.p_name like CONCAT(CONCAT('%',#{pName}),'%')
+    </if>
+    <if test="online !=null and online!='' ">
+    	and bapb.online =#{online}
+    </if>
+    <if test="creDate !=null and creDate !='' ">
+    	and bapb.cre_date &gt; #{creDate}
+    </if>
+    <if test="creEndDate !=null and creEndDate !='' ">
+    	and bapb.cre_date &lt; #{creEndDate}
+    </if>
+    <if test="startTime !=null and startTime !='' ">
+    	and bapb.start_time &gt; #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !='' ">
+    	and bapb.end_time &lt; #{endTime}
+    </if>
+    ORDER BY sort_index DESC 
+    <if test="exportFlag ==null">
+    LIMIT #{startIndex},#{pageSize}
+    </if>
+  </select>
+  
+  <select id="selectPtListManageNum" resultType="java.lang.Integer" parameterType="com.linjia.web.query.ActivityPintuanBaseQuery" >
+    select 
+    count(*)
+    from b_activity_pintuan_base bapb 
+    WHERE bapb.deleted =0 
+    <if test="pName !=null and pName !='' ">
+    	and  bapb.p_name like CONCAT(CONCAT('%',#{pName}),'%')
+    </if>
+    <if test="online !=null and online!='' ">
+    	and bapb.online =#{online}
+    </if>
+    <if test="creDate !=null and creDate !='' ">
+    	and bapb.cre_date &gt; #{creDate}
+    </if>
+    <if test="creEndDate !=null and creEndDate !='' ">
+    	and bapb.cre_date &lt; #{creEndDate}
+    </if>
+    <if test="startTime !=null and startTime !='' ">
+    	and bapb.start_time &gt; #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !='' ">
+    	and bapb.end_time &lt; #{endTime}
+    </if>
+  </select>
+  
+   <insert id="insertPtBase" parameterType="com.linjia.web.model.ActivityPintuanBase" >
+    insert into b_activity_pintuan_base(product_id,start_time,end_time,p_name,p_code,description,image_path,detail_path,
+		p_unit,market_price,pt_price,quantity,sort_index,lower_limit,upper_limit,sales_num,cluster_num,cluster_success_num,online,cre_date,work_time,give_score)
+	values(#{productId},#{startTime},#{endTime},#{pName},#{pCode},#{description},#{imagePath},#{detailPath},
+		#{pUnit},#{marketPrice},#{ptPrice},#{quantity},#{sortIndex},#{lowerLimit},#{upperLimit},#{salesNum},#{clusterNum},#{clusterSuccessNum},#{online},SYSDATE(),#{work_time},#{giveScore})
+  </insert>
+  
+    <!-- 更新拼团商品 -->
+  <update id="updateBaseProduct" parameterType="com.linjia.web.model.ActivityPintuanBase">
+  	update b_activity_pintuan_base
+  	<set>
+	  	<if test="productId !=null ">
+	  		product_id=#{productId},
+	  	</if>
+	  	<if test="startTime !=null ">
+	  		start_time=#{startTime},
+	  	</if>
+	  	<if test="endTime !=null ">
+	  		end_time=#{endTime},
+	  	</if>
+	  	<if test="pName !=null ">
+	  		p_name=#{pName},
+	  	</if>
+	  	<if test="pCode !=null ">
+	  		p_code=#{pCode},
+	  	</if>
+	  	<if test="description !=null ">
+	  		description=#{description},
+	  	</if>
+	  	<if test="imagePath !=null ">
+	  		image_path=#{imagePath},
+	  	</if>
+	  	<if test="detailPath !=null ">
+	  		detail_path=#{detailPath},
+	  	</if>
+	  	<if test="pUnit !=null ">
+	  		p_unit=#{pUnit},
+	  	</if>
+	  	<if test="marketPrice !=null ">
+	  		market_price=#{marketPrice},
+	  	</if>
+	  	<if test="ptPrice  !=null ">
+	  		pt_price=#{ptPrice},
+	  	</if>
+	  	<if test="quantity !=null ">
+	  		quantity=#{quantity},
+	  	</if>
+	  	<if test="sortIndex !=null ">
+	  		sort_index=#{sortIndex},
+	  	</if>
+	  	<if test="lowerLimit !=null ">
+	  		lower_limit=#{lowerLimit},
+	  	</if>
+	  	<if test="upperLimit !=null ">
+	  		upper_limit=#{upperLimit},
+	  	</if>
+	  	<if test="salesNum !=null ">
+	  		sales_num=#{salesNum},
+	  	</if>
+	  	<if test="clusterNum !=null ">
+	  		cluster_num=#{clusterNum},
+	  	</if>
+	  	<if test="clusterSuccessNum !=null ">
+	  		cluster_success_num=#{clusterSuccessNum},
+	  	</if>
+	  	<if test="online !=null ">
+	  		online=#{online},
+	  	</if>
+	  	<if test="work_time !=null ">
+	  		work_time=#{work_time},
+	  	</if>
+	  	<if test="giveScore !=null ">
+	  		give_score=#{giveScore},
+	  	</if>
+	  	update_date=SYSDATE(),
+  	</set>
+  	where id=#{id}
+  </update>
+  
+  <!-- 删除拼团商品 -->
+  <delete id="delPtProducts" parameterType="java.lang.Integer">
+  	delete from b_activity_pintuan_base where id=#{id}
+  </delete>
+</mapper>

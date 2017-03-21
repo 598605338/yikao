@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.JddjDeliveryStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.JddjDeliveryStatus" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderId" property="orderId" jdbcType="BIGINT" />
+    <result column="deliveryStatusTime" property="deliveryStatusTime" jdbcType="TIMESTAMP" />
+    <result column="deliveryManNo" property="deliveryManNo" jdbcType="VARCHAR" />
+    <result column="deliveryManName" property="deliveryManName" jdbcType="VARCHAR" />
+    <result column="deliveryManPhone" property="deliveryManPhone" jdbcType="VARCHAR" />
+    <result column="deliveryCarrierNo" property="deliveryCarrierNo" jdbcType="VARCHAR" />
+    <result column="deliveryCarrierName" property="deliveryCarrierName" jdbcType="VARCHAR" />
+    <result column="deliveryStatus" property="deliveryStatus" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="failType" property="failType" jdbcType="VARCHAR" />
+    <result column="createPin" property="createPin" jdbcType="VARCHAR" />
+    <result column="opTime" property="opTime" jdbcType="BIGINT" />
+    <result column="fetchTime" property="fetchTime" jdbcType="TIMESTAMP" />
+    <result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="finishedTime" property="finishedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderId, deliveryStatusTime, deliveryManNo, deliveryManName, deliveryManPhone, deliveryCarrierNo, 
+    deliveryCarrierName, deliveryStatus, remark, failType, createPin, opTime
+  </sql>
+  <select id="selectLastByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,(select b1.deliveryStatusTime from b_jddj_delivery_status b1 where b1.orderId = bjds.orderId and deliveryStatus = 20) AS fetchTime
+    ,(select b1.deliveryStatusTime from b_jddj_delivery_status b1 where b1.orderId = bjds.orderId and deliveryStatus = 30) AS sendTime
+    ,(select b1.deliveryStatusTime from b_jddj_delivery_status b1 where b1.orderId = bjds.orderId and deliveryStatus = 40) AS finishedTime
+    from b_jddj_delivery_status bjds
+    where orderId = #{orderId,jdbcType=BIGINT}
+    order by id desc
+    limit 1
+  </select>
+  <delete id="deleteByExample" parameterType="com.linjia.web.model.JddjDeliveryStatus" >
+    delete from b_jddj_delivery_status
+  </delete>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.JddjDeliveryStatus" >
+    insert into b_jddj_delivery_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="deliveryStatusTime != null" >
+        deliveryStatusTime,
+      </if>
+      <if test="deliveryManNo != null" >
+        deliveryManNo,
+      </if>
+      <if test="deliveryManName != null" >
+        deliveryManName,
+      </if>
+      <if test="deliveryManPhone != null" >
+        deliveryManPhone,
+      </if>
+      <if test="deliveryCarrierNo != null" >
+        deliveryCarrierNo,
+      </if>
+      <if test="deliveryCarrierName != null" >
+        deliveryCarrierName,
+      </if>
+      <if test="deliveryStatus != null" >
+        deliveryStatus,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="failType != null" >
+        failType,
+      </if>
+      <if test="createPin != null" >
+        createPin,
+      </if>
+      <if test="opTime != null" >
+        opTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryStatusTime != null" >
+        #{deliveryStatusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryManNo != null" >
+        #{deliveryManNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryManName != null" >
+        #{deliveryManName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryManPhone != null" >
+        #{deliveryManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCarrierNo != null" >
+        #{deliveryCarrierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCarrierName != null" >
+        #{deliveryCarrierName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryStatus != null" >
+        #{deliveryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="failType != null" >
+        #{failType,jdbcType=VARCHAR},
+      </if>
+      <if test="createPin != null" >
+        #{createPin,jdbcType=VARCHAR},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.linjia.web.model.JddjDeliveryStatus" resultType="java.lang.Integer" >
+    select count(*) from b_jddj_delivery_status
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_jddj_delivery_status
+    <set >
+      <if test="orderid != null" >
+        orderId = #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="deliverystatustime != null" >
+        deliveryStatusTime = #{deliverystatustime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverymanno != null" >
+        deliveryManNo = #{deliverymanno,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverymanname != null" >
+        deliveryManName = #{deliverymanname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverymanphone != null" >
+        deliveryManPhone = #{deliverymanphone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverycarrierno != null" >
+        deliveryCarrierNo = #{deliverycarrierno,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverycarriername != null" >
+        deliveryCarrierName = #{deliverycarriername,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverystatus != null" >
+        deliveryStatus = #{deliverystatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="failtype != null" >
+        failType = #{failtype,jdbcType=VARCHAR},
+      </if>
+      <if test="createpin != null" >
+        createPin = #{createpin,jdbcType=VARCHAR},
+      </if>
+      <if test="optime != null" >
+        opTime = #{optime,jdbcType=BIGINT},
+      </if>
+    </set>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_jddj_delivery_status
+    set orderId = #{orderid,jdbcType=BIGINT},
+      deliveryStatusTime = #{deliverystatustime,jdbcType=TIMESTAMP},
+      deliveryManNo = #{deliverymanno,jdbcType=VARCHAR},
+      deliveryManName = #{deliverymanname,jdbcType=VARCHAR},
+      deliveryManPhone = #{deliverymanphone,jdbcType=VARCHAR},
+      deliveryCarrierNo = #{deliverycarrierno,jdbcType=VARCHAR},
+      deliveryCarrierName = #{deliverycarriername,jdbcType=VARCHAR},
+      deliveryStatus = #{deliverystatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      failType = #{failtype,jdbcType=VARCHAR},
+      createPin = #{createpin,jdbcType=VARCHAR},
+      opTime = #{optime,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.CardCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.CardCoupon" >
+    <id column="card_id" property="cardId" jdbcType="BIGINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="card_pic" property="cardPic" jdbcType="VARCHAR" />
+    <result column="card_type" property="cardType" jdbcType="INTEGER" />
+    <result column="provide_type" property="provideType" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="code_type" property="codeType" jdbcType="INTEGER" />
+    <result column="time_type" property="timeType" jdbcType="INTEGER" />
+    <result column="use_start_time" property="useStartTime" jdbcType="TIMESTAMP" />
+    <result column="use_end_time" property="useEndTime" jdbcType="TIMESTAMP" />
+    <result column="valid_day" property="validDay" jdbcType="INTEGER" />
+    <result column="valid_begin_day" property="validBeginDay" jdbcType="INTEGER" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="wncode" property="wncode" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="limit_money" property="limitMoney" jdbcType="DECIMAL" />
+    <result column="inter_note" property="interNote" jdbcType="VARCHAR" />
+    <result column="privilege_description" property="privilegeDescription" jdbcType="VARCHAR" />
+    <result column="template_pic" property="templatePic" jdbcType="VARCHAR" />
+    <result column="code_flg" property="codeFlg" jdbcType="INTEGER" />
+    <result column="create_code_stat" property="createCodeStat" jdbcType="INTEGER" />
+    <result column="getNum" property="getnum" jdbcType="INTEGER" />
+    <result column="useNum" property="usenum" jdbcType="INTEGER" />
+    <result column="postID" property="postid" jdbcType="INTEGER" />
+    <result column="salePrice" property="saleprice" jdbcType="DECIMAL" />
+    <result column="unitID" property="unitid" jdbcType="INTEGER" />
+    <result column="unitName" property="unitname" jdbcType="VARCHAR" />
+    <result column="goodsSelectorID" property="goodsselectorid" jdbcType="INTEGER" />
+    <result column="userSelectorID" property="userselectorid" jdbcType="INTEGER" />
+    <result column="useFlg" property="useflg" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="is_generate" property="isGenerate" jdbcType="INTEGER" />
+    <result column="repeat_count" property="repeatCount" jdbcType="INTEGER" />
+    <result column="reset_count" property="resetCount" jdbcType="INTEGER" />
+    <result column="mall_support_type" property="mallSupportType" jdbcType="INTEGER" />
+    <result column="merchant_support_type" property="merchantSupportType" jdbcType="INTEGER" />
+    <result column="can_give_friend" property="canGiveFriend" jdbcType="INTEGER" />
+    <result column="is_mobile_verify" property="isMobileVerify" jdbcType="INTEGER" />
+    <result column="verify_type" property="verifyType" jdbcType="INTEGER" />
+    <result column="merchantID" property="merchantid" jdbcType="INTEGER" />
+    <result column="merchantName" property="merchantname" jdbcType="VARCHAR" />
+    <result column="merchant_flg" property="merchantFlg" jdbcType="INTEGER" />
+    <result column="activity_flg" property="activityFlg" jdbcType="INTEGER" />
+    <result column="b2c_usable" property="b2cUsable" jdbcType="INTEGER" />
+    <result column="wap_usable" property="wapUsable" jdbcType="INTEGER" />
+    <result column="app_usable" property="appUsable" jdbcType="INTEGER" />
+    <result column="pad_usable" property="padUsable" jdbcType="INTEGER" />
+    <result column="card_audit_status" property="cardAuditStatus" jdbcType="INTEGER" />
+    <result column="mallareaID" property="mallareaid" jdbcType="INTEGER" />
+    <result column="mallID" property="mallid" jdbcType="INTEGER" />
+    <result column="mall_code" property="mallCode" jdbcType="VARCHAR" />
+    <result column="mallName" property="mallname" jdbcType="VARCHAR" />
+    <result column="review_id" property="reviewId" jdbcType="INTEGER" />
+    <result column="review_no_through_reason" property="reviewNoThroughReason" jdbcType="VARCHAR" />
+    <result column="external_no" property="externalNo" jdbcType="VARCHAR" />
+    <result column="is_to_wechat" property="isToWechat" jdbcType="INTEGER" />
+    <result column="to_wechat_status" property="toWechatStatus" jdbcType="INTEGER" />
+    <result column="is_to_alipay" property="isToAlipay" jdbcType="INTEGER" />
+    <result column="to_alipay_status" property="toAlipayStatus" jdbcType="INTEGER" />
+    <result column="support_condition" property="supportCondition" jdbcType="INTEGER" />
+    <result column="selectorID_json" property="selectoridJson" jdbcType="VARCHAR" />
+    <result column="template_code" property="templateCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="cardCouponUserId" jdbcType="VARCHAR" />
+    <result column="userCardCouponId" property="userCardCouponId" jdbcType="VARCHAR" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="use_status" property="useStatus" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    card_id, creator, createTime, card_name, card_pic, card_type, provide_type, 
+    start_time, end_time, code_type, time_type, use_start_time, use_end_time, valid_day, 
+    valid_begin_day, total_num, discount, wncode, amount, limit_money, inter_note, privilege_description, 
+    template_pic, code_flg, create_code_stat, getNum, useNum, postID, salePrice, unitID, 
+    unitName, goodsSelectorID, userSelectorID, useFlg, description, is_generate, repeat_count, 
+    reset_count, mall_support_type, merchant_support_type, can_give_friend, is_mobile_verify, 
+    verify_type, merchantID, merchantName, template_code, merchant_flg, activity_flg, b2c_usable, wap_usable, 
+    app_usable, pad_usable, card_audit_status, mallareaID, mallID, mall_code, mallName, review_id, 
+    review_no_through_reason, external_no, is_to_wechat, to_wechat_status, is_to_alipay, 
+    to_alipay_status, support_condition, selectorID_json
+  </sql>
+  
+  <sql id="Base_Column_List_1" >
+    card_id, creator, createTime, card_name, card_pic, cc.card_type, provide_type, 
+    start_time, end_time, code_type, time_type, cc.use_start_time, cc.use_end_time, valid_day, 
+    valid_begin_day, total_num, discount, wncode, amount, limit_money, inter_note, privilege_description, 
+    template_pic, code_flg, create_code_stat, getNum, count(bucc.id) AS useNum, postID, salePrice, unitID, 
+    unitName, goodsSelectorID, userSelectorID, useFlg, description, is_generate, repeat_count, 
+    reset_count, mall_support_type, merchant_support_type, can_give_friend, is_mobile_verify, 
+    verify_type, merchantID, merchantName, template_code, merchant_flg, activity_flg, b2c_usable, wap_usable, 
+    app_usable, pad_usable, card_audit_status, mallareaID, mallID, cc.mall_code, mallName, review_id, 
+    review_no_through_reason, external_no, is_to_wechat, to_wechat_status, is_to_alipay, 
+    to_alipay_status, support_condition, selectorID_json
+  </sql>
+  
+  <sql id="UserCardCoupon_Column_List" >
+    bucc.id AS userCardCouponId, bucc.user_id AS cardCouponUserId, cc.card_id,bucc.receive_time, bucc.use_status, cc.card_name,cc.card_type, cc.provide_type, cc.code_type,cc.valid_day,cc.discount,cc.wncode,cc.amount,cc.limit_money,cc.template_pic,cc.code_flg,cc.create_code_stat,cc.support_condition,  cc.use_start_time, cc.use_end_time, 
+    cc.description
+  </sql>
+  
+  
+  <select id="selectByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.CardCouponQuery" >
+    select
+    <include refid="Base_Column_List_1" />
+    from card_coupon cc
+    LEFT JOIN b_user_card_coupon bucc ON cc.card_id = bucc.card_coupon_id
+	AND bucc.use_status = 1
+	AND bucc.deleted = 0
+    where useFlg = 1 
+    <!-- 卡券类型：3.代金券 1.商品券 5.免运费券  6.链接券 7.券码-->
+    <if test="popupFlg != null and popupFlg ==1" >
+    	AND cc.card_type IN(1,3,5,6,7) 
+    </if>
+    <if test="popupFlg == null" >
+    	AND cc.card_type IN(1,3,5) 
+    </if>
+    <if test="cardNameQuery != null and cardNameQuery !=''" >
+        AND card_name like #{cardNameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="cardType != null and cardType !=0" >
+        AND cc.card_type = #{cardType,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" >
+        AND <![CDATA[start_time >= #{startTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endTime != null" >
+        AND <![CDATA[end_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    GROUP BY card_id
+    order by cc.createTime desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countByExample"  resultType="java.lang.Integer" parameterType="com.linjia.web.query.CardCouponQuery" >
+    select
+    count(card_id)
+    from card_coupon
+    where useFlg = 1 AND card_type IN(1,3,5) <!-- 卡券类型：3.代金券 1.商品券 5.免运费券  6.链接券 7.券码-->
+    <if test="cardNameQuery != null and cardNameQuery !=''" >
+        AND card_name like #{cardNameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="cardType != null and cardType !=0" >
+        AND card_type = #{cardType,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" >
+        AND <![CDATA[start_time >= #{startTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endTime != null" >
+        AND <![CDATA[end_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+    </if>
+  </select>
+  
+  <!-- 第三方合作券列表 -->
+  <select id="selectThirdByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.CardCouponQuery" >
+    select
+    <include refid="Base_Column_List" />
+    from card_coupon
+    where useFlg = 1 AND card_type IN(6,7) <!-- 卡券类型：1.代金券 2.商品券 3.提货券 4.通用券 5.免运费券  6.链接券 7.券码 -->
+    <if test="cardName != null and cardName !=''" >
+        AND card_name like #{cardNameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="cardType != null" >
+        AND card_type = #{cardType,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" >
+        AND <![CDATA[start_time >= #{startTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endTime != null" >
+        AND <![CDATA[end_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    order by createTime desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countSelectThird" resultType="java.lang.Integer" parameterType="com.linjia.web.query.CardCouponQuery" >
+    select
+    count(card_id)
+    from card_coupon
+    where useFlg = 1 AND card_type IN(6,7) <!-- 卡券类型：1.代金券 2.商品券 3.提货券 4.通用券 5.免运费券  6.链接券 7.券码 -->
+    <if test="cardName != null and cardName !=''" >
+        AND card_name like #{cardNameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="cardType != null" >
+        AND card_type = #{cardType,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" >
+        AND <![CDATA[start_time >= #{startTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endTime != null" >
+        AND <![CDATA[end_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from card_coupon
+    where card_id = #{cardId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update card_coupon set useFlg = 0 where card_id = #{cardId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.CardCoupon" keyProperty="cardId" useGeneratedKeys="true">
+    insert into card_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="cardName != null" >
+        card_name,
+      </if>
+      <if test="cardPic != null" >
+        card_pic,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="provideType != null" >
+        provide_type,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="codeType != null" >
+        code_type,
+      </if>
+      <if test="timeType != null" >
+        time_type,
+      </if>
+      <if test="useStartTime != null" >
+        use_start_time,
+      </if>
+      <if test="useEndTime != null" >
+        use_end_time,
+      </if>
+      <if test="validDay != null" >
+        valid_day,
+      </if>
+      <if test="validBeginDay != null" >
+        valid_begin_day,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="wncode != null" >
+        wncode,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="limitMoney != null" >
+        limit_money,
+      </if>
+      <if test="interNote != null" >
+        inter_note,
+      </if>
+      <if test="privilegeDescription != null" >
+        privilege_description,
+      </if>
+      <if test="templatePic != null" >
+        template_pic,
+      </if>
+      <if test="codeFlg != null" >
+        code_flg,
+      </if>
+      <if test="createCodeStat != null" >
+        create_code_stat,
+      </if>
+      <if test="getnum != null" >
+        getNum,
+      </if>
+      <if test="usenum != null" >
+        useNum,
+      </if>
+      <if test="postid != null" >
+        postID,
+      </if>
+      <if test="saleprice != null" >
+        salePrice,
+      </if>
+      <if test="unitid != null" >
+        unitID,
+      </if>
+      <if test="unitname != null" >
+        unitName,
+      </if>
+      <if test="goodsselectorid != null" >
+        goodsSelectorID,
+      </if>
+      <if test="userselectorid != null" >
+        userSelectorID,
+      </if>
+      <if test="useflg != null" >
+        useFlg,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="isGenerate != null" >
+        is_generate,
+      </if>
+      <if test="repeatCount != null" >
+        repeat_count,
+      </if>
+      <if test="resetCount != null" >
+        reset_count,
+      </if>
+      <if test="mallSupportType != null" >
+        mall_support_type,
+      </if>
+      <if test="merchantSupportType != null" >
+        merchant_support_type,
+      </if>
+      <if test="canGiveFriend != null" >
+        can_give_friend,
+      </if>
+      <if test="isMobileVerify != null" >
+        is_mobile_verify,
+      </if>
+      <if test="verifyType != null" >
+        verify_type,
+      </if>
+      <if test="merchantid != null" >
+        merchantID,
+      </if>
+      <if test="merchantname != null" >
+        merchantName,
+      </if>
+      <if test="merchantFlg != null" >
+        merchant_flg,
+      </if>
+      <if test="activityFlg != null" >
+        activity_flg,
+      </if>
+      <if test="b2cUsable != null" >
+        b2c_usable,
+      </if>
+      <if test="wapUsable != null" >
+        wap_usable,
+      </if>
+      <if test="appUsable != null" >
+        app_usable,
+      </if>
+      <if test="padUsable != null" >
+        pad_usable,
+      </if>
+      <if test="cardAuditStatus != null" >
+        card_audit_status,
+      </if>
+      <if test="mallareaid != null" >
+        mallareaID,
+      </if>
+      <if test="mallid != null" >
+        mallID,
+      </if>
+      <if test="mallCode != null" >
+        mall_code,
+      </if>
+      <if test="mallname != null" >
+        mallName,
+      </if>
+      <if test="reviewId != null" >
+        review_id,
+      </if>
+      <if test="reviewNoThroughReason != null" >
+        review_no_through_reason,
+      </if>
+      <if test="externalNo != null" >
+        external_no,
+      </if>
+      <if test="isToWechat != null" >
+        is_to_wechat,
+      </if>
+      <if test="toWechatStatus != null" >
+        to_wechat_status,
+      </if>
+      <if test="isToAlipay != null" >
+        is_to_alipay,
+      </if>
+      <if test="toAlipayStatus != null" >
+        to_alipay_status,
+      </if>
+      <if test="supportCondition != null" >
+        support_condition,
+      </if>
+      <if test="selectoridJson != null" >
+        selectorID_json,
+      </if>
+      <if test="templateCode != null" >
+        template_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic != null" >
+        #{cardPic,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="provideType != null" >
+        #{provideType,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="codeType != null" >
+        #{codeType,jdbcType=INTEGER},
+      </if>
+      <if test="timeType != null" >
+        #{timeType,jdbcType=INTEGER},
+      </if>
+      <if test="useStartTime != null" >
+        #{useStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useEndTime != null" >
+        #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDay != null" >
+        #{validDay,jdbcType=INTEGER},
+      </if>
+      <if test="validBeginDay != null" >
+        #{validBeginDay,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="wncode != null" >
+        #{wncode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="limitMoney != null" >
+        #{limitMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="interNote != null" >
+        #{interNote,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeDescription != null" >
+        #{privilegeDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="templatePic != null" >
+        #{templatePic,jdbcType=VARCHAR},
+      </if>
+      <if test="codeFlg != null" >
+        #{codeFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createCodeStat != null" >
+        #{createCodeStat,jdbcType=INTEGER},
+      </if>
+      <if test="getnum != null" >
+        #{getnum,jdbcType=INTEGER},
+      </if>
+      <if test="usenum != null" >
+        #{usenum,jdbcType=INTEGER},
+      </if>
+      <if test="postid != null" >
+        #{postid,jdbcType=INTEGER},
+      </if>
+      <if test="saleprice != null" >
+        #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=INTEGER},
+      </if>
+      <if test="unitname != null" >
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsselectorid != null" >
+        #{goodsselectorid,jdbcType=INTEGER},
+      </if>
+      <if test="userselectorid != null" >
+        #{userselectorid,jdbcType=INTEGER},
+      </if>
+      <if test="useflg != null" >
+        #{useflg,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isGenerate != null" >
+        #{isGenerate,jdbcType=INTEGER},
+      </if>
+      <if test="repeatCount != null" >
+        #{repeatCount,jdbcType=INTEGER},
+      </if>
+      <if test="resetCount != null" >
+        #{resetCount,jdbcType=INTEGER},
+      </if>
+      <if test="mallSupportType != null" >
+        #{mallSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="merchantSupportType != null" >
+        #{merchantSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="canGiveFriend != null" >
+        #{canGiveFriend,jdbcType=INTEGER},
+      </if>
+      <if test="isMobileVerify != null" >
+        #{isMobileVerify,jdbcType=INTEGER},
+      </if>
+      <if test="verifyType != null" >
+        #{verifyType,jdbcType=INTEGER},
+      </if>
+      <if test="merchantid != null" >
+        #{merchantid,jdbcType=INTEGER},
+      </if>
+      <if test="merchantname != null" >
+        #{merchantname,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantFlg != null" >
+        #{merchantFlg,jdbcType=INTEGER},
+      </if>
+      <if test="activityFlg != null" >
+        #{activityFlg,jdbcType=INTEGER},
+      </if>
+      <if test="b2cUsable != null" >
+        #{b2cUsable,jdbcType=INTEGER},
+      </if>
+      <if test="wapUsable != null" >
+        #{wapUsable,jdbcType=INTEGER},
+      </if>
+      <if test="appUsable != null" >
+        #{appUsable,jdbcType=INTEGER},
+      </if>
+      <if test="padUsable != null" >
+        #{padUsable,jdbcType=INTEGER},
+      </if>
+      <if test="cardAuditStatus != null" >
+        #{cardAuditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="mallareaid != null" >
+        #{mallareaid,jdbcType=INTEGER},
+      </if>
+      <if test="mallid != null" >
+        #{mallid,jdbcType=INTEGER},
+      </if>
+      <if test="mallCode != null" >
+        #{mallCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mallname != null" >
+        #{mallname,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewId != null" >
+        #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNoThroughReason != null" >
+        #{reviewNoThroughReason,jdbcType=VARCHAR},
+      </if>
+      <if test="externalNo != null" >
+        #{externalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isToWechat != null" >
+        #{isToWechat,jdbcType=INTEGER},
+      </if>
+      <if test="toWechatStatus != null" >
+        #{toWechatStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isToAlipay != null" >
+        #{isToAlipay,jdbcType=INTEGER},
+      </if>
+      <if test="toAlipayStatus != null" >
+        #{toAlipayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supportCondition != null" >
+        #{supportCondition,jdbcType=INTEGER},
+      </if>
+      <if test="selectoridJson != null" >
+        #{selectoridJson,jdbcType=VARCHAR},
+      </if>
+      <if test="templateCode != null" >
+        #{templateCode,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.CardCoupon" >
+    update card_coupon
+    <set >
+      <if test="cardName != null" >
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic != null" >
+        card_pic = #{cardPic,jdbcType=VARCHAR},
+      </if>
+      <if test="provideType != null" >
+        provide_type = #{provideType,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="codeType != null" >
+        code_type = #{codeType,jdbcType=INTEGER},
+      </if>
+      <if test="timeType != null" >
+        time_type = #{timeType,jdbcType=INTEGER},
+      </if>
+      <if test="useStartTime != null" >
+        use_start_time = #{useStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useEndTime != null" >
+        use_end_time = #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDay != null" >
+        valid_day = #{validDay,jdbcType=INTEGER},
+      </if>
+      <if test="validBeginDay != null" >
+        valid_begin_day = #{validBeginDay,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="wncode != null" >
+        wncode = #{wncode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="limitMoney != null" >
+        limit_money = #{limitMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="interNote != null" >
+        inter_note = #{interNote,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeDescription != null" >
+        privilege_description = #{privilegeDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="templatePic != null" >
+        template_pic = #{templatePic,jdbcType=VARCHAR},
+      </if>
+      <if test="codeFlg != null" >
+        code_flg = #{codeFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createCodeStat != null" >
+        create_code_stat = #{createCodeStat,jdbcType=INTEGER},
+      </if>
+      <if test="getnum != null" >
+        getNum = #{getnum,jdbcType=INTEGER},
+      </if>
+      <if test="usenum != null" >
+        useNum = #{usenum,jdbcType=INTEGER},
+      </if>
+      <if test="postid != null" >
+        postID = #{postid,jdbcType=INTEGER},
+      </if>
+      <if test="saleprice != null" >
+        salePrice = #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="unitid != null" >
+        unitID = #{unitid,jdbcType=INTEGER},
+      </if>
+      <if test="unitname != null" >
+        unitName = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsselectorid != null" >
+        goodsSelectorID = #{goodsselectorid,jdbcType=INTEGER},
+      </if>
+      <if test="userselectorid != null" >
+        userSelectorID = #{userselectorid,jdbcType=INTEGER},
+      </if>
+      <if test="useflg != null" >
+        useFlg = #{useflg,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isGenerate != null" >
+        is_generate = #{isGenerate,jdbcType=INTEGER},
+      </if>
+      <if test="repeatCount != null" >
+        repeat_count = #{repeatCount,jdbcType=INTEGER},
+      </if>
+      <if test="resetCount != null" >
+        reset_count = #{resetCount,jdbcType=INTEGER},
+      </if>
+      <if test="mallSupportType != null" >
+        mall_support_type = #{mallSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="merchantSupportType != null" >
+        merchant_support_type = #{merchantSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="canGiveFriend != null" >
+        can_give_friend = #{canGiveFriend,jdbcType=INTEGER},
+      </if>
+      <if test="isMobileVerify != null" >
+        is_mobile_verify = #{isMobileVerify,jdbcType=INTEGER},
+      </if>
+      <if test="verifyType != null" >
+        verify_type = #{verifyType,jdbcType=INTEGER},
+      </if>
+      <if test="merchantid != null" >
+        merchantID = #{merchantid,jdbcType=INTEGER},
+      </if>
+      <if test="merchantname != null" >
+        merchantName = #{merchantname,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantFlg != null" >
+        merchant_flg = #{merchantFlg,jdbcType=INTEGER},
+      </if>
+      <if test="activityFlg != null" >
+        activity_flg = #{activityFlg,jdbcType=INTEGER},
+      </if>
+      <if test="b2cUsable != null" >
+        b2c_usable = #{b2cUsable,jdbcType=INTEGER},
+      </if>
+      <if test="wapUsable != null" >
+        wap_usable = #{wapUsable,jdbcType=INTEGER},
+      </if>
+      <if test="appUsable != null" >
+        app_usable = #{appUsable,jdbcType=INTEGER},
+      </if>
+      <if test="padUsable != null" >
+        pad_usable = #{padUsable,jdbcType=INTEGER},
+      </if>
+      <if test="cardAuditStatus != null" >
+        card_audit_status = #{cardAuditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="mallareaid != null" >
+        mallareaID = #{mallareaid,jdbcType=INTEGER},
+      </if>
+      <if test="mallid != null" >
+        mallID = #{mallid,jdbcType=INTEGER},
+      </if>
+      <if test="mallCode != null" >
+        mall_code = #{mallCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mallname != null" >
+        mallName = #{mallname,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewId != null" >
+        review_id = #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNoThroughReason != null" >
+        review_no_through_reason = #{reviewNoThroughReason,jdbcType=VARCHAR},
+      </if>
+      <if test="externalNo != null" >
+        external_no = #{externalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isToWechat != null" >
+        is_to_wechat = #{isToWechat,jdbcType=INTEGER},
+      </if>
+      <if test="toWechatStatus != null" >
+        to_wechat_status = #{toWechatStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isToAlipay != null" >
+        is_to_alipay = #{isToAlipay,jdbcType=INTEGER},
+      </if>
+      <if test="toAlipayStatus != null" >
+        to_alipay_status = #{toAlipayStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supportCondition != null" >
+        support_condition = #{supportCondition,jdbcType=INTEGER},
+      </if>
+      <if test="selectoridJson != null" >
+        selectorID_json = #{selectoridJson,jdbcType=VARCHAR},
+      </if>
+      <if test="templateCode != null" >
+        template_code = #{templateCode,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where card_id = #{cardId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询剩余的卡券数量 -->
+  <select id="countSurplusNum" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select
+    total_num - getNum AS surplusNum
+    from card_coupon
+    where card_id = #{cardId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 更新优惠券剩余数量 -->
+  <update id="updateTotalNumByCardId" parameterType="map" >
+    update card_coupon
+    set getNum = getNum + #{minusNum,jdbcType=INTEGER}
+    where card_id = #{cardId,jdbcType=BIGINT}
+  </update>
+</mapper>

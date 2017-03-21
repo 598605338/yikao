@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.ElemeOrderMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+    
+	<insert id="insertElemeOrder" parameterType="com.linjia.web.thirdService.eleme.interfaces.entity.order.OOrder" useGeneratedKeys="true" keyProperty="tid">
+		insert into b_eleme_order(id,address,createdAt,activeAt,deliverFee,deliverTime,description,invoice,book,onlinePaid,phoneList,shopId,shopName,daySn,status,refundStatus,userId,totalPrice,originalPrice,consignee,deliveryGeo,deliveryPoiAddress,invoiced,income,serviceRate,serviceFee,hongbao,packageFee,activityTotal,shopPart,elemePart,downgraded,msg_type,order_status) 
+		values(#{id},#{address},#{createdAt},#{activeAt},#{deliverFee},#{deliverTime},#{description},#{invoice},#{book},#{onlinePaid},#{phone},#{shopId},#{shopName},#{daySn},#{status},#{refundStatus},#{userId},#{totalPrice},#{originalPrice},#{consignee},#{deliveryGeo},#{deliveryPoiAddress},#{invoiced},#{income},#{serviceRate},#{serviceFee},#{hongbao},#{packageFee},#{activityTotal},#{shopPart},#{elemePart},#{downgraded},#{msg_type},#{order_status})
+	</insert>
+	
+	<update id="updateElemeOrder" parameterType="com.linjia.web.thirdService.eleme.interfaces.entity.order.OOrder">
+		update b_eleme_order 
+		<set>
+			<if test="address !=null">
+				address=#{address},
+			</if>
+			<if test="createdAt !=null">
+				createdAt=#{createdAt},
+			</if>
+			<if test="activeAt !=null">
+				activeAt=#{activeAt},
+			</if>
+			<if test="deliverFee !=null">
+				deliverFee=#{deliverFee},
+			</if>
+			<if test="deliverTime !=null">
+				deliverTime=#{deliverTime},
+			</if>
+			<if test="description !=null">
+				description=#{description},
+			</if>
+			<if test="invoice !=null">
+				invoice=#{invoice},
+			</if>
+			<if test="book !=null">
+				book=#{book},
+			</if>
+			<if test="onlinePaid !=null">
+				onlinePaid=#{onlinePaid},
+			</if>
+			<if test="phone !=null">
+				phoneList=#{phone},
+			</if>
+			<if test="shopId !=null and shopId !=0 ">
+				shopId=#{shopId},
+			</if>
+			<if test="shopName">
+				shopName=#{shopName},
+			</if>
+			<if test="daySn !=null">
+				daySn=#{daySn},
+			</if>
+			<if test="status !=null">
+				status=#{status},
+			</if>
+			<if test="refundStatus !=null">
+				refundStatus=#{refundStatus},
+			</if>
+			<if test="userId !=null">
+				userId=#{userId},
+			</if>
+			<if test="totalPrice !=null">
+				totalPrice=#{totalPrice},
+			</if>
+			<if test="originalPrice !=null">
+				originalPrice=#{originalPrice},
+			</if>
+			<if test="consignee !=null">
+				consignee=#{consignee},
+			</if>
+			<if test="deliveryGeo !=null">
+				deliveryGeo=#{deliveryGeo},
+			</if>
+			<if test="deliveryPoiAddress !=null">
+				deliveryPoiAddress=#{deliveryPoiAddress},
+			</if>
+			<if test="invoiced !=null">
+				invoiced=#{invoiced},
+			</if>
+			<if test="income !=null">
+				income=#{income},
+			</if>
+			<if test="serviceRate !=null">
+				serviceRate=#{serviceRate},
+			</if>
+			<if test="serviceFee !=null">
+				serviceFee=#{serviceFee},
+			</if>
+			<if test="hongbao !=null">
+				hongbao=#{hongbao},
+			</if>
+			<if test="packageFee !=null">
+				packageFee=#{packageFee},
+			</if>
+			<if test="activityTotal !=null">
+				activityTotal=#{activityTotal},
+			</if>
+			<if test="shopPart !=null">
+				shopPart=#{shopPart},
+			</if>
+			<if test="elemePart !=null">
+				elemePart=#{elemePart},
+			</if>
+			<if test="downgraded !=null">
+				downgraded=#{downgraded},
+			</if>
+			
+			<if test="recive_time !=null">
+				recive_time=#{recive_time},
+			</if>
+			<if test="orderNum !=null">
+				orderNum=#{orderNum}+1,
+			</if>
+			<if test="urgeNum !=null">
+				urgeNum=#{urgeNum}+1,
+			</if>
+			<if test="order_cancel_time !=null">
+				order_cancel_time=#{order_cancel_time},
+			</if>
+			<if test="order_success_time !=null">
+				order_success_time=#{order_success_time},
+			</if>
+			<if test="uhd_order_id !=null and uhd_order_id !='' ">
+				uhd_order_id=#{uhd_order_id},
+			</if>
+			<if test="uhd_refund_order_id !=null and uhd_refund_order_id !='' ">
+				uhd_refund_order_id=#{uhd_refund_order_id},
+			</if>
+			<if test="msg_type !=null">
+				msg_type=#{msg_type},
+			</if>
+			<if test="order_status !=null">
+				order_status=#{order_status},
+			</if>
+			<if test="subState !=null">
+				subState=#{subState},
+			</if>
+			<if test="deliveryman !=null">
+				deliveryman=#{deliveryman},
+			</if>
+			<if test="deliveryphone !=null">
+				deliveryphone=#{deliveryphone},
+			</if>
+			<if test="deliverytime !=null">
+				deliverytime=#{deliverytime},
+			</if>
+			<if test="deliveryremark !=null">
+				deliveryremark=#{deliveryremark},
+			</if>
+			<if test="orderremark !=null">
+				orderremark=#{orderremark},
+			</if>
+			<if test="logisMainStatus !=null">
+				logisMainStatus=#{logisMainStatus},
+			</if>
+		</set>
+		where 1=1 and id=#{id}
+	</update>
+	
+	<delete id="deleteElemeOrderById" parameterType="String">
+		delete from b_eleme_order where id=#{id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="selectElemeOrderById" parameterType="String" resultType="com.linjia.web.thirdService.eleme.interfaces.entity.order.OOrder">
+		select id,address,createdAt,activeAt,deliverFee,deliverTime,description,invoice,book,onlinePaid,phoneList,shopId,shopName,daySn,status,refundStatus,userId,totalPrice,originalPrice,consignee,deliveryGeo,deliveryPoiAddress,invoiced,income,serviceRate,serviceFee,hongbao,packageFee,activityTotal,shopPart,elemePart,downgraded,recive_time,orderNum,urgeNum,cancelReason,order_cancel_time,order_cancel_time,order_status,
+		orderremark,subState,deliveryman,deliveryphone,deliverytime,deliveryremark,logisMainStatus
+		from b_eleme_order where id=#{id}
+	</select>
+	
+	<select id="selectElemeOrders" parameterType="com.linjia.web.query.OOrderQuery" resultType="com.linjia.web.thirdService.eleme.interfaces.entity.order.OOrder">
+		select id,address,createdAt,activeAt,deliverFee,deliverTime,description,invoice,book,onlinePaid,phoneList,shopId,shopName,daySn,status,refundStatus,userId,totalPrice,originalPrice,consignee,deliveryGeo,deliveryPoiAddress,invoiced,income,serviceRate,serviceFee,hongbao,packageFee,activityTotal,shopPart,elemePart,downgraded,recive_time,orderNum,urgeNum,cancelReason,order_cancel_time,order_cancel_time,order_status,
+		orderremark,subState,deliveryman,deliveryphone,deliverytime,deliveryremark,logisMainStatus
+		from b_eleme_order
+		where 1=1 
+		<if test="shopId !=null">
+			shopId=#{shopId},
+		</if>
+	</select>
+	
+	<!-- 查询饿了么订单物流信息-->  
+	<select id="selectLogisByOrderId" parameterType="String" resultType="com.linjia.web.model.LogistisDmInfo">
+		select subState statusStr,recive_time recive_date,deliverytime send_date,order_success_time finished_date,deliveryman dmName,deliveryphone dmPhone,logisMainStatus
+		from b_eleme_order where id=#{orderId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="dist/js/jquery-1.11.2.js"></script>
+<script type="text/javascript" src="dist/js/jquery-barcode.js"></script>
+<style type="text/css">
+         .barcodeImg{margin:10px 0px}
+</style>
+<script >
+function code11(){
+	   $("#bcTarget").empty().barcode($("#src").val(), "code128",{barWidth:1, barHeight:30,showHRI:false});
+}
+</script>
+</head>
+<body>
+index.html
+<input id="src" value="11225921991"></input><br/>   
+<input type="button" onclick='code11()' value="code11">   
+<div id="bcTarget" class="barcodeImg"></div>
+</body>
+</html>

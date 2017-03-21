@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.TailGoodsClearMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.TailGoodsClear" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="publish_start_time" property="publishStartTime" jdbcType="TIMESTAMP" />
+    <result column="publish_end_time" property="publishEndTime" jdbcType="TIMESTAMP" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="clear_price" property="clearPrice" jdbcType="DECIMAL" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="p_image_path" property="pImagePath" jdbcType="VARCHAR" />
+    <result column="search_condition" property="searchCondition" jdbcType="INTEGER" />
+    <result column="search_time" property="searchTime" jdbcType="TIMESTAMP" />
+    <result column="mall_support_type" property="mallSupportType" jdbcType="INTEGER" />
+    <result column="mall_id" property="mallId" jdbcType="INTEGER" />
+    <result column="mall_code" property="mallCode" jdbcType="VARCHAR" />
+    <result column="mall_names" property="mallNames" jdbcType="VARCHAR" />
+    <result column="sort_index" property="sortIndex" jdbcType="INTEGER" />
+    <result column="activity_status" property="activityStatus" jdbcType="INTEGER" />
+    <result column="use_status" property="useStatus" jdbcType="BIT" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, type, publish_start_time, publish_end_time, product_id, p_code, p_name, market_price, 
+    clear_price, quantity, CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',p_image_path) AS p_image_path, search_condition, search_time, mall_support_type, 
+    mall_id, mall_code, mall_names, sort_index, activity_status, use_status, cre_date, update_date
+  </sql>
+  
+  <select id="selectByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.TailGoodsClearQuery" >
+    select
+    <include refid="Base_Column_List" />
+    from b_tail_goods_clear
+    where 1 = 1
+    <if test="type != null" >
+      and type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="activityStatus != null" >
+      and activity_status = #{activityStatus,jdbcType=INTEGER}
+    </if>
+    <if test="creDateStart != null and creDateStart !=''" >
+      <![CDATA[and cre_date >= str_to_date(#{creDateStart,jdbcType=VARCHAR},'%Y-%m-%d')]]>
+    </if>
+    <if test="creDateEnd != null and creDateEnd !=''" >
+      <![CDATA[and cre_date <= str_to_date(#{creDateEnd,jdbcType=VARCHAR},'%Y-%m-%d')]]>
+    </if>
+    order by id desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_tail_goods_clear
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMaxSortIndex" resultType="java.lang.Long" >
+    select 
+    max(sort_index) as maxSortIndex 
+    from b_tail_goods_clear
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_tail_goods_clear
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.TailGoodsClear" >
+    insert into b_tail_goods_clear
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="publishStartTime != null" >
+        publish_start_time,
+      </if>
+      <if test="publishEndTime != null" >
+        publish_end_time,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="pCode != null" >
+        p_code,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="clearPrice != null" >
+        clear_price,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="pImagePath != null" >
+        p_image_path,
+      </if>
+      <if test="searchCondition != null" >
+        search_condition,
+      </if>
+      <if test="searchTime != null" >
+        search_time,
+      </if>
+      <if test="mallSupportType != null" >
+        mall_support_type,
+      </if>
+      <if test="mallId != null" >
+        mall_id,
+      </if>
+      <if test="mallCode != null" >
+        mall_code,
+      </if>
+      <if test="mallNames != null" >
+        mall_names,
+      </if>
+      <if test="sortIndex != null" >
+        sort_index,
+      </if>
+      <if test="creDate != null" >
+        cre_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="publishStartTime != null" >
+        #{publishStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishEndTime != null" >
+        #{publishEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clearPrice != null" >
+        #{clearPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="pImagePath != null" >
+        #{pImagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="searchCondition != null" >
+        #{searchCondition,jdbcType=INTEGER},
+      </if>
+      <if test="searchTime != null" >
+        #{searchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallSupportType != null" >
+        #{mallSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="mallId != null" >
+        #{mallId,jdbcType=INTEGER},
+      </if>
+      <if test="mallCode != null" >
+        #{mallCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mallNames != null" >
+        #{mallNames,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null" >
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null" >
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.linjia.web.query.TailGoodsClearQuery" resultType="java.lang.Integer" >
+    select
+    count(id)
+    from b_tail_goods_clear
+    where 1 = 1
+    <if test="type != null" >
+      and type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="activityStatus != null" >
+      and activity_status = #{activityStatus,jdbcType=INTEGER}
+    </if>
+    <if test="creDateStart != null and creDateStart !=''" >
+      <![CDATA[and cre_date >= str_to_date(#{creDateStart,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+    <if test="creDateEnd != null and creDateEnd !=''" >
+      <![CDATA[and cre_date <= str_to_date(#{creDateEnd,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+  </select>
+  
+  <!-- 更新使用使用状态:0启用；1禁用  和  活动状态:1、销售中；2、已售罄；3、已结束 -->
+  <update id="updateStatusByPrimaryKey" parameterType="com.linjia.web.model.TailGoodsClear" >
+    update b_tail_goods_clear
+    set 
+    <if test="activityStatus != null" >
+      activity_status = #{activityStatus,jdbcType=INTEGER},
+    </if>
+    <if test="useStatus != null" >
+      use_status = #{useStatus,jdbcType=BIT}
+    </if>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.TailGoodsClear" >
+    update b_tail_goods_clear
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="publishStartTime != null" >
+        publish_start_time = #{publishStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishEndTime != null" >
+        publish_end_time = #{publishEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clearPrice != null" >
+        clear_price = #{clearPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="pImagePath != null" >
+        p_image_path = #{pImagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="searchCondition != null" >
+        search_condition = #{searchCondition,jdbcType=INTEGER},
+      </if>
+      <if test="searchTime != null" >
+        search_time = #{searchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallSupportType != null" >
+        mall_support_type = #{mallSupportType,jdbcType=INTEGER},
+      </if>
+      <if test="mallId != null" >
+        mall_id = #{mallId,jdbcType=INTEGER},
+      </if>
+      <if test="mallCode != null" >
+        mall_code = #{mallCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mallNames != null" >
+        mall_names = #{mallNames,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null" >
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="activityStatus != null" >
+        activity_status = #{activityStatus,jdbcType=INTEGER},
+      </if>
+      <if test="useStatus != null" >
+        use_status = #{useStatus,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

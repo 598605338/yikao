@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.LargeCatagoryMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.LargeCatagory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sort_index" property="sortIndex" jdbcType="INTEGER" />
+    <result column="use_status" property="useStatus" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, use_status, name, sort_index, deleted
+  </sql>
+  <select id="selectPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.CatagoryQuery"  >
+    select 
+    <include refid="Base_Column_List" />
+    from b_large_catagory
+    where deleted = 0
+    <if test="name != null and name !=''" >
+        and name like #{nameQuery,jdbcType=VARCHAR}
+    </if>
+    order by sort_index DESC
+    limit #{startIndex},#{pageSize}
+  </select>
+   
+  <select id="countByExample" resultType="java.lang.Integer" parameterType="com.linjia.web.query.CatagoryQuery"  >
+    select 
+    count(id)
+    from b_large_catagory
+    where deleted = 0
+    <if test="name != null and name !=''" >
+        and name like #{nameQuery,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectMaxSortIndex" resultType="java.lang.Long">
+    select 
+    max(sort_index) as maxSortIndex
+    from b_large_catagory
+  </select>
+  
+  <select id="selectAllLargeCatagoryList" resultMap="BaseResultMap"  >
+    select 
+    id,name
+    from b_large_catagory
+    where deleted = 0
+    order by sort_index DESC
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer"  >
+    select 
+    <include refid="Base_Column_List" />
+    from b_large_catagory
+    where deleted = 0
+    and id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据name查找id -->
+   <select id="selectIdByName" resultType="java.lang.Long" parameterType="java.lang.String"  >
+    select 
+    id
+    from b_large_catagory
+    where name = #{name,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.LargeCatagory" >
+    insert into b_large_catagory(name,sort_index)
+    values(#{name,jdbcType=VARCHAR},#{sortIndex,jdbcType=INTEGER})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.LargeCatagory" >
+    update b_large_catagory
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null" >
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+    </set>
+   	where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 更改使用状态 -->
+  <update id="updateUseStatusByPrimaryKey" parameterType="com.linjia.web.model.LargeCatagory" >
+    update b_large_catagory
+    set use_status = #{useStatus,jdbcType=BIT}
+   	where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update b_large_catagory set deleted = true where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.MtLogsticsMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+   
+   <resultMap id="MtResultMap" type="com.linjia.web.thirdService.meituan.model.MtReOrder" >
+    <result column="order_id" property="id" jdbcType="VARCHAR" />
+    <result column="wm_order_id_view" property="wm_order_id_view" jdbcType="VARCHAR" />
+    <result column="app_poi_code" property="mall_code" jdbcType="VARCHAR" />
+    <result column="wm_poi_name" property="mall_name" jdbcType="VARCHAR" />
+    <result column="wm_poi_address" property="wm_poi_address" jdbcType="VARCHAR" />
+    <result column="wm_poi_phone" property="mall_phone" jdbcType="VARCHAR" />
+    <result column="recipient_address" property="receive_address" jdbcType="VARCHAR" />
+    <result column="recipient_phone" property="receive_phone" jdbcType="VARCHAR" />
+    <result column="recipient_name" property="receive_name" jdbcType="VARCHAR" />
+    <result column="shipping_fee" property="shipping_fee" jdbcType="FLOAT" />
+    <result column="total" property="total" jdbcType="FLOAT" />
+    <result column="original_price" property="original_price" jdbcType="FLOAT" />
+    <result column="caution" property="caution" jdbcType="VARCHAR" />
+    <result column="shipper_phone" property="shipper_phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="city_id" property="city_id" jdbcType="INTEGER" />
+    <result column="has_invoiced" property="has_invoiced" jdbcType="INTEGER" />
+    <result column="invoice_title" property="invoice_title" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="BIGINT" />
+    <result column="utime" property="utime" jdbcType="BIGINT" />
+    <result column="delivery_time" property="delivery_time" jdbcType="VARCHAR" />
+    <result column="is_third_shipping" property="is_third_shipping" jdbcType="BIT" />
+    <result column="pay_type" property="pay_type" jdbcType="INTEGER" />
+    <result column="latitude" property="latitude" jdbcType="FLOAT" />
+    <result column="longitude" property="longitude" jdbcType="FLOAT" />
+    <result column="day_seq" property="day_seq" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+    <result column="extras" property="extras" jdbcType="LONGVARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="recive_time" property="recive_time" jdbcType="DATE" />
+    <result column="pay_status" property="pay_status" jdbcType="VARCHAR" />
+    <result column="orderNum" property="orderNum" jdbcType="INTEGER" />
+    <result column="urgeNum" property="urgeNum" jdbcType="INTEGER" />
+    <result column="cancelReason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="cancelCode" property="cancelCode" jdbcType="INTEGER" />
+    <result column="order_cancel_time" property="order_cancel_time" jdbcType="TIMESTAMP" />
+    <result column="uhd_order_id" property="uhd_order_id" jdbcType="VARCHAR" />
+    <result column="uhd_refund_order_id" property="uhd_refund_order_id" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<insert id="insertMtOrder" parameterType="com.linjia.web.thirdService.meituan.model.MtOrder" useGeneratedKeys="true" keyProperty="id">
+		insert into b_meituan_order(
+			order_id,		
+			wm_order_id_view,	
+			app_poi_code,		
+			wm_poi_name,		
+			wm_poi_address,		
+			wm_poi_phone,		
+			recipient_address,	
+			recipient_phone,	
+			recipient_name,		
+			shipping_fee,		
+			total,			
+			original_price,		
+			caution,		
+			shipper_phone,		
+			status,			
+			city_id,		
+			has_invoiced,		
+			invoice_title,		
+			ctime,			
+			utime,
+			recive_time,			
+			delivery_time,		
+			is_third_shipping,	
+			pay_type,
+			pay_status,		
+			latitude,		
+			longitude,		
+			day_seq,
+			detail,
+			extras)
+		VALUES(
+			#{order_id},		
+			#{wm_order_id_view},	
+			#{app_poi_code},		
+			#{wm_poi_name},		
+			#{wm_poi_address},		
+			#{wm_poi_phone},		
+			#{recipient_address},	
+			#{recipient_phone},	
+			#{recipient_name},		
+			#{shipping_fee},		
+			#{total},			
+			#{original_price},		
+			#{caution},		
+			#{shipper_phone},		
+			#{status},			
+			#{city_id},		
+			#{has_invoiced},		
+			#{invoice_title},		
+			#{ctime},			
+			#{utime},	
+			#{recive_time},		
+			#{delivery_time},		
+			#{is_third_shipping},	
+			#{pay_type},
+			#{pay_status},		
+			#{latitude},		
+			#{longitude},		
+			#{day_seq},
+			#{detail},
+			#{extras})
+	</insert>
+	
+	<update id="updateOrderPayed" parameterType="com.linjia.web.thirdService.meituan.model.MtOrder">
+		update b_meituan_order
+		 <set>	
+			<if test="wm_order_id_view != null">wm_order_id_view=#{wm_order_id_view},</if>	
+			<if test="app_poi_code != null">app_poi_code=#{app_poi_code},</if>		
+			<if test="wm_poi_name != null">wm_poi_name=#{wm_poi_name},</if>		
+			<if test="wm_poi_address != null">wm_poi_address=#{wm_poi_address},</if>		
+			<if test="wm_poi_phone != null">wm_poi_phone=#{wm_poi_phone},</if>		
+			<if test="recipient_address != null">recipient_address=#{recipient_address},</if>	
+			<if test="recipient_phone != null">recipient_phone=#{recipient_phone},</if>	
+			<if test="recipient_name != null">recipient_name=#{recipient_name},</if>		
+			<if test="shipping_fee != null">shipping_fee=#{shipping_fee},</if>		
+			<if test="total != null">total=#{total},</if>			
+			<if test="original_price != null">original_price=#{original_price},</if>		
+			<if test="caution != null">caution=#{caution},</if>		
+			<if test="shipper_phone != null">shipper_phone=#{shipper_phone},</if>		
+			<if test="status != null">status=#{status},</if>			
+			<if test="city_id != null">city_id=#{city_id},</if>		
+			<if test="has_invoiced != null">has_invoiced=#{has_invoiced},</if>		
+			<if test="invoice_title != null">invoice_title=#{invoice_title},</if>		
+			<if test="ctime != null">ctime=#{ctime},</if>			
+			<if test="utime != null">utime=UNIX_TIMESTAMP(SYSDATE()),</if>			
+			<if test="delivery_time != null">delivery_time=#{delivery_time},</if>		
+			<if test="is_third_shipping != null">is_third_shipping=#{is_third_shipping},</if>	
+			<if test="pay_type != null">pay_type=#{pay_type},</if>	
+			<if test="pay_status != null">pay_status=#{pay_status},</if>		
+			<if test="latitude != null">latitude=#{latitude},</if>		
+			<if test="longitude != null">longitude=#{longitude},</if>		
+			<if test="day_seq != null">day_seq=#{day_seq},</if>
+			<if test="detail != null">detail=#{detail},</if>                 
+			<if test="extras != null">extras=#{extras},</if>
+			<if test="uhd_order_id != null">uhd_order_id=#{uhd_order_id},</if>
+			<if test="uhd_refund_order_id != null">uhd_refund_order_id=#{uhd_refund_order_id},</if>
+		</set>
+  		where 1=1 and order_id=#{order_id}
+	</update>
+	
+	<update id="updateOrderConfirmed" parameterType="com.linjia.web.thirdService.meituan.model.MtOrder">
+		update b_meituan_order
+		 <set>	
+			<if test="wm_order_id_view != null">wm_order_id_view=#{wm_order_id_view},</if>		
+			<if test="wm_poi_name != null">wm_poi_name=#{wm_poi_name},</if>		
+			<if test="wm_poi_address != null">wm_poi_address=#{wm_poi_address},</if>		
+			<if test="wm_poi_phone != null">wm_poi_phone=#{wm_poi_phone},</if>		
+			<if test="recipient_address != null">recipient_address=#{recipient_address},</if>	
+			<if test="recipient_phone != null">recipient_phone=#{recipient_phone},</if>	
+			<if test="recipient_name != null">recipient_name=#{recipient_name},</if>		
+			<if test="shipping_fee != null">shipping_fee=#{shipping_fee},</if>		
+			<if test="total != null">total=#{total},</if>			
+			<if test="original_price != null">original_price=#{original_price},</if>		
+			<if test="caution != null">caution=#{caution},</if>		
+			<if test="shipper_phone != null">shipper_phone=#{shipper_phone},</if>		
+			<if test="status != null">status=#{status},</if>			
+			<if test="city_id != null">city_id=#{city_id},</if>		
+			<if test="has_invoiced != null">has_invoiced=#{has_invoiced},</if>		
+			<if test="invoice_title != null">invoice_title=#{invoice_title},</if>		
+			<if test="ctime != null">ctime=#{ctime},</if>			
+			<if test="utime != null">utime=#{utime},</if>			
+			<if test="delivery_time != null">delivery_time=#{delivery_time},</if>		
+			<if test="is_third_shipping != null">is_third_shipping=#{is_third_shipping},</if>	
+			<if test="pay_type != null">pay_type=#{pay_type},</if>	
+			<if test="pay_status != null">pay_status=#{pay_status},</if>	
+			<if test="latitude != null">latitude=#{latitude},</if>
+			<if test="cancelCode != null">cancelCode=#{cancelCode},</if>
+			<if test="cancelReason != null">cancelReason=#{cancelReason},</if>		
+			<if test="longitude != null">longitude=#{longitude},</if>		
+			<if test="day_seq != null">day_seq=#{day_seq},</if>
+			<if test="detail != null">detail=#{detail},</if>                 
+			<if test="extras != null">extras=#{extras},</if>
+			<if test="uhd_order_id != null">uhd_order_id=#{uhd_order_id},</if>
+			<if test="uhd_refund_order_id != null">uhd_refund_order_id=#{uhd_refund_order_id},</if>
+		</set>
+  		where 1=1 and order_id=#{order_id} 
+  		<if test="app_poi_code !=null">
+  			and app_poi_code=#{app_poi_code}
+  		</if>
+	</update>
+	
+	<update id="updateMtOrder" parameterType="com.linjia.web.thirdService.meituan.model.MtOrder">
+		update b_meituan_order
+		 <set>	
+			<if test="wm_order_id_view != null">wm_order_id_view=#{wm_order_id_view},</if>	
+			<if test="app_poi_code != null">app_poi_code=#{app_poi_code},</if>		
+			<if test="wm_poi_name != null">wm_poi_name=#{wm_poi_name},</if>		
+			<if test="wm_poi_address != null">wm_poi_address=#{wm_poi_address},</if>		
+			<if test="wm_poi_phone != null">wm_poi_phone=#{wm_poi_phone},</if>		
+			<if test="recipient_address != null">recipient_address=#{recipient_address},</if>	
+			<if test="recipient_phone != null">recipient_phone=#{recipient_phone},</if>	
+			<if test="recipient_name != null">recipient_name=#{recipient_name},</if>		
+			<if test="shipping_fee != null">shipping_fee=#{shipping_fee},</if>		
+			<if test="total != null">total=#{total},</if>			
+			<if test="original_price != null">original_price=#{original_price},</if>		
+			<if test="caution != null">caution=#{caution},</if>		
+			<if test="shipper_phone != null">shipper_phone=#{shipper_phone},</if>		
+			<if test="status != null">status=#{status},</if>			
+			<if test="city_id != null">city_id=#{city_id},</if>		
+			<if test="has_invoiced != null">has_invoiced=#{has_invoiced},</if>		
+			<if test="invoice_title != null">invoice_title=#{invoice_title},</if>		
+			<if test="ctime != null">ctime=#{ctime},</if>			
+			<if test="utime != null">utime=#{utime},</if>			
+			<if test="delivery_time != null">delivery_time=#{delivery_time},</if>		
+			<if test="is_third_shipping != null">is_third_shipping=#{is_third_shipping},</if>	
+			<if test="pay_type != null">pay_type=#{pay_type},</if>		
+			<if test="latitude != null">latitude=#{latitude},</if>		
+			<if test="longitude != null">longitude=#{longitude},</if>		
+			<if test="day_seq != null">day_seq=#{day_seq},</if>
+			<if test="detail != null">detail=#{detail},</if>                 
+			<if test="extras != null">extras=#{extras},</if>
+			<if test="cancelReason != null">cancelReason=#{cancelReason},</if>
+			<if test="cancelCode != null">cancelCode=#{cancelCode},</if>
+			<if test="uhd_order_id != null">uhd_order_id=#{uhd_order_id},</if>
+			<if test="uhd_refund_order_id != null">uhd_refund_order_id=#{uhd_refund_order_id},</if>
+		</set>
+  		where 1=1 and order_id=#{order_id}
+	</update>
+	
+	<update id="updateOrderOver" parameterType="java.lang.Integer">
+		update b_meituan_order
+		 <set>
+			ctime=UNIX_TIMESTAMP(SYSDATE()),deleted=1
+		</set>
+  		where 1=1 and order_id=#{order_id}
+	</update>
+	
+	<!-- 根据商品Id统计团购销售数量-->
+	<!-- 根据抛单数据-->
+	<select id="selectMtOrder" parameterType="com.linjia.web.query.ThirdLogisOrderQuery" resultMap="MtResultMap">
+		select
+			bmo.order_id,		
+			bmo.wm_order_id_view,	
+			bsi.mall_code app_poi_code,		
+			bsi.mall_name wm_poi_name,		
+			bmo.wm_poi_address,		
+			bmo.wm_poi_phone,		
+			bmo.recipient_address,	
+			bmo.recipient_phone,	
+			bmo.recipient_name,		
+			bmo.shipping_fee,		
+			bmo.total,			
+			bmo.original_price,		
+			bmo.caution,		
+			bmo.shipper_phone,		
+			bmo.status,			
+			bmo.city_id,		
+			bmo.has_invoiced,		
+			bmo.invoice_title,		
+			bmo.ctime,			
+			bmo.utime,			
+			bmo.delivery_time,		
+			bmo.is_third_shipping,	
+			bmo.pay_type,
+			bmo.pay_status,		
+			bmo.latitude,		
+			bmo.longitude,		
+			bmo.day_seq,
+			bmo.detail,                 
+			bmo.extras,
+			bmo.orderNum,
+    		bmo.urgeNum,
+    		bmo.cancelReason,
+    		bmo.cancelCode,
+    		bmo.order_cancel_time,
+    		bmo.uhd_order_id,
+    		bmo.uhd_refund_order_id
+		from  b_meituan_order bmo,b_shop_info bsi 
+   		where bmo.app_poi_code=bsi.meituanShopId and bmo.deleted=0  
+        <if test="order_id != null">and bmo.order_id=#{order_id}</if>	
+        <if test="app_poi_code != null">and bmo.app_poi_code=#{app_poi_code}</if>	
+	</select>
+	
+	<!-- 查询店铺订单列表-->
+	<select id="selectMtOrderlist" parameterType="com.linjia.web.query.ThirdLogisOrderQuery" resultMap="MtResultMap">
+		select
+			order_id,		
+			wm_order_id_view,	
+			app_poi_code,		
+			wm_poi_name,		
+			wm_poi_address,		
+			wm_poi_phone,		
+			recipient_address,	
+			recipient_phone,	
+			recipient_name,		
+			shipping_fee,		
+			total,			
+			original_price,		
+			caution,		
+			shipper_phone,		
+			status,			
+			city_id,		
+			has_invoiced,		
+			invoice_title,		
+			ctime,			
+			utime,			
+			delivery_time,		
+			is_third_shipping,	
+			pay_type,		
+			latitude,		
+			longitude,		
+			day_seq,
+			detail,                 
+			extras,
+			uhd_order_id,
+			uhd_refund_order_id
+		from  b_meituan_order
+        where deleted=0 and app_poi_code=#{app_poi_code}
+	</select>
+	
+</mapper>

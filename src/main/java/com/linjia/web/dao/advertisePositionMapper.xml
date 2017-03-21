@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.AdvertisePositionMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+    
+	<insert id="insertAdvInfo" parameterType="com.linjia.web.model.AdvertisePosition">
+		insert into b_advertise_manage(position,ad_position_name,picture,ad_link,nums,ad_type,create_time) 
+		values(#{position},#{ad_position_name},#{picture},#{ad_link},#{nums},#{ad_type},SYSDATE())
+	</insert>
+	
+	<update id="updateAdvInfoById" parameterType="com.linjia.web.model.AdvertisePosition">
+		update b_advertise_manage 
+		<set>
+			<if test="position !=null">
+				position=#{position},
+			</if>
+			<if test="ad_position_name !=null">
+				ad_position_name=#{ad_position_name},
+			</if>
+			<if test="picture !=null">
+				picture=#{picture},
+			</if>
+			<if test="ad_link !=null">
+				ad_link=#{ad_link},
+			</if>
+			<if test="ad_type !=null">
+				ad_type=#{ad_type},
+			</if>
+			<if test="nums !=null">
+				nums=nums + #{nums},
+			</if>
+			<if test="downNums !=null">
+				nums=nums - #{downNums},
+			</if>
+			update_time=SYSDATE()
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteAdvInfoById" parameterType="int">
+		delete from b_advertise_manage where id=#{id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="selectAdvInfoById" parameterType="int" resultType="com.linjia.web.model.AdvertisePosition">
+		select id,position,ad_position_name,
+		CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',picture) AS picture,
+		ad_link,nums,ad_type,create_time,update_time  from b_advertise_manage where id=#{id}
+	</select>
+	
+	<select id="selectAdvInfoAll" resultType="com.linjia.web.model.AdvertisePosition">
+		select id,position,ad_position_name,
+		CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',picture) AS picture,
+		ad_link,nums,ad_type,create_time,update_time  from b_advertise_manage
+	</select>
+	
+</mapper>

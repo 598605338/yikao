@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.ActivityKaiTuanMainMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+   
+   <resultMap id="ActivityResultMap" type="com.linjia.web.query.ActivityKaiTuanMainQuery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="baseId" property="baseId" jdbcType="INTEGER" />
+    <result column="kt_userId" property="kt_userId" jdbcType="VARCHAR" />
+    <result column="cur_num" property="cur_num" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="DATE" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="joinTime" property="joinTime" jdbcType="DATE" />
+    <result column="p_name" property="p_name" jdbcType="VARCHAR" />
+    <result column="pt_price" property="pt_price" jdbcType="DECIMAL" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="end_time" property="create_time" jdbcType="DATE" />
+  </resultMap>
+
+	<insert id="insertOneKaiTuanActivity" parameterType="ActivityKaiTuanMain" useGeneratedKeys="true" keyProperty="id">
+		insert into b_activity_kaituan_main(baseId,kt_userId,cur_num,create_time,end_time) values(#{baseId},#{kt_userId},#{cur_num},sysdate(),DATE_ADD(sysdate(),INTERVAL 10 hour))
+	</insert>
+	
+	<update id="updateOneKaiTuanActivity" parameterType="ActivityKaiTuanMain">
+		update b_activity_kaituan_main
+		 <set>
+	      <if test="kt_userId != null">kt_userId=#{kt_userId},</if>
+	      <if test="cur_num != null">cur_num=#{cur_num},</if>
+	      <if test="state != null">state=#{state},</if>
+	      <if test="deleted != null">deleted=#{deleted}</if>
+	      <if test="end_time != null">end_time=#{end_time}</if>
+	    </set>
+  		where 1=1
+    	<if test="id != null">
+          and id=#{id}
+        </if>
+        <if test="baseId != null">
+          and baseId=#{baseId}
+        </if>
+         <if test="kt_userId != null">
+          and kt_userId=#{kt_userId}
+        </if>
+	</update>
+	
+	<!-- 查询单个用户参加的所有开团数据 -->
+	<select id="selectUserAllKaiTuan" parameterType="com.linjia.web.query.ActivityKaiTuanMainQuery" resultType="ActivityKaiTuanMain">
+	 select bapb.p_name,bapb.pt_price,bakm.id,bakm.state,bakm.create_time,bakm.baseId,baku.create_time joinTime,baku.userId
+		from b_activity_kaituan_main bakm ,b_activity_kaituan_users baku,
+             b_activity_pintuan_base bapb where bakm.baseId=bapb.id and bakm.id=baku.kt_id 
+             and bakm.deleted=0 and baku.deleted =0 and bapb.deleted=0 
+          and baku.userId=#{userId}
+        <if test="baseId != null">
+          and bakm.baseId=#{baseId}
+        </if>
+        <if test="id != null">
+          and bakm.id=#{id}
+        </if>
+        <if test="state != null">
+          and bakm.state=#{state}
+        </if>
+        order by baku.create_time desc
+        LIMIT #{startIndex},#{pageSize}
+	</select>
+
+	<!-- 查询 单次团购信息-->
+	<select id="selectKaiTuanActivity" parameterType="com.linjia.web.query.ActivityKaiTuanMainQuery" resultType="ActivityKaiTuanMain">
+		select id,baseId,kt_userId,cur_num,state,create_time,deleted from b_activity_kaituan_main 
+		where 1=1 and deleted=0
+		<if test="id != null">
+          and id=#{id}
+        </if>
+        <if test="baseId != null">
+          and baseId=#{baseId}
+        </if>
+        <if test="kt_userId != null">
+          and kt_userId=#{kt_userId}
+        </if>
+        <if test="cur_num != null">
+          and cur_num=#{cur_num}
+        </if>
+        <if test="state != null">
+          and state=#{state}
+        </if>
+	</select>
+	
+	<!-- 根据商品Id统计团购销售数量-->
+	<select id="selectSumSalesNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select SUM(cur_num) salesNum from b_activity_kaituan_main bakm where bakm.deleted=0 and bakm.state=1 group by baseId
+        <if test="baseId != null">
+          baseId=#{baseId}
+        </if>
+	</select>
+	
+		<!-- 查询当前时间完成的团购的记录-->
+	<select id="selectOrderList"  resultType="ActivityKaiTuanMain">
+		SELECT * FROM b_activity_kaituan_main bakm ,b_activity_kaituan_users baku where bakm.id=baku.kt_id and bakm.state=1 and bakm.deleted=0 and bakm.end_time&lt;=SYSDATE()
+        <if test="id != null">
+          bakm.id=#{id}
+        </if>
+	</select>
+</mapper>

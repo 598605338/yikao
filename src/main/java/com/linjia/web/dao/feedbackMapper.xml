@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.FeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.Feedback" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="custname" property="custname" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="contact_way" property="contactWay" jdbcType="VARCHAR" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, comment, contact_way, user_id, custname, cre_date
+  </sql>
+  <select id="selectByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.FeedbackQuery" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where 1=1
+    <if test="comment != null and comment !=''" >
+        and comment like #{commentQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="contactWay != null and contactWay !=''" >
+        and contact_way like #{contactWayQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="creDateStart != null" >
+        <![CDATA[and cre_date >= #{creDateStart,jdbcType="TIMESTAMP"} and cre_date<= #{creDateEnd,jdbcType="TIMESTAMP"} ]]>
+    </if>
+    order by id desc
+    limit #{startIndex},#{pageSize}
+  </select>
+  
+  <select id="countByExample" resultType="java.lang.Integer" parameterType="com.linjia.web.query.FeedbackQuery" >
+    select 
+    count(id)
+    from feedback
+    where 1=1
+    <if test="comment != null and comment !=''" >
+        and comment like #{commentQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="contactWay != null and contactWay !=''" >
+        and contact_way like #{contactWayQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="creDateStart != null" >
+        <![CDATA[and cre_date >= #{creDateStart,jdbcType="TIMESTAMP"} and cre_date<= #{creDateEnd,jdbcType="TIMESTAMP"} ]]>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.Feedback" >
+    insert into feedback
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="custname != null" >
+        nickName,
+      </if>
+      <if test="creDate != null" >
+        cre_date,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="contactWay != null" >
+        contact_way,
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="cre_date != null" >
+        #{cre_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+  </insert>
+</mapper>

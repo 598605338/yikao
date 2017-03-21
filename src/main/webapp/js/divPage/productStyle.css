@@ -1,0 +1,34 @@
+.add_left{
+	/* width:12%; */
+	display: inline-block;
+	margin-right: 10px;
+}
+.add_right{
+	/* width:12%; */
+	display: inline-block;
+	margin-right: 10px;
+}
+.addOffect{
+	display:inline-block;
+	width:84%;
+	height:auto;
+	border:1px solid red;
+}
+.baColor{
+	background:#f5f5f5 ;
+}
+.add_lefta{
+	width:30%;
+	display:inline;
+	/* padding:0 15px 0 10px; */
+	margin-right: 10px;
+}
+.add_righta{
+	/* width:30%; */
+	display:inline;
+	margin-right: 10px;
+}
+.addOff{
+	width:99%;
+	display: inline-block;
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.ProductUnitMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ProductUnit" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="use_status" property="useStatus" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, use_status, deleted
+  </sql>
+  <select id="selectByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.ProductUnitQuery" >
+    select
+    <include refid="Base_Column_List" />
+    from b_product_unit
+    where deleted = 0
+    <if test="name != null and name !=''" >
+        AND name = #{name,jdbcType=VARCHAR}
+    </if>
+    order by id desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countByExample" resultType="java.lang.Integer" parameterType="com.linjia.web.query.ProductUnitQuery" >
+    select
+    count(id)
+    from b_product_unit
+    where deleted = 0
+    <if test="name != null and name !=''" >
+        AND name = #{name,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectAllUnitList" resultMap="BaseResultMap" >
+    select
+    id,name
+    from b_product_unit
+    where deleted = 0
+    order by id 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from b_product_unit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update b_product_unit set deleted = 1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.ProductUnit" >
+    insert into b_product_unit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="useStatus != null" >
+        use_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="useStatus != null" >
+        #{useStatus,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.ProductUnit" >
+    update b_product_unit
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 更改使用状态 -->
+  <update id="updateUseStatusById" parameterType="com.linjia.web.model.ProductUnit" >
+    update b_product_unit
+      set use_status = #{useStatus,jdbcType=BIT}
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+   
+  <!-- 根据name查找id -->
+   <select id="selectIdByName" resultType="java.lang.Long" parameterType="java.lang.String"  >
+    select 
+    id
+    from b_product_unit
+    where name = #{name,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+</mapper>

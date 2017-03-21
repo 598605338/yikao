@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.linjia.web.dao.MtOrderProductMapper">
+	<!-- 缓存 -->
+	<!-- <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" 
+		/> -->
+
+	<resultMap id="MtProductResultMap" type="com.linjia.web.model.ThirdOrderProduct">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="app_food_code" property="pCode" jdbcType="VARCHAR" />
+		<result column="food_name" property="pName" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="price" property="itemPrice" jdbcType="DECIMAL" />
+		<result column="box_num" property="box_num" jdbcType="INTEGER" />
+		<result column="unit" property="unit" jdbcType="DECIMAL" />
+		<result column="box_price" property="box_price" jdbcType="INTEGER" />
+		<result column="food_discount" property="food_discount" jdbcType="DECIMAL" />
+		<result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insertMtOrderProduct" parameterType="com.linjia.web.thirdService.meituan.vo.OrderFoodDetailParam"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		b_meituan_order_product(app_food_code,food_name,quantity,price, box_num,box_price,unit,food_discount,orderId)
+		values(#{app_food_code},#{food_name},#{quantity},#{price},#{box_num},#{box_price},#{unit},#{food_discount},#{orderId})
+	</insert>
+
+	<delete id="deleteMtOrderProduct" parameterType="java.lang.String">
+		delete
+		b_meituan_order_product
+		where 1=1 and id=#{id}
+	</delete>
+
+	<update id="updateMtOrderProduct" parameterType="com.linjia.web.thirdService.meituan.vo.OrderFoodDetailParam">
+		update
+			b_meituan_order_product
+			<set>
+				<if test="food_name">food_name=#{food_name}</if>
+			</set>
+			where 1=1 and id=#{id} and orderId=#{orderId}
+	</update>
+
+	<!-- 根据订单Id查询订单详情 -->
+	<select id="selectMtOrderProduct" parameterType="java.lang.Long"
+		resultMap="MtProductResultMap">
+		select
+			bop.id,
+			bop.orderId,
+			bop.app_food_code,
+			bop.food_name,
+			bop.quantity,
+			ROUND(bop.price,2) price,
+			bop.box_num,
+			bop.box_price,
+			bop.unit,
+			bop.food_discount,
+			CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',bp.image_path) image_path
+		from b_meituan_order_product bop  left join b_product bp
+		on bop.app_food_code=bp.p_code where bop.orderId=#{orderId}
+	</select>
+	
+	<select id="selectMtOrderProductAll" parameterType="java.lang.Long"
+		resultType="com.linjia.web.thirdService.meituan.vo.OrderFoodDetailParam">
+		select
+			bop.id sku_id,
+			bop.orderId,
+			bop.app_food_code,
+			bop.food_name,
+			bop.quantity,
+			ROUND(bop.price,2) price,
+			bop.box_num box_num,
+			bop.box_price,
+			bop.unit,
+			bop.food_discount,
+			CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',bp.image_path) image_path
+		from b_meituan_order_product bop left join b_product bp
+		on bop.app_food_code=bp.p_code where bop.orderId=#{orderId}
+	</select>
+
+</mapper>

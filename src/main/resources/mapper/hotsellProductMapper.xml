@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.HotsellProductMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.HotsellProduct" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="base_id" property="baseId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="p_price" property="pPrice" jdbcType="DECIMAL" />
+    <result column="p_send_type" property="pSendType" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, base_id, product_id, p_code, p_name, p_price, p_send_type, create_time, update_time
+  </sql>
+  <select id="selectByBaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from b_hotsell_product
+    where base_id=#{baseId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_hotsell_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_hotsell_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据baseId删除全部活动商品数据 -->
+  <delete id="deleteByBaseId" parameterType="java.lang.Integer" >
+    delete from b_hotsell_product
+    where base_id=#{baseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertBatch" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+    insert into b_hotsell_product (base_id, product_id, 
+      p_code, p_name, p_price, 
+      p_send_type, create_time, update_time
+      )
+    values 
+    <foreach item="item" collection="list" index="index" separator=",">
+    (#{baseId,jdbcType=INTEGER}, #{item.product_id,jdbcType=INTEGER}, 
+      #{item.p_code,jdbcType=VARCHAR}, #{item.p_name,jdbcType=VARCHAR}, #{item.p_price,jdbcType=DECIMAL}, 
+      #{item.p_send_type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.HotsellProduct" keyProperty="id" useGeneratedKeys="true">
+    insert into b_hotsell_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="baseId != null" >
+        base_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="pCode != null" >
+        p_code,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="pPrice != null" >
+        p_price,
+      </if>
+      <if test="pSendType != null" >
+        p_send_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseId != null" >
+        #{baseId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pPrice != null" >
+        #{pPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pSendType != null" >
+        #{pSendType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.linjia.web.model.HotsellProduct" resultType="java.lang.Integer" >
+    select count(*) from b_hotsell_product
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_hotsell_product
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseId != null" >
+        base_id = #{baseId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pPrice != null" >
+        p_price = #{pPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pSendType != null" >
+        p_send_type = #{pSendType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_hotsell_product
+    set id = #{id,jdbcType=INTEGER},
+      base_id = #{baseId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      p_code = #{pCode,jdbcType=VARCHAR},
+      p_name = #{pName,jdbcType=VARCHAR},
+      p_price = #{pPrice,jdbcType=DECIMAL},
+      p_send_type = #{pSendType,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.HotsellProduct" >
+    update b_hotsell_product
+    <set >
+      <if test="baseId != null" >
+        base_id = #{baseId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null" >
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pPrice != null" >
+        p_price = #{pPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pSendType != null" >
+        p_send_type = #{pSendType,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.linjia.web.model.HotsellProduct" >
+    update b_hotsell_product
+    set base_id = #{baseId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      p_code = #{pCode,jdbcType=VARCHAR},
+      p_name = #{pName,jdbcType=VARCHAR},
+      p_price = #{pPrice,jdbcType=DECIMAL},
+      p_send_type = #{pSendType,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

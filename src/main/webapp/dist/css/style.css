@@ -1,0 +1,180 @@
+html, body, ul, li, ol, dl, dd, dt, p,
+h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+   list-style: none;
+}
+body,html{
+	width:100%;
+	height:100%;
+	font-family:"微软雅黑";
+	font-size:12px !important;
+}
+.cont_aside_item  a:active{
+	background:#EBEBEB;   
+}
+.ab{
+	/* width:45%;
+	float: left;
+	text-align:left;
+	letter-spacing:2px;
+	font-size:16.3px;
+    padding-left:30%;
+	 */
+	display: inline-block;
+    width: 100%;
+}
+.ac{
+	display: inline;
+    width: 5%;
+    float: right;
+    position: absolute;
+    top: 23px;
+    right: 30px;
+}
+.ac img{
+	width:50%;
+	height:100%;
+    transform: rotate(0deg);
+    transition: all .35s ease 0s;
+}
+.ac.at img{
+	transform: rotate(90deg);
+}
+.turnDown{
+	transition:all 0.1s ease-in-out;
+    transform:rotateZ(90deg);
+}
+.turnUp{
+	transition:all 0.1s ease-in-out;
+    transform:rotateZ(-90deg);
+    
+}
+.one{
+	width:100%;
+	
+}
+
+.spac{
+	margin-left:2px;
+}
+.list{
+	line-height:31px;
+}
+.listt{
+	width:40%;
+	margin:0 auto;
+	line-height:28px;
+	text-align:left;
+	padding-bottom:6px;
+}
+.again{
+	line-height:30px;
+}
+.span1{
+	width:8px;
+	float:left;
+	display:inline;
+	line-height:24px;
+	font-size:14px;
+}
+
+.span2{
+	font-size:14px;
+	height:3px;
+}
+.cont_aside_header{
+	background:#EBEBEB;
+}
+.active{
+	display:block;
+	background:#ffffff;
+	border-left-color:#2285c5 !important;
+}
+.cont_aside_item.active .ab{
+	color:#2285C5;.
+	font-weight:900;
+}
+.cont_aside_item.active .ab .icon{
+	background-position-x: 20px;
+}
+.cont_aside_item.active .ab .icon.small {
+    background-position-x: 18px !important;
+}
+.word{
+	color:#2285C5;.
+	font-weight:900;
+}
+.cont_aside_item {
+	height:auto;
+	border-left:4px solid #EBEBEB;
+	text-align: center;
+    font-size: 16.3px;
+    letter-spacing: 2px;
+}
+.cont_aside_item:hover:not(.active){
+    background: rgba(255,255,255,.5);
+}
+.mabc{
+	text-align: left;
+}
+.bc{
+	width:95%;
+	margin:0 auto;
+}
+.banner{
+	width:10%;
+	margin-left:1px;
+}
+.amed{
+	margin-left:7px;
+}
+.creat{
+	letter-spacing: 0px;
+}
+.disc{
+	width:68%;
+}
+.ad{
+	width:30%;
+	font-size:16.3px;
+	letter-spacing: 2px;
+	padding-left:18%;
+	
+}
+.two{
+	width:128%;
+    clear: both;
+    float:left;
+   margin-top:-10px;
+}
+.ding{
+	padding-bottom:8px;
+}
+.icon{
+	position: relative;
+    top: 4px;
+    left: -18px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+.icon img{
+	vertical-align: middle;
+}
+.icon-goods{background: url("../images/goods.png");}
+.icon-activities{background: url("../images/activities.png");}
+.icon-mallshops{background: url("../images/mallshops.png");}
+.icon-coupons{background: url("../images/coupons.png");}
+.icon-orders{background: url("../images/orders.png");}
+.icon-operate{background: url("../images/operate.png");}
+.icon-finance{background: url("../images/finance.png");}
+.icon-leaguer{background: url("../images/leaguer.png");}
+.icon-1{background-position: 0 0px;}
+.icon-2{background-position: 0 -20px;}
+.icon-3{background-position: 0 -40px;}
+.icon-4{background-position: 0 -60px;}
+.icon-5{background-position: 0 -80px;}
+.icon-6{background-position: 0 -100px;}
+.icon-7{background-position: 0 -120px;}
+.icon-8{background-position: 0 -140px;}
+.icon-9{background-position: 0 -160px;}
+.icon-10{background-position: 0 -180px;}

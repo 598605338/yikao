@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.ShopUserMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+
+	<insert id="insertShop" parameterType="com.linjia.web.model.ShopUser" useGeneratedKeys="true" keyProperty="id">
+		insert into b_shop_info(account,password,baiduShopId,meituanShopId,createtime) 
+		values(#{account},#{password},#{baiduShopId},#{meituanShopId},SYSDATE())
+	</insert>
+	
+	<update id="deleteShop" parameterType="com.linjia.web.model.ShopUser">
+		update b_shop_info
+		set deleted=1
+		where 1=1 and account=#{account} and password={password}
+	</update>
+	
+	<update id="updateShop" parameterType="com.linjia.web.model.ShopUser">
+		update b_shop_info
+		<set>
+			<if test="account">account=#{account},</if>
+			<if test="password">password={password},</if>
+			<if test="baiduShopId">baiduShopId=#{baiduShopId},</if>
+			<if test="meituanShopId">meituanShopId=#{meituanShopId},</if>
+			<if test="account"></if>
+		</set>
+  		where 1=1 and account=#{account} and password={password}
+	</update>
+	
+	<!-- 根据店铺用户-->
+	<select id="selectShop" parameterType="com.linjia.web.query.ShopUserQuery" resultType="com.linjia.web.model.ShopUser">
+		select id,account,password,baiduShopId,meituanShopId
+		from  b_shop_info where deleted=0 and account=#{account} and password=#{password}
+	</select>
+	
+	<!-- 查询所有门店 -->
+	<select id="selectShopList" parameterType="com.linjia.web.query.ShopUserQuery" resultType="com.linjia.web.model.ShopUser">
+		select id,account,password,baiduShopId,meituanShopId,status,mall_code,mall_name,mall_phone,mall_address
+		from  b_shop_info where deleted=0
+		<if test="id !=null">and id=#{id} </if>
+		<if test="account !=null">and account=#{account} </if>
+		<if test="baiduShopId !=null">and baiduShopId=#{baiduShopId} </if>
+		<if test="meituanShopId !=null">and meituanShopId=#{meituanShopId} </if>
+		<if test="status !=null">and status=#{status} </if>
+		<if test="mall_code !=null">and mall_code=#{mall_code} </if>
+		<if test="mall_name !=null">and mall_name like  CONCAT(CONCAT('%',#{mall_name}),'%')</if>
+		<if test="mall_phone !=null">and mall_phone=#{mall_phone} </if>
+		<if test="mall_address !=null">and mall_address=#{mall_address} </if>
+		order by mall_code desc
+        LIMIT #{startIndex},#{pageSize}
+	</select>
+	
+	<!-- 查询店铺总数 -->
+	<select id="selectShopNum"  resultType="Integer">
+		select count(id) shopNum
+		from  b_shop_info where deleted=0
+	</select>
+</mapper>

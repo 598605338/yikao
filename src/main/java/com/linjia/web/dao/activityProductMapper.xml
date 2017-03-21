@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.ActivityProductMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+    
+	<insert id="insertActProduct" parameterType="com.linjia.web.model.ActivityProduct">
+		insert into b_activity_product(activity_id,product_id,p_code,p_name,p_price,p_send_type,create_time) 
+		values(#{activity_id},#{product_id},#{p_code},#{p_name},#{p_price},#{p_send_type},SYSDATE())
+	</insert>
+	
+	<update id="updateActProductById" parameterType="com.linjia.web.model.ActivityProduct">
+		update b_activity_product 
+		<set>
+			<if test="activity_id !=null">
+				 activity_id=#{activity_id},
+			</if>
+			<if test="product_id !=null">
+				 product_id=#{product_id},
+			</if>
+			<if test="p_code !=null">
+				 p_code=#{p_code},
+			</if>
+			<if test="p_name !=null">
+				 p_name=#{p_name},
+			</if>
+			<if test="p_price !=null">
+				 p_price=#{p_price},
+			</if>
+			<if test="p_send_type !=null">
+				 p_send_type=#{p_send_type},
+			</if>
+			update_time=SYSDATE()
+		</set>
+		 where id=#{id}
+	</update>
+	
+	<delete id="deleteActProductById" parameterType="int">
+		delete from b_activity_product where id=#{id}
+	</delete>
+	
+	<delete id="deleteActProductByActId" parameterType="int">
+		delete from b_activity_product where activity_id=#{activity_id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="selectActProductById" parameterType="int" resultType="com.linjia.web.model.ActivityProduct">
+		select id,activity_id,product_id,p_code,p_name,p_price,p_send_type,create_time,update_time from b_activity_product where id=#{id}
+	</select>
+	
+	<select id="selectActProductAll" resultType="com.linjia.web.model.ActivityProduct" parameterType="map">
+		select id,activity_id,product_id,p_code,p_name,p_price,p_send_type,create_time,update_time from b_activity_product where 1=1
+		<if test="p_name !=null">
+			and p_name like CONCAT(CONCAT('%',#{p_name}),'%')
+		</if>
+		<if test="activity_id !=null">
+			and activity_id=#{activity_id}
+		</if>
+	</select>
+	
+	<!-- 批量导入活动商品 -->
+	<insert id="insertBatchActProducts" parameterType="list">
+	 insert into b_activity_product(
+        activity_id,
+        product_id,
+        p_code,
+        p_name,
+        p_price,
+        p_send_type,
+        create_time) values
+     <foreach collection="list" item="item" index="index"  separator="," >  
+       (#{item.activity_id},
+      	#{item.product_id},
+        #{item.p_code},
+        #{item.p_name},
+        #{item.p_price},
+        #{item.p_send_type},
+        SYSDATE())
+    </foreach>
+	</insert>
+	
+	<select id="selectActProNum" parameterType="int" resultType="int">
+		select count(*) from b_activity_product where activity_id=#{activity_id}
+	</select>
+	
+</mapper>

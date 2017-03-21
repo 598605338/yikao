@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.MiaoshaActivityMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+   
+   <resultMap id="MiaoshaActivityBaseResultMap" type="com.linjia.web.model.MiaoshaActivityBase">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="banner_path" jdbcType="VARCHAR" property="bannerPath" />
+    <result column="panic_buying_start_time" jdbcType="TIMESTAMP" property="panicBuyingStartTime" />
+    <result column="panic_buying_end_time" jdbcType="TIMESTAMP" property="panicBuyingEndTime" />
+    <result column="qm_type" jdbcType="INTEGER" property="qmType" />
+    <result column="check_sell_type" jdbcType="INTEGER" property="checkSellType" />
+    <result column="unstart_activity_tip" jdbcType="VARCHAR" property="unstartActivityTip" />
+    <result column="ended_activity_tip" jdbcType="VARCHAR" property="endedActivityTip" />
+    <result column="sell_out_tip" jdbcType="VARCHAR" property="sellOutTip" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="time_node" jdbcType="INTEGER" property="timeNode" />
+    <result column="publish_date" jdbcType="DATE" property="publishDate" />
+    <result column="cre_date" jdbcType="TIMESTAMP" property="creDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="limit_quantity" jdbcType="TIMESTAMP" property="limitQuantity" />
+  </resultMap>
+  
+   <sql id="miaoshaActivityBaseColumns">
+    	id,name,banner_path,panic_buying_start_time,panic_buying_end_time,qm_type,check_sell_type,
+    	unstart_activity_tip,ended_activity_tip,sell_out_tip,description,time_node,publish_date,cre_date,update_date,limit_quantity
+    </sql>
+    
+    <select id="selectByPrimaryKey" resultMap="MiaoshaActivityBaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="miaoshaActivityBaseColumns" />
+    from b_activity_shangou_base
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    
+	<select id="selectOne" parameterType="java.util.Date" resultMap="MiaoshaActivityBaseResultMap" >
+		SELECT 
+		<include refid="miaoshaActivityBaseColumns" /> 
+		FROM `b_activity_shangou_base` 
+		WHERE <![CDATA[panic_buying_start_time >= #{panicBuyingStartTime,jdbcType=TIMESTAMP} AND panic_buying_end_time <= #{panicBuyingEndTime,jdbcType=TIMESTAMP}]]> AND deleted =0  LIMIT 1
+	</select>
+	
+	<select id="selectByPageList" parameterType="com.linjia.web.query.MiaoshaActivityBaseQuery" resultMap="MiaoshaActivityBaseResultMap" >
+		SELECT 
+		<include refid="miaoshaActivityBaseColumns" /> 
+		FROM `b_activity_shangou_base` 
+		WHERE deleted =0
+		<if test="name != null and name !=''">
+       		AND name like #{nameQuery,jdbcType=VARCHAR}
+        </if>
+		<if test="publishDateStart != null and publishDateStart !=''">
+       		AND <![CDATA[ publish_date >= STR_TO_DATE(#{publishDateStart,jdbcType=DATE},'%Y-%m-%d')]]> 
+        </if>
+		<if test="publishDateEnd != null and publishDateEnd !=''">
+       		AND <![CDATA[ publish_date <= STR_TO_DATE(#{publishDateEnd,jdbcType=DATE},'%Y-%m-%d')]]>  
+        </if>
+		<if test="timeNode != null and timeNode != 0">
+       		AND time_node = #{timeNode,jdbcType=INTEGER}
+        </if>
+        <if test="creDateStart != null">
+       		AND <![CDATA[cre_date >= #{creDateStart,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test="creDateEnd != null">
+       		AND <![CDATA[cre_date <= #{creDateEnd,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="1"'>
+       		AND <![CDATA[panic_buying_start_time > #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="2"'>
+       		AND <![CDATA[panic_buying_start_time <= #{currentTime,jdbcType=TIMESTAMP} AND panic_buying_end_time >= #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="3"'>
+       		AND <![CDATA[panic_buying_end_time < #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+		order by id desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="countByExample" parameterType="com.linjia.web.query.MiaoshaActivityBaseQuery" resultType="java.lang.Integer">
+		SELECT 
+		count(id)
+		FROM `b_activity_shangou_base` 
+		WHERE deleted =0
+		<if test="name != null and name !=''">
+       		AND name like #{nameQuery,jdbcType=VARCHAR}
+        </if>
+		<if test="publishDateStart != null and publishDateStart !=''">
+       		AND <![CDATA[ publish_date >= STR_TO_DATE(#{publishDateStart,jdbcType=DATE},'%Y-%m-%d')]]> 
+        </if>
+		<if test="publishDateEnd != null and publishDateEnd !=''">
+       		AND <![CDATA[ publish_date <= STR_TO_DATE(#{publishDateEnd,jdbcType=DATE},'%Y-%m-%d')]]>  
+        </if>
+		<if test="timeNode != null and timeNode != 0">
+       		AND time_node = #{timeNode,jdbcType=INTEGER}
+        </if>
+        <if test="creDateStart != null">
+       		AND <![CDATA[cre_date >= #{creDateStart,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test="creDateEnd != null">
+       		AND <![CDATA[cre_date <= #{creDateEnd,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="1"'>
+       		AND <![CDATA[panic_buying_start_time > #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="2"'>
+       		AND <![CDATA[panic_buying_start_time <= #{currentTime,jdbcType=TIMESTAMP} AND panic_buying_end_time >= #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+        <if test='currentTime != null and activityStatus=="3"'>
+       		AND <![CDATA[panic_buying_end_time < #{currentTime,jdbcType=TIMESTAMP}]]> 
+        </if>
+	</select>
+	
+	<!-- 新增秒杀活动 -->
+	<insert id="insertSelective" parameterType="com.linjia.web.model.MiaoshaActivityBase" useGeneratedKeys="true" keyProperty="id">
+    insert into b_activity_shangou_base
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="panicBuyingStartTime != null">
+        panic_buying_start_time,
+      </if>
+      <if test="panicBuyingEndTime != null">
+        panic_buying_end_time,
+      </if>
+      <if test="publishDate != null">
+        publish_date,
+      </if>
+      <if test="timeNode != null">
+        time_node,
+      </if>
+      <if test="creDate != null">
+        cre_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="panicBuyingStartTime != null">
+        #{panicBuyingStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="panicBuyingEndTime != null">
+        #{panicBuyingEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishDate != null">
+        #{publishDate,jdbcType=DATE},
+      </if>
+      <if test="timeNode != null">
+        #{timeNode,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null">
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitQuantity != null">
+        #{limitQuantity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.MiaoshaActivityBase" >
+    update b_activity_shangou_base
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="panicBuyingStartTime != null" >
+        panic_buying_start_time = #{panicBuyingStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="panicBuyingEndTime != null" >
+        panic_buying_end_time = #{panicBuyingEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishDate != null" >
+        publish_date = #{publishDate,jdbcType=DATE},
+      </if>
+      <if test="timeNode != null" >
+        time_node = #{timeNode,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitQuantity != null" >
+        limit_quantity = #{limitQuantity,jdbcType=INTEGER},
+      </if>
+    </set>
+   	where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 删除活动记录 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update b_activity_shangou_base set deleted = true where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

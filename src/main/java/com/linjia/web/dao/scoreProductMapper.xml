@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linjia.web.dao.ScoreProductMapper">
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ScoreProduct">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_coupon_id" jdbcType="BIGINT" property="cardCouponId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="detail_path" jdbcType="VARCHAR" property="detailPath" />
+    <result column="exchange_type" jdbcType="INTEGER" property="exchangeType" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="limit_quantity" jdbcType="INTEGER" property="limitQuantity" />
+    <result column="sort_index" jdbcType="INTEGER" property="sortIndex" />
+    <result column="cre_date" jdbcType="TIMESTAMP" property="creDate" />
+    <result column="use_status" property="useStatus" jdbcType="BIT" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="detail_text" jdbcType="LONGVARCHAR" property="detailText" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_coupon_id, type, name, price, score, CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',image_path) AS image_path, detail_path, exchange_type, 
+    quantity, limit_quantity, sort_index, cre_date, use_status, deleted, detail_text
+  </sql>
+  <select id="selectByPageList" parameterType="com.linjia.web.query.ScoreProductQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_score_product
+    where deleted =0
+    <if test="type != null">
+        AND type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="nameQuery != null and nameQuery !=''">
+        AND name like #{nameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="creDateStart != null and creDateStart !=''">
+        <![CDATA[AND cre_date >= str_to_date(#{creDateStart,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+    <if test="creDateEnd != null and creDateEnd !=''">
+        <![CDATA[AND cre_date <= str_to_date(#{creDateEnd,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+    order by id desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countByExample" parameterType="com.linjia.web.query.ScoreProductQuery" resultType="java.lang.Integer">
+    select
+    count(id)
+    from b_score_product
+    where deleted =0
+    <if test="type != null">
+        AND type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="nameQuery != null and nameQuery !=''">
+        AND name like #{nameQuery,jdbcType=VARCHAR}
+    </if>
+    <if test="creDateStart != null and creDateStart !=''">
+        <![CDATA[AND cre_date >= str_to_date(#{creDateStart,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+    <if test="creDateEnd != null and creDateEnd !=''">
+        <![CDATA[AND cre_date <= str_to_date(#{creDateEnd,jdbcType=VARCHAR},'%Y-%m-%d %T')]]>
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_score_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMaxSortIndex" resultType="java.lang.Long">
+    select 
+    max(sort_index) as maxSortIndex
+    from b_score_product
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update b_score_product set deleted =1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.ScoreProduct">
+    insert into b_score_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardCouponId != null">
+        card_coupon_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="detailPath != null">
+        detail_path,
+      </if>
+      <if test="exchangeType != null">
+        exchange_type,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity,
+      </if>
+      <if test="sortIndex != null">
+        sort_index,
+      </if>
+      <if test="creDate != null">
+        cre_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardCouponId != null">
+        #{cardCouponId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPath != null">
+        #{detailPath,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeType != null">
+        #{exchangeType,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="limitQuantity != null">
+        #{limitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=SMALLINT},
+      </if>
+      <if test="creDate != null">
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.ScoreProduct">
+    update b_score_product
+    <set>
+      <if test="cardCouponId != null">
+        card_coupon_id = #{cardCouponId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPath != null">
+        detail_path = #{detailPath,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeType != null">
+        exchange_type = #{exchangeType,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity = #{limitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null">
+        cre_date = #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="detailText != null">
+        detail_text = #{detailText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 更新使用使用状态:0上架；1下架   -->
+  <update id="updateStatusByPrimaryKey" parameterType="com.linjia.web.model.ScoreProduct" >
+    update b_score_product
+    set 
+    <if test="useStatus != null" >
+      use_status = #{useStatus,jdbcType=BIT}
+    </if>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

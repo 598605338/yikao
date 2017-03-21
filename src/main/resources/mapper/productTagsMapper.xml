@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.ProductTagsMapper">
+	<resultMap id="BaseResultMap" type="com.linjia.web.model.ProductTags">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tag_id" property="tagId" jdbcType="INTEGER" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="sort_index" property="sortIndex" jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, tag_id, product_id, sort_index, deleted
+	</sql>
+	<select id="selectTagsByProductId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		select
+		bt.name
+		from b_product_tags bpt inner join b_tags bt on bpt.tag_id = bt.id
+		where bpt.product_id = #{product_id,jdbcType=INTEGER}
+		order by sort_index DESC
+	</select>
+	
+	<delete id="deleteTagsByProductId" parameterType="map">
+		delete from b_product_tags 
+		where product_id = #{productId,jdbcType=INTEGER}
+		and type = #{type,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insertBatch" parameterType="map">
+		insert into b_product_tags
+		(tag_id,
+		type,
+		product_id,
+		sort_index,
+		deleted)
+		values
+		<foreach collection="list" item="item" separator="," index="index">
+		(#{item,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{productId,jdbcType=INTEGER},
+		#{index,jdbcType=INTEGER},
+		#{deleted,jdbcType=BIT})
+		</foreach>
+	</insert>
+</mapper>

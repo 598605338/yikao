@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.NoticeManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.NoticeManager" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="use_status" property="useStatus" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content, creator_id, cre_date, use_status, deleted
+  </sql>
+  <select id="selectByPageList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.NoticeManagerQuery" >
+    select
+    <include refid="Base_Column_List" />
+    from b_notice_manager
+    where deleted = 0
+    order by id desc
+    limit #{startIndex,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_notice_manager
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update b_notice_manager set deleted = 0 
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.linjia.web.model.NoticeManager" >
+    insert into b_notice_manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
+      </if>
+      <if test="creDate != null" >
+        cre_date,
+      </if>
+      <if test="useStatus != null" >
+        use_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null" >
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useStatus != null" >
+        #{useStatus,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.NoticeManager" >
+    update b_notice_manager
+    <set >
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateUseStatusByPrimaryKey" parameterType="com.linjia.web.model.NoticeManager" >
+    update b_notice_manager
+    set 
+      use_status = #{useStatus,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

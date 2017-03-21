@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linjia.web.dao.ActivityPrepareMapper">
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ActivityPrepare">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_start_time" jdbcType="TIMESTAMP" property="activityStartTime" />
+    <result column="activity_end_time" jdbcType="TIMESTAMP" property="activityEndTime" />
+    <result column="getself_start_time" jdbcType="TIMESTAMP" property="getselfStartTime" />
+    <result column="getself_end_time" jdbcType="TIMESTAMP" property="getselfEndTime" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="p_code" jdbcType="VARCHAR" property="pCode" />
+    <result column="p_name" jdbcType="VARCHAR" property="pName" />
+    <result column="market_price" jdbcType="DECIMAL" property="marketPrice" />
+    <result column="activity_price" jdbcType="DECIMAL" property="activityPrice" />
+    <result column="activity_quantity" jdbcType="INTEGER" property="activityQuantity" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="sort_index" jdbcType="SMALLINT" property="sortIndex" />
+    <result column="cre_date" jdbcType="TIMESTAMP" property="creDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="gettime_type" jdbcType="INTEGER" property="gettimeType" />
+    <result column="num_days_later" jdbcType="INTEGER" property="numDaysLater" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, activity_start_time, activity_end_time, getself_start_time, getself_end_time, gettime_type, num_days_later,
+    product_id, p_code, p_name, market_price, activity_price, activity_quantity, description, 
+    CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',image_path) AS image_path, sort_index, cre_date, update_date
+  </sql>
+  <select id="selectByPageList" parameterType="com.linjia.web.query.ActivityPrepareQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_activity_prepare
+    where 1=1
+    <if test="pNameQuery != null and pNameQuery !=''">
+       AND p_name like #{pNameQuery,jdbcType=VARCHAR}
+    </if>
+    <!-- 0、未开始；1、销售中；2、已售罄；3、已结束 -->
+    <if test="activityStatus != null and activityStatus == 0">
+    	<![CDATA[AND activity_start_time > now()]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 1">
+    	<![CDATA[AND activity_start_time <= now() AND activity_end_time > now()]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 2">
+    	<![CDATA[AND activity_quantity <= 0]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 3">
+    	<![CDATA[AND activity_end_time < now()]]>
+    </if>
+    <if test="activityStartTime != null">
+        <![CDATA[AND activity_start_time >= #{activityStartTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="activityEndTime != null">
+        <![CDATA[AND activity_end_time <= #{activityEndTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    order by id desc
+    limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_activity_prepare
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMaxSortIndex" resultType="java.lang.Long">
+    select 
+    max(sort_index) as maxSortIndex
+    from b_activity_prepare
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_activity_prepare
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.ActivityPrepare">
+    insert into b_activity_prepare
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityStartTime != null">
+        activity_start_time,
+      </if>
+      <if test="activityEndTime != null">
+        activity_end_time,
+      </if>
+      <if test="getselfStartTime != null">
+        getself_start_time,
+      </if>
+      <if test="getselfEndTime != null">
+        getself_end_time,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="pCode != null">
+        p_code,
+      </if>
+      <if test="pName != null">
+        p_name,
+      </if>
+      <if test="marketPrice != null">
+        market_price,
+      </if>
+      <if test="activityPrice != null">
+        activity_price,
+      </if>
+      <if test="activityQuantity != null">
+        activity_quantity,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="sortIndex != null">
+        sort_index,
+      </if>
+      <if test="creDate != null">
+        cre_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="gettimeType != null">
+        gettime_type,
+      </if>
+      <if test="numDaysLater != null">
+        num_days_later,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityStartTime != null">
+        #{activityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityEndTime != null">
+        #{activityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getselfStartTime != null">
+        #{getselfStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getselfEndTime != null">
+        #{getselfEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null">
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null">
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null">
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPrice != null">
+        #{activityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityQuantity != null">
+        #{activityQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null">
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gettimeType != null">
+        #{gettimeType,jdbcType=INTEGER},
+      </if>
+      <if test="numDaysLater != null">
+        #{numDaysLater,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.linjia.web.query.ActivityPrepareQuery" resultType="java.lang.Integer">
+    select
+    count(id)
+    from b_activity_prepare
+    where 1=1
+    <if test="pNameQuery != null and pNameQuery !=''">
+       AND p_name like #{pNameQuery,jdbcType=VARCHAR}
+    </if>
+    <!-- 0、未开始；1、销售中；2、已售罄；3、已结束 -->
+    <if test="activityStatus != null and activityStatus == 0">
+    	<![CDATA[AND activity_start_time > now()]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 1">
+    	<![CDATA[AND activity_start_time <= now() AND activity_end_time > now()]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 2">
+    	<![CDATA[AND activity_quantity <= 0]]>
+    </if>
+    <if test="activityStatus != null and activityStatus == 3">
+    	<![CDATA[AND activity_end_time < now()]]>
+    </if>
+    <if test="activityStartTime != null">
+        <![CDATA[AND activity_start_time >= #{activityStartTime,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="activityEndTime != null">
+        <![CDATA[AND activity_end_time <= #{activityEndTime,jdbcType=TIMESTAMP}]]>
+    </if>
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.linjia.web.model.ActivityPrepare">
+    update b_activity_prepare
+    <set>
+      <if test="activityStartTime != null">
+        activity_start_time = #{activityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityEndTime != null">
+        activity_end_time = #{activityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getselfStartTime != null">
+        getself_start_time = #{getselfStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getselfEndTime != null">
+        getself_end_time = #{getselfEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null">
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null">
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null">
+        market_price = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPrice != null">
+        activity_price = #{activityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityQuantity != null">
+        activity_quantity = #{activityQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null">
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="creDate != null">
+        cre_date = #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gettimeType != null">
+        gettime_type = #{gettimeType,jdbcType=INTEGER},
+      </if>
+      <if test="numDaysLater != null">
+        num_days_later = #{numDaysLater,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

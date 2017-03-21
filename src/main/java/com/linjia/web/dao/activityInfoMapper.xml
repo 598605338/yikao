@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.linjia.web.dao.ActivityInfoMapper">
+	<!-- 缓存 -->  
+   <!--  <cache eviction="LRU" type="com.linjia.core.feature.cache.MybatisRedisCache" />  -->
+    
+	<insert id="insertActInfo" parameterType="com.linjia.web.model.ActivityInfo" useGeneratedKeys="true" keyProperty="activity_id">
+		insert into b_activity_info(activity_name,activity_type,start_time,end_time,priority,discount,mall_codes,promotion_label,status,if_add,if_useCardCoupons,if_useCashCoupons,if_first_work,promotion_condition_1,promotion_condition_2,fullReduceMoney,selector_goods,create_time) 
+		values(#{activity_name},#{activity_type},#{start_time},#{end_time},#{priority},#{discount},#{mall_codes},#{promotion_label},#{status},#{if_add},#{if_useCardCoupons},#{if_useCashCoupons},#{if_first_work},#{promotion_condition_1},#{promotion_condition_2},#{fullReduceMoney},#{selector_goods},SYSDATE())
+	</insert>
+	
+	<update id="updateActInfoById" parameterType="com.linjia.web.model.ActivityInfo">
+		update b_activity_info 
+		<set>
+			<if test="activity_name !=null">
+				activity_name=#{activity_name},
+			</if>
+			<if test="activity_type !=null">
+				activity_type=#{activity_type},
+			</if>
+			<if test="start_time !=null">
+				start_time=#{start_time},
+			</if>
+			<if test="end_time !=null">
+				end_time=#{end_time},
+			</if>
+			<if test="priority !=null">
+				priority=#{priority},
+			</if>
+			<if test="discount !=null">
+				discount=#{discount},
+			</if>
+			<if test="mall_codes !='' ">
+				mall_codes=#{mall_codes},
+			</if>
+			<if test="promotion_label !=null">
+				promotion_label=#{promotion_label},
+			</if>
+			<if test="status !=null">
+				status=#{status},
+			</if>
+			<if test="if_useCardCoupons !=null">
+				if_useCardCoupons=#{if_useCardCoupons},
+			</if>
+			<if test="if_useCashCoupons !=null">
+				if_useCashCoupons=#{if_useCashCoupons},
+			</if>
+			<if test="if_first_work !=null">
+				if_first_work=#{if_first_work},
+			</if>
+			<if test="fullReduceMoney !=null">
+				fullReduceMoney=#{fullReduceMoney},
+			</if>
+			<if test="if_add !=null">
+				if_add=#{if_add},
+			</if>
+			<if test="selector_goods !=null">
+				selector_goods=#{selector_goods},
+			</if>
+			<if test="conditionFlag ==null ">
+				promotion_condition_1=#{promotion_condition_1},
+				promotion_condition_2=#{promotion_condition_2},
+			</if>
+			update_time=SYSDATE()
+		</set>
+		where activity_id=#{activity_id}
+	</update>
+	
+	<delete id="deleteActInfoById" parameterType="int">
+		delete from b_activity_info where activity_id=#{activity_id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="selectActInfoById" parameterType="int" resultType="com.linjia.web.model.ActivityInfo">
+		select activity_id,activity_name,activity_type,start_time,end_time,priority,discount,mall_codes,promotion_label,status,if_useCardCoupons,if_add,if_useCashCoupons,create_time,update_time,if_first_work,promotion_condition_1,promotion_condition_2,fullReduceMoney,selector_goods from b_activity_info where activity_id=#{activity_id}
+	</select>
+	
+	<select id="selectActInfoAll" resultType="com.linjia.web.model.ActivityInfo" parameterType="com.linjia.web.query.ActivityInfoQuery">
+		select activity_id,activity_name,activity_type,start_time,end_time,priority,discount,mall_codes,promotion_label,status,if_useCardCoupons,if_add,if_useCashCoupons,create_time,update_time,if_first_work,promotion_condition_1,promotion_condition_2,fullReduceMoney,selector_goods from b_activity_info where 1=1
+		<if test="activity_name !=null and activity_name !='' ">
+			and activity_name like CONCAT(CONCAT('%',#{activity_name}),'%')
+		</if>
+		<if test="status !=null and status !='' ">
+			and status=#{status}
+		</if>
+		<if test="activity_type !=null and activity_type!='' ">
+			and activity_type=#{activity_type}
+		</if>
+		<if test="start_time !=null and start_time !=''">
+			and start_time between date_format(#{start_time}, '%Y-%m-%d %H:%i:%S') and date_format(#{end_time}, '%Y-%m-%d %H:%i:%S')
+		</if>
+		order by priority ASC
+		<if test="exportFlag ==null">
+       		LIMIT #{startIndex},#{pageSize}
+        </if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.MallMasterMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.MallMaster" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mall_name" property="mallName" jdbcType="VARCHAR" />
+    <result column="mall_code" property="mallCode" jdbcType="VARCHAR" />
+    <result column="mall_type" property="mallType" jdbcType="INTEGER" />
+    <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="county_id" property="countyId" jdbcType="INTEGER" />
+    <result column="county_name" property="countyName" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+    <result column="mention" property="mention" jdbcType="INTEGER" />
+    <result column="is_send" property="isSend" jdbcType="INTEGER" />
+    <result column="send_distance" property="sendDistance" jdbcType="DECIMAL" />
+    <result column="send_price" property="sendPrice" jdbcType="DECIMAL" />
+    <result column="send_limit_money" property="sendLimitMoney" jdbcType="DECIMAL" />
+    <result column="send_limit_points" property="sendLimitPoints" jdbcType="INTEGER" />
+    <result column="is_support_third_deliver" property="isSupportThirdDeliver" jdbcType="INTEGER" />
+    <result column="is_support_self_deliver" property="isSupportSelfDeliver" jdbcType="INTEGER" />
+    <result column="useFlg" property="useflg" jdbcType="INTEGER" />
+    <result column="mallareaID" property="mallareaid" jdbcType="INTEGER" />
+    <result column="external_no" property="externalNo" jdbcType="VARCHAR" />
+    <result column="send_begintime" jdbcType="TIME" property="sendBegintime" />
+    <result column="send_endhour" jdbcType="TIME" property="sendEndhour" />
+    <result column="getbyself_begintime" jdbcType="TIME" property="getbyselfBegintime" />
+    <result column="getbyself_endhour" jdbcType="TIME" property="getbyselfEndhour" />
+    <result column="send_begintime_str" jdbcType="TIME" property="sendBegintimeStr" />
+    <result column="send_endhour_str" jdbcType="TIME" property="sendEndhourStr" />
+    <result column="getbyself_begintime_str" jdbcType="TIME" property="getbyselfBegintimeStr" />
+    <result column="getbyself_endhour_str" jdbcType="TIME" property="getbyselfEndhourStr" />
+    <result column="mall_status" property="mallStatus" jdbcType="INTEGER" />
+    <result column="bd_map_key" property="bd_map_key" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mall_name, mall_code, mall_type, province_id, province_name, city_id, city_name, 
+    county_id, county_name, address, logo, phone, mobile, description, latitude, longitude, 
+    mention, is_send, send_distance, send_price, send_limit_money, send_limit_points, is_support_third_deliver, 
+    is_support_self_deliver, useFlg, mallareaID, external_no,mall_status,bd_map_key
+  </sql>
+  
+  <select id="selectByMallCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	id,mall_name, mall_code, mall_type, province_id, province_name, city_id,city_name,
+	    county_id,county_name,address,logo,phone,mobile,description,latitude,longitude,
+	    mention,is_send,send_distance,send_price,send_limit_money,send_limit_points,is_support_third_deliver,
+	    is_support_self_deliver,useFlg,mallareaID,external_no,send_type,send_begintime,send_endhour,getbyself_begintime,
+		getbyself_endhour,shop_label,mall_status,bd_map_key
+    from b_mall_master
+    where mall_code = #{mallCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据门店code查询该门店的配送费 -->
+  <select id="selectSendPriceByMallCode" resultType="java.math.BigDecimal" parameterType="java.lang.String" >
+    select 
+    send_price
+    from b_mall_master
+    where mall_code = #{mallCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据条件取得门店列表 -->
+  <select id="selectSendPriceByRegion" resultMap="BaseResultMap" parameterType="com.linjia.web.query.MallMasterQuery" >
+    select 
+     <include refid="Base_Column_List" />
+    from b_mall_master
+    where 1=1
+    <if test="useflg != null">
+    AND useFlg = #{useflg,jdbcType=INTEGER} 
+    </if>
+    <if test="mallStatus != null">
+    AND mall_status = #{mallStatus,jdbcType=INTEGER} 
+    </if>
+    <if test="cityId != null">
+    AND city_id = #{cityId,jdbcType=INTEGER} 
+    </if>
+    <if test="countyId != null">
+    AND county_id = #{countyId,jdbcType=INTEGER}
+    </if>
+     <if test="mallName != null and mallName !='' ">
+   	 AND mall_name like CONCAT(CONCAT('%',#{mallName}),'%') 
+    </if> 
+     <if test="mallCode != null and mallCode !='' ">
+   	 AND mall_code like CONCAT(#{mallCode},'%') 
+    </if> 
+    ORDER BY id desc
+     <if test="exportFlag ==null">
+    LIMIT #{startIndex},#{pageSize}
+    </if>
+  </select>
+  
+    <!-- 根据条件取得门店数量 -->
+  <select id="selectSendPriceByRegionNum" resultType="java.lang.Integer" parameterType="com.linjia.web.query.MallMasterQuery" >
+    select 
+     count(*)
+    from b_mall_master
+    where 1=1
+    <if test="useflg != null">
+    AND useFlg = #{useflg,jdbcType=INTEGER} 
+    </if>
+    <if test="mallStatus != null">
+    AND mall_status = #{mallStatus,jdbcType=INTEGER} 
+    </if>
+    <if test="cityId != null">
+    AND city_id = #{cityId,jdbcType=INTEGER} 
+    </if>
+    <if test="countyId != null">
+    AND county_id = #{countyId,jdbcType=INTEGER}
+    </if>
+     <if test="mallName != null and mallName !='' ">
+   	 AND mall_name like CONCAT(CONCAT('%',#{mallName}),'%') 
+    </if> 
+     <if test="mallCode != null and mallCode !='' ">
+   	 AND mall_code like CONCAT(#{mallCode},'%') 
+    </if> 
+  </select>
+  
+  <!-- 添加门店 -->
+  <insert id="insertMallMaster" parameterType="com.linjia.web.model.MallMaster">
+  	insert into b_mall_master(
+	  	mall_name, mall_code, mall_type, province_id, province_name, city_id,city_name,
+	    county_id,county_name,address,logo,phone,mobile,description,latitude,longitude,
+	    mention,is_send,send_distance,send_price,send_limit_money,send_limit_points,is_support_third_deliver,
+	    is_support_self_deliver,useFlg,mallareaID,external_no,send_type,send_begintime,send_endhour,getbyself_begintime,
+		getbyself_endhour,shop_label,mall_status,bd_map_key)
+  	values
+  	(#{mallName}, #{mallCode}, #{mallType},#{provinceId},#{provinceName},#{cityId},#{cityName}, 
+    #{countyId}, #{countyName},#{address},#{logo},#{phone},#{mobile},#{description},#{latitude},#{longitude}, 
+    #{mention},#{isSend},#{sendDistance},#{sendPrice},#{sendLimitMoney},#{sendLimitPoints},#{isSupportThirdDeliver}, 
+    #{isSupportSelfDeliver},#{useflg},#{mallareaid},#{externalNo},#{send_type},#{sendBegintimeStr},#{sendEndhourStr},#{getbyselfBegintimeStr},#{getbyselfEndhourStr},#{shop_label},#{mallStatus},#{bd_map_key})
+  </insert>
+  
+  <!-- 根据id修改门店(可改mallcode) -->
+  <update id="updateMallById" parameterType="com.linjia.web.model.MallMaster">
+   update b_mall_master
+	  <set>
+		  <if test="mallName !=null and mallName !=''">
+		  	mall_name=#{mallName},
+		  </if>
+		  <if test="mallCode !=null and mallCode !=''">
+	  		mall_code=#{mallCode}
+	  	  </if>
+		  <if test="mallType !=null and mallType !=''">
+		  	mall_type=#{mallType},
+		  </if>
+		  <if test="provinceId !=null and provinceId !=''">
+		  	province_id=#{provinceId},
+		  </if>
+		  <if test="provinceName !=null and provinceName !=''">
+		  	province_name=#{provinceName},
+		  </if>
+		  <if test="cityId !=null and cityId !=''">
+		  	city_id=#{cityId},
+		  </if>
+		  <if test="cityName !=null and cityName !=''">
+		  	city_name=#{cityName},
+		  </if>
+		  <if test="countyId !=null and countyId !=''">
+		  	county_id=#{countyId},
+		  </if>
+		  <if test="countyName !=null and countyName !=''">
+		  	county_name=#{countyName},
+		  </if>
+		  <if test="address !=null and address !=''">
+		  	address=#{address},
+		  </if>
+		  <if test="logo !=null and logo !=''">
+		  	logo=#{logo},
+		  </if>
+		  <if test="phone !=null and phone !=''">
+		  	phone=#{phone},
+		  </if>
+		  <if test="mobile !=null and mobile !=''">
+		  	mobile=#{mobile},
+		  </if>
+		  <if test="description !=null and description !=''">
+		  	description=#{description},
+		  </if>
+		   <if test="latitude !=null and latitude !=''">
+		  	latitude=#{latitude},
+		  </if>
+		   <if test="longitude !=null and longitude !=''">
+		  	longitude=#{longitude},
+		  </if>
+		  <if test="mention !=null and mention !=''">
+		  	mention=#{mention},
+		  </if>
+		  <if test="isSend !=null and isSend !=''">
+		  	is_send=#{isSend},
+		  </if>
+		  <if test="sendDistance !=null and sendDistance !=''">
+		  	send_distance=#{sendDistance},
+		  </if>
+		  <if test="sendPrice !=null and sendPrice !=''">
+		  	send_price=#{sendPrice},
+		  </if>
+		  <if test="sendLimitMoney !=null and sendLimitMoney !=''">
+		  	send_limit_money=#{sendLimitMoney},
+		  </if>
+		  <if test="sendLimitPoints !=null and sendLimitPoints !=''">
+		  	send_limit_points=#{sendLimitPoints},
+		  </if>
+		  <if test="isSupportThirdDeliver !=null">
+		  	is_support_third_deliver=#{isSupportThirdDeliver},
+		  </if>
+		   <if test="isSupportSelfDeliver !=null">
+		  	is_support_self_deliver=#{isSupportSelfDeliver},
+		  </if>
+		  <if test="useflg !=null">
+		  	useFlg=#{useflg},
+		  </if>
+		  <if test="mallStatus != null">
+		    mall_status = #{mallStatus,jdbcType=INTEGER},
+		   </if>
+		  <if test="mallareaid !=null and mallareaid !=''">
+		  	mallareaID=#{mallareaid},
+		  </if>
+		  <if test="externalNo !=null and externalNo !=''">
+		  	external_no=#{externalNo},
+		  </if>
+		  <if test="send_type !=null">
+		  	send_type=#{send_type},
+		  </if>
+		  <if test="shop_label !=null">
+		  	shop_label=#{shop_label},
+		  </if>
+		   <if test="sendBegintimeStr !=null and sendBegintimeStr !=''">
+		  	send_begintime=#{sendBegintimeStr},
+		  </if>
+		  <if test="sendEndhourStr !=null and sendEndhourStr !=''">
+		  	send_endhour=#{sendEndhourStr},
+		  </if>
+		  <if test="getbyselfBegintimeStr !=null and getbyselfBegintimeStr !=''">
+		  	getbyself_begintime=#{getbyselfBegintimeStr},
+		  </if>
+		  <if test="getbyselfEndhourStr !=null and getbyselfEndhourStr !=''">
+		  	getbyself_endhour=#{getbyselfEndhourStr},
+		  </if>
+		  <if test="bd_map_key !=null and bd_map_key !=''">
+		  	bd_map_key=#{bd_map_key} 
+		  </if>
+	  </set>
+ 	 where 1=1 and id=#{id}
+  </update>
+  
+  <!-- 修改门店(不可改mallcode) -->
+  <update id="updateMallByCode" parameterType="com.linjia.web.model.MallMaster">
+   update b_mall_master
+	  <set>
+		  <if test="mallName !=null and mallName !=''">
+		  	mall_name=#{mallName},
+		  </if>
+		  <if test="mallType !=null and mallType !=''">
+		  	mall_type=#{mallType},
+		  </if>
+		  <if test="provinceId !=null and provinceId !=''">
+		  	province_id=#{provinceId},
+		  </if>
+		  <if test="provinceName !=null and provinceName !=''">
+		  	province_name=#{provinceName},
+		  </if>
+		  <if test="cityId !=null and cityId !=''">
+		  	city_id=#{cityId},
+		  </if>
+		  <if test="cityName !=null and cityName !=''">
+		  	city_name=#{cityName},
+		  </if>
+		  <if test="countyId !=null and countyId !=''">
+		  	county_id=#{countyId},
+		  </if>
+		  <if test="countyName !=null and countyName !=''">
+		  	county_name=#{countyName},
+		  </if>
+		  <if test="address !=null and address !=''">
+		  	address=#{address},
+		  </if>
+		  <if test="logo !=null and logo !=''">
+		  	logo=#{logo},
+		  </if>
+		  <if test="phone !=null and phone !=''">
+		  	phone=#{phone},
+		  </if>
+		  <if test="mobile !=null and mobile !=''">
+		  	mobile=#{mobile},
+		  </if>
+		  <if test="description !=null and description !=''">
+		  	description=#{description},
+		  </if>
+		   <if test="latitude !=null and latitude !=''">
+		  	latitude=#{latitude},
+		  </if>
+		   <if test="longitude !=null and longitude !=''">
+		  	longitude=#{longitude},
+		  </if>
+		  <if test="mention !=null and mention !=''">
+		  	mention=#{mention},
+		  </if>
+		  <if test="isSend !=null and isSend !=''">
+		  	is_send=#{isSend},
+		  </if>
+		  <if test="sendDistance !=null and sendDistance !=''">
+		  	send_distance=#{sendDistance},
+		  </if>
+		  <if test="sendPrice !=null and sendPrice !=''">
+		  	send_price=#{sendPrice},
+		  </if>
+		  <if test="sendLimitMoney !=null and sendLimitMoney !=''">
+		  	send_limit_money=#{sendLimitMoney},
+		  </if>
+		  <if test="sendLimitPoints !=null and sendLimitPoints !=''">
+		  	send_limit_points=#{sendLimitPoints},
+		  </if>
+		  <if test="isSupportThirdDeliver !=null">
+		  	is_support_third_deliver=#{isSupportThirdDeliver},
+		  </if>
+		   <if test="isSupportSelfDeliver !=null">
+		  	is_support_self_deliver=#{isSupportSelfDeliver},
+		  </if>
+		  <if test="useflg !=null">
+		  	useFlg=#{useflg},
+		  </if>
+		  <if test="mallStatus != null">
+		    mall_status = #{mallStatus,jdbcType=INTEGER},
+		  </if>
+		  <if test="mallareaid !=null and mallareaid !=''">
+		  	mallareaID=#{mallareaid},
+		  </if>
+		  <if test="externalNo !=null and externalNo !=''">
+		  	external_no=#{externalNo},
+		  </if>
+		  <if test="send_type !=null">
+		  	send_type=#{send_type},
+		  </if>
+		  <if test="shop_label !=null">
+		  	shop_label=#{shop_label},
+		  </if>
+		  <if test="sendBegintimeStr !=null and sendBegintimeStr !=''">
+		  	send_begintime=#{sendBegintimeStr},
+		  </if>
+		  <if test="sendEndhourStr !=null and sendEndhourStr !=''">
+		  	send_endhour=#{sendEndhourStr},
+		  </if>
+		  <if test="getbyselfBegintimeStr !=null and getbyselfBegintimeStr !=''">
+		  	getbyself_begintime=#{getbyselfBegintimeStr},
+		  </if>
+		  <if test="getbyselfEndhourStr !=null and getbyselfEndhourStr !=''">
+		  	getbyself_endhour=#{getbyselfEndhourStr},
+		  </if>
+		  <if test="bd_map_key !=null and bd_map_key !=''">
+		  	bd_map_key=#{bd_map_key}
+		  </if>
+	  </set>
+ 	 where 1=1 
+ 	 <if test="id !=null and id !=''">
+	  	and id=#{id}
+	  </if>
+   	  <if test="mallCode !=null and mallCode !=''">
+	  	and mall_code=#{mallCode}
+	  </if>
+	  <if test="list !=null">
+			and mall_code in (
+			<foreach item="item" index="index" collection="list" separator=",">  
+		            #{item,jdbcType=VARCHAR}  
+		    </foreach> 
+		    )
+		</if>
+  	</update>
+  
+  <select id="selectMallProduct" parameterType="com.linjia.web.query.ReMallProductQuery" resultType="com.linjia.web.model.ReMallProduct">
+	  SELECT
+		bm.id,
+		bm.mall_code,
+		bm.mall_name,
+		bp.`name`,
+		bp.id product_id,
+		bmpc.p_code,
+		CONCAT('${@com.linjia.constants.Application@SERVER_BASE_PATH}',bp.image_path) AS image_path,
+		bp.market_price,
+		bmpc.sale_price,
+		bmpc.safe_quantity,
+		bmpc.`online`
+	FROM
+		b_mall_master bm,
+		b_mall_product_store bmpc,
+		b_product bp
+	WHERE
+		bm.mall_code = bmpc.mall_code
+	AND bmpc.p_code = bp.p_code
+	<if test="mall_name !=null and mall_name !=''">
+		and bm.mall_name like CONCAT(CONCAT('%',#{mall_name}),'%')
+	</if>
+	<if test="mall_code !=null and mall_code !=''">and bm.mall_code=#{mall_code}</if>
+	<if test="p_code !=null and p_code !=''">and bmpc.p_code=#{p_code}</if>
+	<if test="online !=null and online !='' or online ==0">and bmpc.online=#{online}</if>
+	<if test="name !=null and name !=''">
+	 and bp.name like CONCAT(CONCAT('%',#{name}),'%') 
+	</if>
+	  <if test="exportFlag ==null">
+	 	ORDER BY bm.mall_code asc
+    	LIMIT #{startIndex},#{pageSize}
+	  </if>
+  </select>
+  
+    <!-- 查询门店数量 -->
+   <select id="selectProductNum" parameterType="com.linjia.web.query.ReMallProductQuery" resultType="Integer">
+   SELECT
+		count(*)
+	FROM
+		b_mall_master bm,
+		b_mall_product_store bmpc,
+		b_product bp
+	WHERE
+		bm.mall_code = bmpc.mall_code
+	AND bmpc.p_code = bp.p_code
+	<if test="mall_name !=null and mall_name !=''">
+		and bm.mall_name like CONCAT(CONCAT('%',#{mall_name}),'%')
+	</if>
+	<if test="mall_code !=null and mall_code !=''">and bm.mall_code=#{mall_code}</if>
+	<if test="p_code !=null and p_code !=''">and bmpc.p_code=#{p_code}</if>
+	<if test="online !=null and online !='' or online ==0">and bmpc.online=#{online}</if>
+	<if test="name !=null and name !=''">
+	 and bp.name like CONCAT(CONCAT('%',#{name}),'%') 
+	</if>
+  </select>
+  
+  <!-- 查询门店数量 -->
+   <select id="selectMallNum" resultType="Integer">
+    select 
+    count(mall_code)
+    from b_mall_master
+  </select>
+  
+    <!-- 查询所有门店code-->
+   <select id="selectMallCodes" resultType="java.lang.String">
+    select 
+    mall_code
+    from b_mall_master
+  </select>
+  
+  <delete id="deleteMall" parameterType="java.lang.String">
+  	delete  from b_mall_master where mall_code=#{mallCode}
+  </delete>
+  
+</mapper>

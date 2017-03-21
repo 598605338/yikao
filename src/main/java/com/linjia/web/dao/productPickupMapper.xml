@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.ProductPickupMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ProductPickup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="cre_date" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="name" property="pName" jdbcType="VARCHAR" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, p_code, cre_date
+  </sql>
+  <sql id="Base_Column_List_1" >
+    bpp.id,bpp.product_id,bpp.p_code,bp.name,bp.image_path,bp.sale_price,bp.market_price
+  </sql>
+  <select id="selectProductPickupList" resultMap="BaseResultMap" parameterType="com.linjia.web.query.ProductPickupQuery" >
+    select 
+    <include refid="Base_Column_List_1" />
+    from b_product_pickup bpp INNER JOIN b_product bp ON bpp.product_id = bp.id 
+    where bpp.user_id = #{userId,jdbcType=VARCHAR}
+    order by bpp.cre_date desc 
+    limit #{startIndex},#{pageSize}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_product_pickup
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.linjia.web.model.ProductPickup" useGeneratedKeys="true" keyProperty="id" >
+    <!--  加入商品到商品关注-->
+    insert into b_product_pickup (product_id, p_code, 
+      cre_date)
+    values (#{productId,jdbcType=INTEGER}, #{pCode,jdbcType=VARCHAR}, 
+      #{creDate,jdbcType=TIMESTAMP})
+  </insert>
+</mapper>

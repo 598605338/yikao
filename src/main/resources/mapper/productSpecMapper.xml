@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.ProductSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.ProductSpec" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="safe_quantity" property="safeQuantity" jdbcType="INTEGER" />
+    <result column="give_score" property="giveScore" jdbcType="INTEGER" />
+    <result column="bussiness_code" property="bussinessCode" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, unit, safe_quantity, give_score, bussiness_code, deleted
+  </sql>
+  <select id="selectSafeQuantityByProductId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    safe_quantity
+    from b_product_spec
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  
+  <update id="updateProductSpec" parameterType="com.linjia.web.model.ProductSpec" >
+  	update b_product_spec
+  	<set>
+  		<if test="unit !=null">
+  			unit=#{unit},
+  		</if>
+  		<if test="safeQuantity !=null">
+  			safe_quantity=#{safeQuantity},
+  		</if>
+  		<if test="giveScore !=null">
+  			give_score=#{giveScore},
+  		</if>
+  		<if test="bussinessCode !=null">
+  			bussiness_code=#{bussinessCode},
+  		</if>
+  	</set>
+ 	 where product_id = #{productId}
+  </update>
+  
+  <insert id="insertProductSpec" parameterType="com.linjia.web.model.ProductSpec">
+   insert into b_product_spec(product_id,unit,safe_quantity,give_score,bussiness_code)
+   values(#{productId},#{unit},#{safeQuantity},#{giveScore},#{bussinessCode})
+  </insert>
+  
+  <delete id="deleteProductSpecByPid" parameterType="java.lang.Integer">
+    delete from b_product_spec
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  
+    <select id="selectQuantityInfoByPid" resultType="com.linjia.web.model.ProductSpec" parameterType="java.lang.Long" >
+    select 
+    	id,product_id,unit,safe_quantity,give_score,bussiness_code,deleted
+    from b_product_spec
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+</mapper>

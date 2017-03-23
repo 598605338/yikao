@@ -26,7 +26,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<header class="top_header">
 					<div class="right flex" style="display:inline;width:90%;margin-top:15px;">
 					      <span class="bord_right" style="display:inline-block;margin-bottom:5px;">欢迎您&nbsp;&nbsp;<span style="color: #fedb03;">${ sessionScope.user.name}</span></span><br/>
-						  <span class="bord_right" ><a href="javascript:;"><span style="margin-left: -29px;" class="san"><i class="icon-btn icon-setting"></i>个人设置</span></a></span>
+						  <span class="bord_right" ><a href="javascript:"><span style="margin-left: -29px;" class="san"><i class="icon-btn icon-setting"></i>个人设置</span></a></span>
 						  <span style="margin: 0px 19px 0 12px;">|</span>
 						  <span class="bord_right" style="border:none;" ><a class="logon" href="<%=basePath%>doLogout"><span class="san"><i class="icon-btn icon-logon"></i>注销</span></a></span> 
 					</div>
@@ -56,6 +56,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					</shiro:hasPermission>
 					<shiro:hasPermission name="8"> 
 					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员</a>			
+					</shiro:hasPermission>
+					<shiro:hasPermission name="8">
+					<a href="javascript:void(0);" onclick="changeLeft(this,'base');">基本</a>
 					</shiro:hasPermission>
 				</nav>
 			</section>
@@ -139,7 +142,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					</li>	
 					<li>
 					    <div class="cont_aside_item">
-					        <a class="a ab" href="javascript:;" target="target"><i class="icon icon-activities icon-1"></i>促销管理<p class="ac myDir"><img src="dist/images/1.png"/></p></a>
+					        <a class="a ab" href="javascript:" target="target"><i class="icon icon-activities icon-1"></i>促销管理<p class="ac myDir"><img src="dist/images/1.png"/></p></a>
 					         <ul class="two" style="display:none">
 						         <li class="list listt"><span class="span1">.</span><a href="<%=basePath%>/promotion/selectActInfoAll?activity_type=1" target="target" class="a orderr">满减</a></li>
 						         <li class="list listt"><span class="span1">.</span><a href="<%=basePath%>/promotion/selectActInfoAll?activity_type=2" target="target" class="a discoun">商品折扣</a></li>
@@ -331,6 +334,25 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				   </div>
 				</li>
 			</ul>	
+			</aside>
+			<aside id="left_base" class="cont_aside height_auto left">
+			<ul class="one">
+				<li>
+				   <div class="cont_aside_item cont_aside_header">
+				        <a class="a ab" href="<%=basePath%>/specialty/select" target="target"><i class="icon icon-leaguer icon-3"></i>科目管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				   </div>
+				</li>
+				<li>
+				    <div class="cont_aside_item">
+				          <a class="a ab" href="<%=basePath%>/cust/getAccountcashdepositRecordList" target="target"><i class="icon icon-leaguer icon-1"></i>院校管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				    </div>
+				</li>
+				<li>
+				   <div class="cont_aside_item">
+				         <a class="a ab" href="<%=basePath%>/cust/accountcashdepositConfig?id=1" target="target"><i class="icon icon-leaguer icon-2"></i>成绩管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				   </div>
+				</li>
+			</ul>
 			</aside>
 			<iframe class="cont_section right" id="target" name="target" frameborder="0" scrolling="no"></iframe>
 			<script>

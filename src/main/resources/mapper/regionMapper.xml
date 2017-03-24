@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linjia.web.dao.RegionMapper" >
+  <resultMap id="BaseResultMap" type="com.linjia.web.model.Region" >
+    <result column="uuid" property="uuid" jdbcType="CHAR" />
+    <result column="timeStamp" property="timestamp" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="CHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parentID" property="parentid" jdbcType="INTEGER" />
+    <result column="sortOrder" property="sortorder" jdbcType="SMALLINT" />
+    <result column="region_level" property="regionLevel" jdbcType="BIT" />
+    <result column="postCode" property="postcode" jdbcType="SMALLINT" />
+    <result column="area_code" property="areaCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, parentID, sortOrder, region_level,postCode, area_code
+  </sql>
+  <select id="selectRegionByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+      distinct
+      <include refid="Base_Column_List" />
+    from sys_region
+    WHERE  parentID = #{parentid,jdbcType=INTEGER}
+  </select>
+  <select id="countByExample" parameterType="com.linjia.web.model.Region" resultType="java.lang.Integer" >
+    select count(*) from sys_region
+  </select>
+</mapper>

@@ -344,7 +344,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</li>
 				<li>
 				    <div class="cont_aside_item">
-				          <a class="a ab" href="<%=basePath%>/cust/getAccountcashdepositRecordList" target="target"><i class="icon icon-leaguer icon-1"></i>院校管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				          <a class="a ab" href="<%=basePath%>/college/select" target="target"><i class="icon icon-leaguer icon-1"></i>院校管理<p class="ac"><img src="dist/images/1.png"/></p></a>
 				    </div>
 				</li>
 				<li>

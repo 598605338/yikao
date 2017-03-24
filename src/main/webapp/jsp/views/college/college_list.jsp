@@ -28,14 +28,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<header class="cont_section_header_bread">
 					<i class="icon-op icon-op-address" style="margin-right:5px;"></i>当前位置：
 					<a href="javascript:void(0);" class="topNavClick" style="color: #323232;">基本信息</a><span>&gt;</span>
-					<span style="color:#3bb3e0;">科目管理</span>
+					<span style="color:#3bb3e0;">院校管理</span>
 				</header>
 				<section class="cont_section_section">					
 					<div class="goodsManage">
 						<div class="cont_section_head">
 					<form name="form" id="formSubmit" action="select" method="post">
 						<div class="row">
-							<input type="text" name="specialtyName" id="specialtyName" placeholder="科目名称" value="<c:out value="${query.specialtyName }"/>" class="td_text_w" />
+							<input type="text" name="collegeName" id="collegeName" placeholder="院校名称" value="<c:out value="${query.collegeName }"/>" class="td_text_w" />
 						</div>
 						<div class="col-click">
 							<button type="button" class="left back_dblue col_white btn" onclick="document.getElementById('formSubmit').submit();"><i class="icon-btn icon-search"></i>查询</button>
@@ -49,19 +49,30 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<div class="section_table">
 							<table cellspacing="none" class="table_hover">
 							<div class="click">
-							<a href="javascript:void(0)" onclick="location.href='toAdd'"><span class="left back_dblue btn"><i class="icon-btn icon-add"></i>新增科目</span></a>
+							<a href="javascript:void(0)" onclick="location.href='toAdd'"><span class="left back_dblue btn"><i class="icon-btn icon-add"></i>新增院校</span></a>
 							<a href="javascript:void(0)" onclick="deleteRecord();"><span class="left back_dblue btn"><i class="icon-btn icon-delete"></i>删除</span></a>
 						</div>
 						<thead style="background:#EBEBEB ;">
 							<th><input style="margin-left:20%;" type="checkbox" name="selAll" onclick="selAll(this);"/></th>
-							<th>科目名称</th>
+							<th>院校名称</th>
+							<th>所属省</th>
+							<th>所属市</th>
+							<th>所属区</th>
+							<th>详细地址</th>
+							<th>联系电话</th>
 							<th>操作</th>
 						</thead>
 						<tbody>
-						<c:forEach var="item" items="${specialtyList }" varStatus="status">
+						<c:forEach var="item" items="${collegeList }" varStatus="status">
 							<tr class="goods_tr">
 								<td style="width:2.5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
-								<td  style="width:20%;" ><c:out value="${item.specialtyName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.collegeName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.collegeName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.provinceName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.cityName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.countyName }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.address }"/></td>
+								<td  style="width:20%;" ><c:out value="${item.mobile }"/></td>
 								<td  style="width:20%;">
 									<a href="javascript:void(0)" class="mr10" onclick="location.href='toEdit?id=<c:out value="${item.id }" />'"><i class="icon-op icon-op-edit"></i>修改</a>
 								</td>
@@ -78,7 +89,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				   <form name="pageForm" action="select" method="post">
 				    <input type="hidden" name="pageIndex" id="pageIndex" value="" />
 				    <input type="hidden" name="pageSize" id="pageSize" value="" />
-				    <input type="hidden" name="name" id="name" value="<c:out value="${query.specialtyName}"/>" />
+				    <input type="hidden" name="name" id="name" value="<c:out value="${query.collegeName}"/>" />
 					</form>
 				   <div id="div_pager"></div>
 				</footer>

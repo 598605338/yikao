@@ -72,7 +72,7 @@ function doBack(){
 				</div>
 				<div class="row-list">
 					<label>所属市<span style="color:red">*</span>：</label>
-					<input class="td_text_w" type="text" name="cityName" id="cityName" value="" />
+					<input class="td_text_w" type="hidden" name="cityName" id="cityName" value="" />
 					<select name="cityId" id="cityId" class="td_text_w">
 						<option value="">请选择</option>
 						<c:forEach items="${cityList }" var="item" varStatus="status">
@@ -82,7 +82,7 @@ function doBack(){
 				</div>
 				<div class="row-list">
 					<label>所属区<span style="color:red">*</span>：</label>
-					<input class="td_text_w" type="text" name="countyName" id="countyName" value="" />
+					<input class="td_text_w" type="hidden" name="countyName" id="countyName" value="" />
 					<select name="countyId" id="countyId" class="td_text_w">
 						<option value="">请选择</option>
 						<c:forEach items="${countyList }" var="item" varStatus="status">
@@ -127,3 +127,51 @@ function doBack(){
 	</div>
 </body>
 </html>
+<script>
+    /**2017.2.9
+     * 区域选择事件绑定
+     */
+    $("#provinceId").on("change",requestRegion(1));
+    $("#cityId").on("change",requestRegion(2));
+
+    /**2017.2.9
+     * 区域选择
+     */
+    function requestRegion(type) {
+        if(type == 1){
+            $("#cityId").html("<option value=''>请选择城市列表</option>")
+		}else if(type == 2){
+            $("#countyId").html("<option value=''>请选择区县列表</option>")
+		}
+
+        $.ajax({
+            cache:false,
+            type:"POST",
+            url:"../region/getRegionByParentId",
+            data:{"parentId":$(this).children('option:selected').val()},
+            success:function(result){
+                if(result != null && result.status=='ok'){
+                    var regionList = result.regionList;
+                    if(regionList.length > 0){
+                        $.each(regionList,function(i,item){
+                            var _temp=$("<option>");
+                            var _id=item.id;
+                            var _name=item.name;
+                            _temp.attr("value",_id).text(_name);
+                            if(type == 1){
+                                $("#cityId").append(_temp)
+                            }else if(type == 2){
+                                $("#countyId").append(_temp)
+                            }
+                        });
+                    }else{
+                        alert("没有所属区域信息");
+                    }
+                }
+            },
+            error:function(result){
+                alert("请求错误");
+            }
+        });
+    }
+</script>

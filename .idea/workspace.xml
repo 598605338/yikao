@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ab8d39e-5c47-4ab2-b58c-f0d80da496d7" name="Default" comment="jsp页面的maven项目初始版">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/linjia/web/dao/CollegeMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/linjia/web/dao/CollegeMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/jsp/views/college/college_add.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/jsp/views/college/college_add.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/jsp/views/college/college_list.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/jsp/views/college/college_list.jsp" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -887,7 +882,7 @@
       <workItem from="1490330441624" duration="1106000" />
       <workItem from="1490332675454" duration="453000" />
       <workItem from="1490333150022" duration="538000" />
-      <workItem from="1490333709364" duration="14671000" />
+      <workItem from="1490333709364" duration="14741000" />
     </task>
     <task id="LOCAL-00001" summary="jsp页面的maven项目初始版">
       <created>1490094560684</created>
@@ -931,11 +926,18 @@
       <option name="project" value="LOCAL" />
       <updated>1490268923820</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="jsp页面的maven项目初始版">
+      <created>1490349503590</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1490349503590</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78202000" />
+    <option name="totallyTimeSpent" value="78272000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1006,9 +1008,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="jsp页面的maven项目初始版" />
     <MESSAGE value="将dao中的mapper文件移入resource中" />
-    <option name="LAST_COMMIT_MESSAGE" value="将dao中的mapper文件移入resource中" />
+    <MESSAGE value="jsp页面的maven项目初始版" />
+    <option name="LAST_COMMIT_MESSAGE" value="jsp页面的maven项目初始版" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

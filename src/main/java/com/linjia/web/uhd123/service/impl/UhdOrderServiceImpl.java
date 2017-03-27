@@ -1,5 +1,6 @@
 package com.linjia.web.uhd123.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.fr.bi.cube.engine.third.edu.emory.mathcs.backport.java.util.Arrays;
-import com.fr.script.function.ARRAY;
+
 import com.linjia.tools.HttpRequestUtils;
-import com.linjia.tools.JSONUtil;
 import com.linjia.web.model.Product;
 import com.linjia.web.uhd123.common.Configure;
 import com.linjia.web.uhd123.model.PlatformSku;
@@ -37,11 +36,7 @@ public class UhdOrderServiceImpl implements UhdOrderService {
 
 		// 同步平台商品范围到鼎力云
 		JSONObject result = ptmskusToUhd(operator, skus);
-		if (result.optBoolean("success")) {
-			return true;
-		} else {
-			return false;
-		}
+        return result.optBoolean("success");
 	}
 	
 	@Override
@@ -51,11 +46,7 @@ public class UhdOrderServiceImpl implements UhdOrderService {
 
 		// 同步平台商品范围到鼎力云
 		JSONObject result = ptmskusToUhd(operator, skus);
-		if (result.optBoolean("success")) {
-			return true;
-		} else {
-			return false;
-		}
+        return result.optBoolean("success");
 	}
 
 	/**

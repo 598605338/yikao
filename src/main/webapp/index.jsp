@@ -55,7 +55,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<a href="javascript:void(0);" onclick="changeLeft(this,'finance');">报表 </a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="8"> 
-					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员</a>			
+					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员水水</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="8">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'base');">基本</a>

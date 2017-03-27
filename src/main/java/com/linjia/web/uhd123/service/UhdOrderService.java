@@ -20,10 +20,10 @@ public interface UhdOrderService {
 	 * 同步平台商品范围到鼎力云
 	 * lixinling 
 	 * 2016年10月17日 下午2:09:52
-	 * @param platformId:平台号：1商城；2百度；3美团
-	 * @param orderGroup
-	 * @param orderGroupProductList
-	 * @param userId 抛单者userId
+	 *  platformId:平台号：1商城；2百度；3美团
+	 *  orderGroup
+	 *  orderGroupProductList
+	 *  userId 抛单者userId
 	 * @return
 	 */
 	boolean ptmskus(List<Product> list, String operator);
@@ -32,10 +32,10 @@ public interface UhdOrderService {
 	 * 同步平台商品范围到鼎力云
 	 * lixinling 
 	 * 2016年10月17日 下午2:09:52
-	 * @param platformId:平台号：1商城；2百度；3美团
-	 * @param orderGroup
-	 * @param orderGroupProductList
-	 * @param userId 抛单者userId
+	 *  platformId:平台号：1商城；2百度；3美团
+	 *  orderGroup
+	 *  orderGroupProductList
+	 *  userId 抛单者userId
 	 * @return
 	 */
 	boolean ptmskus(Product product, String operator);

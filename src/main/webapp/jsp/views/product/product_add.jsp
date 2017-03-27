@@ -227,7 +227,8 @@ function doBack(){
  * 商品分类选择
  */
 $("#largeCatagoryId").on("change",function(){
-	$("#middleCatagoryId").html("<option value=''>请选择二级分类</option>")
+    alert("largeCatagoryId");
+	$("#middleCatagoryId").html("<option value=''>请选择二级分类</option>");
 	 //请求二级菜单数据
 	 $.ajax({
 		cache:false,

@@ -12,11 +12,18 @@
 <script>
 function doSubmit(){
 	var form = document.saveForm;
-	var specialtyName = form.specialtyName.value;
-	if(specialtyName==null || specialtyName==''){
-        document.saveForm.specialtyName.focus();
+	var collegeName = form.collegeName.value;
+	if(collegeName==null || collegeName==''){
+        document.saveForm.collegeName.focus();
         alert("请输入院校名称！");return false;
 	}
+
+    //提交选择的科目值
+    checkedSpecs();
+    var containSpecialtyIds = form.containSpecialtyIds.value;
+    if(containSpecialtyIds==null || containSpecialtyIds==''){
+        alert("请选择科目！");return false;
+    }
 	form.submit();
 }
 
@@ -63,7 +70,7 @@ function doBack(){
 				<div class="row-list">
 					<label>所属省<span style="color:red">*</span>：</label>
 					<input class="td_text_w" type="hidden" name="provinceName" id="provinceName" value="" />
-					<select name="provinceId" id="provinceId" class="td_text_w">
+					<select name="provinceId" id="provinceId" class="td_text_w" >
 						<option value="">请选择</option>
 						<c:forEach items="${provinceList }" var="item" varStatus="status">
 							<option value="${item.id }">${item.name }</option>
@@ -83,7 +90,7 @@ function doBack(){
 				<div class="row-list">
 					<label>所属区<span style="color:red">*</span>：</label>
 					<input class="td_text_w" type="hidden" name="countyName" id="countyName" value="" />
-					<select name="countyId" id="countyId" class="td_text_w">
+					<select name="countyId" id="countyId" class="td_text_w" onchange="setRegionName(this,3);">
 						<option value="">请选择</option>
 						<c:forEach items="${countyList }" var="item" varStatus="status">
 							<option value="${item.id }">${item.name }</option>
@@ -105,23 +112,24 @@ function doBack(){
 					<label>移动电话<span style="color:red">*</span>：</label>
 					<input class="td_text_w" type="text" name="phone" id="phone" value="" />
 				</div>
-			</div>
 			<div class="row-list">
 				<label>院校科目选择<span style="color:red">*</span>：</label>
 				<div style="width:100%;display:inline;float:left;">
-					<c:forEach items="${countyList }" var="item" varStatus="status">
-					<div class="height">
-						<input class="left" type="checkbox" name="specialtyIds" id="specialtyIds_"+${varStatus.index}  value="{item.id}" /><label class="left">${item.name}</label>
-					</div>
-					</c:forEach>
+                    <div class="height">
+                        <input type="hidden" name="containSpecialtyIds" id="containSpecialtyIds" value="" />
+                        <c:forEach items="${specialtyList }" var="item" varStatus="status">
+                            <input class="left" type="checkbox" name="specialtyIds" id="specialtyIds_${item.id}" value="${item.id}"/><label class="left">${item.specialtyName}</label>
+                        </c:forEach>
+                    </div>
 				</div>
+			</div>
 			</div>
 		</div>
 		
 	</form>
 	</section>
 	<div class="bgbtn">
-		<button type="button" onclick="document.getElementById('formSubmit').submit();" class="left back_dblue btn"><i class="icon-btn icon-save"></i>保存</button>
+		<button type="button" onclick="doSubmit();" class="left back_dblue btn"><i class="icon-btn icon-save"></i>保存</button>
 		<button type="button" class="left back_dblue  btn" onclick="doBack();"><i class="icon-btn icon-goback"></i>返回</button>
 	</div>
 	</div>
@@ -129,26 +137,50 @@ function doBack(){
 </html>
 <script>
     /**2017.2.9
-     * 区域选择事件绑定
+     * 提交选择科目值
      */
-    $("#provinceId").on("change",requestRegion(1));
-    $("#cityId").on("change",requestRegion(2));
+    function checkedSpecs() {
+        var specArray=[];
+        $("[name='specialtyIds']").each(function(i,e){
+            if(e.checked){
+                specArray.push(e.value);
+            }
+        });
+        $("#containSpecialtyIds").val(specArray.join(","));
+    }
 
+    /**2017.2.9
+     * 为区域name赋值
+     */
+	function setRegionName(o,type) {
+        $("#provinceName").val($(o).children('option:selected').text());
+        if(type == 1){
+            $("#provinceName").val($(o).children('option:selected').text());
+        }else if(type == 2){
+            $("#cityName").val($(o).children('option:selected').text());
+        }else if(type == 3){
+            $("#countyName").val($(o).children('option:selected').text());
+        }
+    }
+	
     /**2017.2.9
      * 区域选择
      */
-    function requestRegion(type) {
+    function requestRegion(o,type) {
         if(type == 1){
-            $("#cityId").html("<option value=''>请选择城市列表</option>")
-		}else if(type == 2){
-            $("#countyId").html("<option value=''>请选择区县列表</option>")
-		}
+            $("#cityId").html("<option value=''>请选择城市列表</option>");
+            $("#countyId").html("<option value=''>请选择区县列表</option>");
+            setRegionName(o,1);
+        }else if(type == 2){
+            $("#countyId").html("<option value=''>请选择区县列表</option>");
+            setRegionName(o,2);
+        }
 
         $.ajax({
             cache:false,
             type:"POST",
             url:"../region/getRegionByParentId",
-            data:{"parentId":$(this).children('option:selected').val()},
+            data:{"parentId":$(o).children('option:selected').val()},
             success:function(result){
                 if(result != null && result.status=='ok'){
                     var regionList = result.regionList;
@@ -174,4 +206,12 @@ function doBack(){
             }
         });
     }
+
+    /**2017.2.9
+     * 区域选择事件绑定
+     */
+    $("#provinceId").on("change",function(){requestRegion(this,1);});
+    $("#cityId").on("change",function(){requestRegion(this,2);});
+
+
 </script>

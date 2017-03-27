@@ -17,7 +17,9 @@
     from t_specialty
     where deleted = 0
     order by id DESC
+    <if test="exportFlag == null" >
     limit #{startIndex,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select

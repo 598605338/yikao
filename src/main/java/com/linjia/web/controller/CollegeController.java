@@ -4,8 +4,12 @@ import com.linjia.base.controller.BaseController;
 import com.linjia.tools.Tools;
 import com.linjia.web.model.College;
 import com.linjia.web.model.Region;
+import com.linjia.web.model.Specialty;
 import com.linjia.web.query.CollegeQuery;
+import com.linjia.web.query.SpecialtyQuery;
 import com.linjia.web.service.CollegeService;
+import com.linjia.web.service.RegionService;
+import com.linjia.web.service.SpecialtyService;
 import com.linjia.web.service.impl.RegionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +31,10 @@ public class CollegeController extends BaseController {
     @Autowired
     private CollegeService collegeService;
     @Autowired
-    private RegionServiceImpl regionServiceImpl;
+    private RegionService regionServiceImpl;
+    @Autowired
+    private SpecialtyService specialtyService;
+
 
     /**
      * 取得院校列表
@@ -91,7 +98,13 @@ public class CollegeController extends BaseController {
     @RequestMapping(value = "/toAdd")
     public String toAdd(Model model) {
         //查询省级区域列表
-        getProvinceList(model);
+        getRegionList(model,null,null);
+        //查询科目列表
+        SpecialtyQuery query = new SpecialtyQuery();
+        query.setExportFlag(0);
+        List<Specialty> specialtyList = specialtyService.selectBySerach(query);
+        model.addAttribute("specialtyList",specialtyList);
+
         return "college/college_add";
     }
 
@@ -137,8 +150,14 @@ public class CollegeController extends BaseController {
         College college = collegeService.selectById(id);
 
         //查询省级区域列表
-        getProvinceList(model);
+        getRegionList(model,college.getProvinceId(),college.getCityId());
         model.addAttribute("college", college);
+
+        //查询科目列表
+        SpecialtyQuery query = new SpecialtyQuery();
+        query.setExportFlag(0);
+        List<Specialty> specialtyList = specialtyService.selectBySerach(query);
+        model.addAttribute("specialtyList",specialtyList);
         return "college/college_edit";
     }
 
@@ -167,18 +186,30 @@ public class CollegeController extends BaseController {
     }
 
     /**
-     * 查询省级区域列表
+     * 查询区域列表
      *
      * @author: lixinling
      * @date: 2017/3/24 16:40
      * @param: [model]
      * @return: void
      */
-    private void getProvinceList(Model model) {
+    private void getRegionList(Model model,Integer privinceId,Integer cityId) {
 
         //查询一级区域列表
         List<Region> provinceList = regionServiceImpl.selectRegionByParentId(0);
         model.addAttribute("provinceList", provinceList);
+
+        //查询二级区域列表
+        if(privinceId != null && privinceId.intValue() > 0){
+            List<Region> cityList = regionServiceImpl.selectRegionByParentId(privinceId);
+            model.addAttribute("cityList", cityList);
+        }
+
+        //查询三级区域列表
+        if(cityId != null && cityId.intValue() > 0){
+            List<Region> countyList = regionServiceImpl.selectRegionByParentId(cityId);
+            model.addAttribute("countyList", countyList);
+        }
     }
 
 

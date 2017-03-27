@@ -59,21 +59,22 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<th>所属市</th>
 							<th>所属区</th>
 							<th>详细地址</th>
-							<th>联系电话</th>
+							<th>固定电话</th>
+							<th>移动电话</th>
 							<th>操作</th>
 						</thead>
 						<tbody>
 						<c:forEach var="item" items="${collegeList }" varStatus="status">
 							<tr class="goods_tr">
-								<td style="width:2.5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
-								<td  style="width:20%;" ><c:out value="${item.collegeName }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.collegeName }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.provinceName }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.cityName }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.countyName }"/></td>
+								<td style="width:5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
+								<td  style="width:15%;" ><c:out value="${item.collegeName }"/></td>
+								<td  style="width:10%;" ><c:out value="${item.provinceName }"/></td>
+								<td  style="width:10%;" ><c:out value="${item.cityName }"/></td>
+								<td  style="width:10%;" ><c:out value="${item.countyName }"/></td>
 								<td  style="width:20%;" ><c:out value="${item.address }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.mobile }"/></td>
-								<td  style="width:20%;">
+								<td  style="width:10%;" ><c:out value="${item.mobile }"/></td>
+								<td  style="width:10%;" ><c:out value="${item.phone }"/></td>
+								<td  style="width:10%;">
 									<a href="javascript:void(0)" class="mr10" onclick="location.href='toEdit?id=<c:out value="${item.id }" />'"><i class="icon-op icon-op-edit"></i>修改</a>
 								</td>
 							</tr>

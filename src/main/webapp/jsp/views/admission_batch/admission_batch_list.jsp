@@ -28,14 +28,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<header class="cont_section_header_bread">
 					<i class="icon-op icon-op-address" style="margin-right:5px;"></i>当前位置：
 					<a href="javascript:void(0);" class="topNavClick" style="color: #323232;">基本信息</a><span>&gt;</span>
-					<span style="color:#3bb3e0;">院校类型管理</span>
+					<span style="color:#3bb3e0;">批次管理</span>
 				</header>
 				<section class="cont_section_section">					
 					<div class="goodsManage">
 						<div class="cont_section_head">
 					<form name="form" id="formSubmit" action="select" method="post">
 						<div class="row">
-							<input type="text" name="name" id="name" placeholder="院校类型名称" value="<c:out value="${query.name }"/>" class="td_text_w" />
+							<input type="text" name="name" id="name" placeholder="批次名称" value="<c:out value="${query.name }"/>" class="td_text_w" />
 						</div>
 						<div class="col-click">
 							<button type="button" class="left back_dblue col_white btn" onclick="document.getElementById('formSubmit').submit();"><i class="icon-btn icon-search"></i>查询</button>
@@ -49,16 +49,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<div class="section_table">
 							<table cellspacing="none" class="table_hover">
 							<div class="click">
-							<a href="javascript:void(0)" onclick="location.href='toAdd'"><span class="left back_dblue btn"><i class="icon-btn icon-add"></i>新增院校类型</span></a>
+							<a href="javascript:void(0)" onclick="location.href='toAdd'"><span class="left back_dblue btn"><i class="icon-btn icon-add"></i>新增批次</span></a>
 							<a href="javascript:void(0)" onclick="deleteRecord();"><span class="left back_dblue btn"><i class="icon-btn icon-delete"></i>删除</span></a>
 						</div>
 						<thead style="background:#EBEBEB ;">
 							<th><input style="margin-left:20%;" type="checkbox" name="selAll" onclick="selAll(this);"/></th>
-							<th>院校类型名称</th>
+							<th>批次名称</th>
 							<th>操作</th>
 						</thead>
 						<tbody>
-						<c:forEach var="item" items="${collegeTypeList }" varStatus="status">
+						<c:forEach var="item" items="${admissionBatchList }" varStatus="status">
 							<tr class="goods_tr">
 								<td style="width:5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
 								<td  style="width:15%;" ><c:out value="${item.name }"/></td>

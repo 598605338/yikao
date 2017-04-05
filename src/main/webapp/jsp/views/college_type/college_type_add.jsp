@@ -14,8 +14,8 @@ function doSubmit(){
 	var form = document.saveForm;
 	var name = form.name.value;
 	if(name==null || name==''){
-        document.saveForm.collegeName.focus();
-        alert("请输入院校分类名称！");return false;
+        document.saveForm.name.focus();
+        alert("请输入院校类型名称！");return false;
 	}
 
 	form.submit();

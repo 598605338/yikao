@@ -15,7 +15,7 @@ function doSubmit(){
 	var name = form.name.value;
 	if(name==null || name==''){
         document.editForm.name.focus();
-        alert("请输入院校类型名称！");return false;
+        alert("请输入批次名称！");return false;
 	}
 
 	form.submit();
@@ -46,17 +46,17 @@ function doBack(){
 	<header class="cont_section_header_bread">
 					<i class="icon-op icon-op-address" style="margin-right:5px;"></i>当前位置：
 					<a href="javascript:void(0);" class="topNavClick" style="color: #323232;">基本信息</a><span>&gt;</span>
-					<a href="javascript:void(0);" class="leftNavClick" style="color: #323232;">院校类型管理</a><span>&gt;</span>
+					<a href="javascript:void(0);" class="leftNavClick" style="color: #323232;">批次管理</a><span>&gt;</span>
 					<span style="color:#3bb3e0;">修改</span>
 				</header>
 	<section class="cont_section_section_border">
 	<form id="formSubmit" class="goods_new" action="edit" name="editForm" method="post">
-	<input type="hidden" id="id" name="id" value="<c:out value="${collegeType.id }" />"/>
+	<input type="hidden" id="id" name="id" value="<c:out value="${admissionBatch.id }" />"/>
 		<div class="editPage">
 			<div class="editLeft">
 				<div class="row-list">
-					<label>院校类型名称<span style="color:red">*</span>：</label>
-					<input class="td_text_w" type="text" name="name" id="name" value="<c:out value="${collegeType.name}"/>" />
+					<label>批次名称<span style="color:red">*</span>：</label>
+					<input class="td_text_w" type="text" name="name" id="name" value="<c:out value="${admissionBatch.name}"/>" />
 				</div>
 			</div>
 			<div class="line"></div>

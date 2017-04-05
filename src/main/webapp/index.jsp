@@ -348,6 +348,21 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				    </div>
 				</li>
 				<li>
+				    <div class="cont_aside_item">
+				          <a class="a ab" href="<%=basePath%>/collegeType/select" target="target"><i class="icon icon-leaguer icon-1"></i>院校类型管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				    </div>
+				</li>
+				<li>
+				    <div class="cont_aside_item">
+				          <a class="a ab" href="<%=basePath%>/college/select" target="target"><i class="icon icon-leaguer icon-1"></i>批次管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				    </div>
+				</li>
+				<li>
+				    <div class="cont_aside_item">
+				          <a class="a ab" href="<%=basePath%>/college/select" target="target"><i class="icon icon-leaguer icon-1"></i>录取规则管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				    </div>
+				</li>
+				<li>
 				   <div class="cont_aside_item">
 				         <a class="a ab" href="<%=basePath%>/cust/accountcashdepositConfig?id=1" target="target"><i class="icon icon-leaguer icon-2"></i>成绩管理<p class="ac"><img src="dist/images/1.png"/></p></a>
 				   </div>

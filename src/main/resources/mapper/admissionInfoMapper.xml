@@ -8,17 +8,17 @@
     <result column="batch_id" property="batchId" jdbcType="INTEGER" />
     <result column="year" property="year" jdbcType="SMALLINT" />
     <result column="type" property="type" jdbcType="BIT" />
-    <result column="admission_num" property="admissionNum" jdbcType="INTEGER" />
-    <result column="high_score" property="highScore" jdbcType="REAL" />
-    <result column="low_score" property="lowScore" jdbcType="REAL" />
-    <result column="average_score" property="averageScore" jdbcType="REAL" />
+    <result column="admission_num" property="admissionNum" jdbcType="DOUBLE" />
+    <result column="high_score" property="highScore" jdbcType="DOUBLE" />
+    <result column="low_score" property="lowScore" jdbcType="DOUBLE" />
+    <result column="average_score" property="averageScore" jdbcType="DOUBLE" />
     <result column="admission_rule_id" property="admissionRuleId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, college_id, specialty_id, batch_id, year, type, admission_num, high_score, low_score,
     average_score, admission_rule_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.linjia.web.model.AdmissionInfo" >
+  <select id="selectBySerach" resultMap="BaseResultMap" parameterType="com.linjia.web.query.AdmissionInfoQuery" >
     select
     <include refid="Base_Column_List" />
     from t_admission_info
@@ -106,7 +106,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.linjia.web.model.AdmissionInfo" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.linjia.web.query.AdmissionInfoQuery" resultType="java.lang.Integer" >
     select count(*) from t_admission_info
   </select>
 

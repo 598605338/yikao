@@ -26,12 +26,13 @@ public interface SpecialtyService extends BaseService<Specialty, Long>{
 	 * @return
 	 */
 	int countByExample(SpecialtyQuery query);
-	
+
 	/**
-	 * 查询所有科目列表
-	 * lixinling 
+	 * 根据collegeId查询该院校科目列表
+	 * lixinling
 	 * 2016年8月22日 下午2:17:39
+	 * @param ids
 	 * @return
 	 */
-	//List<Specialty> selectAllSpecialtyList();
+	List<Specialty> selectDownListByIds(String[] ids);
 }

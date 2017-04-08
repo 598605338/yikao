@@ -25,5 +25,14 @@ public interface SpecialtyMapper extends BaseDao<Specialty, Long> {
      * @return
      */
     int countByExample(SpecialtyQuery query);
+
+    /**
+     * 根据collegeId查询该院校科目列表
+     * lixinling
+     * 2016年8月22日 下午2:17:39
+     * @param ids
+     * @return
+     */
+    List<Specialty> selectDownListByIds(String[] ids);
 }
 

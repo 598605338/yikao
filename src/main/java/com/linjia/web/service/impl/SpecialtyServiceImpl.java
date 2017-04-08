@@ -34,4 +34,9 @@ public class SpecialtyServiceImpl extends BaseServiceImpl<Specialty, Long> imple
 	public int countByExample(SpecialtyQuery query) {
 		return mapper.countByExample(query);
 	}
+
+	@Override
+	public List<Specialty> selectDownListByIds(String[] ids) {
+		return mapper.selectDownListByIds(ids);
+	}
 }

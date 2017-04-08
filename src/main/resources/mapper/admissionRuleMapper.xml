@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="college_id" property="collegeId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, description
@@ -19,6 +20,12 @@
     <include refid="Base_Column_List" />
     from t_admission_rule
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectDownListByCollegeId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    id,description
+    from t_admission_rule
+    where college_id = #{collegeId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_admission_rule

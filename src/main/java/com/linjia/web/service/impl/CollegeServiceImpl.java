@@ -35,4 +35,8 @@ public class CollegeServiceImpl extends BaseServiceImpl<College, Long> implement
 		return mapper.countByExample(query);
 	}
 
+	@Override
+	public List<College> selectCollegeDownList() {
+		return mapper.selectCollegeDownList();
+	}
 }

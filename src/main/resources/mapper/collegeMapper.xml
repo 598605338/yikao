@@ -35,6 +35,12 @@
     from t_college
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectCollegeDownList" resultType="com.linjia.web.model.College" >
+    select
+    id,college_name AS collegeName
+    from t_college
+    WHERE deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_college
     where id = #{id,jdbcType=INTEGER}

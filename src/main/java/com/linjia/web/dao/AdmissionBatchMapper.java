@@ -25,4 +25,12 @@ public interface AdmissionBatchMapper extends BaseDao<AdmissionBatch, Long> {
          * @return
          */
         int countByExample(AdmissionBatchQuery query);
+
+        /**
+         * 查询批次列表
+         * lixinling
+         * 2016年8月22日 下午2:17:39
+         * @return
+         */
+        List<AdmissionBatch> selectAdmissionBatchDownList();
 }

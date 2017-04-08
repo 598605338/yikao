@@ -23,6 +23,11 @@
     from t_admission_batch
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAdmissionBatchDownList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_admission_batch
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_admission_batch
     where id = #{id,jdbcType=INTEGER}

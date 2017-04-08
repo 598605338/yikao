@@ -26,4 +26,14 @@ public interface CollegeService extends BaseService<College, Long>{
 	 * @return
 	 */
 	int countByExample(CollegeQuery query);
+
+	/**
+	 * 查询院校下拉列表
+	 *
+	 * lixinling
+	 * 2017/3/24 14:17
+	 * @param:
+	 * @return:
+	 */
+	List<College> selectCollegeDownList();
 }

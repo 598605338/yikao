@@ -27,6 +27,16 @@
     from t_specialty
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectDownListByIds" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_specialty
+    where deleted =0
+    AND id in
+    <foreach collection="array" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_specialty
     where id = #{id,jdbcType=INTEGER}

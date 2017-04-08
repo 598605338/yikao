@@ -35,4 +35,8 @@ public class AdmissionBatchServiceImpl extends BaseServiceImpl<AdmissionBatch, L
 		return mapper.countByExample(query);
 	}
 
+	@Override
+	public List<AdmissionBatch> selectAdmissionBatchDownList() {
+		return mapper.selectAdmissionBatchDownList();
+	}
 }

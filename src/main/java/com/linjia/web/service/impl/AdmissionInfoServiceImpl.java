@@ -48,4 +48,52 @@ public class AdmissionInfoServiceImpl extends BaseServiceImpl<AdmissionInfo, Lon
 	public List<AdmissionRule> selectAdmiRuleDownListByCollegeId(Long collegeId) {
 		return admissionRuleMapper.selectDownListByCollegeId(collegeId);
 	}
+
+	@Override
+	public int insertAdmissionInfo(AdmissionInfo info) {
+
+		//判断选择规则模式
+		judgeRuleTab(info);
+
+		//插入录取信息
+		return mapper.insertSelective(info);
+	}
+
+	@Override
+	public boolean updateAdmissionInfo(AdmissionInfo info) {
+		//判断选择规则模式
+		judgeRuleTab(info);
+		return mapper.updateByPrimaryKeySelective(info);
+	}
+
+	/**
+	 * 判断选择模式
+	 * @param info
+	 */
+	private void judgeRuleTab(AdmissionInfo info){
+		if(info.getRuleTab() == 1){
+			//新增录取规则模式
+			AdmissionRule rule = new AdmissionRule();
+			rule.setCollegeId(info.getCollegeId());
+			rule.setDescription(info.getDescription());
+			admissionRuleMapper.insertSelective(rule);
+
+			info.setAdmissionRuleId(rule.getId());
+		}
+	}
+
+    @Override
+    public AdmissionRule selectAdmissionRule(Long ruleId) {
+        return admissionRuleMapper.selectByPrimaryKey(ruleId);
+    }
+
+    @Override
+	public boolean deleteAdmissionRule(Long ruleId) {
+		return admissionRuleMapper.deleteByPrimaryKey(ruleId);
+	}
+
+    @Override
+    public boolean updateAdmissionRule(AdmissionRule rule) {
+        return admissionRuleMapper.updateByPrimaryKeySelective(rule);
+    }
 }

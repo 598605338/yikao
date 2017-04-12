@@ -33,28 +33,28 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</header>
 				<nav class="top_nav"> <!-- flex -->
 					<!--<a href="javascript:void(0);" onclick="changeLeft(this,'channel');">导航</a>-->
-					<shiro:hasPermission name="1">
+					<shiro:hasPermission name="11">
 					<a class="top_act" href="javascript:void(0);" onclick="changeLeft(this,'goods');">商品</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="2"> 
+					<shiro:hasPermission name="21">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'activities');">活动</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="3"> 
+					<shiro:hasPermission name="31">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'mallshops');">门店</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="4"> 
+					<shiro:hasPermission name="41">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'coupons');">卡券</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="5"> 
+					<shiro:hasPermission name="51">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'orders');">订单</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="6"> 
+					<shiro:hasPermission name="61">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'operate');">运营</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="7"> 
+					<shiro:hasPermission name="71">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'finance');">报表 </a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="8"> 
+					<shiro:hasPermission name="81">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员水水</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="8">

@@ -22,8 +22,10 @@ function doSubmit(){
 }
 
 //返回
-function doBack(){
-	document.location.href="select";
+function doClose(){
+    $(".pass_a").css("display","none");
+	/*  $("body").removeClass("opty"); */
+    $(".zezhaoc").hide();
 }
 </script>
 <style>
@@ -36,30 +38,34 @@ function doBack(){
   .doack{
   	margin:2% 0% 0% -180%;
   }
-  .td_left{
-  	width:22%;
+  .td_text_wh{
+	  margin:3px 0px 0px;
+  	  width:637px;
+	  height:195px;
+  }
+  .editLeft {
+	  width: 80%;
+	  float: left;
   }
 </style>
 <body>
 <div id="wrap">
+	<div style="width:60%;height:479px;border:1px solid #AAAAAA;position:absolute;top:15%;left:20%;background:#BEEBEE;z-index:1000;display:block;" class="pass_a">
 	<font color="red"><c:out value="${message }" /></font>
 	<header class="cont_section_header_bread">
-					<i class="icon-op icon-op-address" style="margin-right:5px;"></i>当前位置：
-					<a href="javascript:void(0);" class="topNavClick" style="color: #323232;">基本信息</a><span>&gt;</span>
-					<a href="javascript:void(0);" class="leftNavClick" style="color: #323232;">录取规则管理</a><span>&gt;</span>
-					<span style="color:#3bb3e0;">修改</span>
+					录取规则修改
 				</header>
 	<section class="cont_section_section_border">
 	<form id="formSubmit" class="goods_new" action="edit" name="editForm" method="post">
-	<input type="hidden" id="id" name="id" value="<c:out value="${admissionRule.id }" />"/>
+	<input type="hidden" id="ruleId" name="ruleId" value="<c:out value="${admissionRule.id }" />"/>
+	<input type="hidden" id="collegeId" name="collegeId" value="<c:out value="${admissionRule.collegeId }" />"/>
 		<div class="editPage">
 			<div class="editLeft">
 				<div class="row-list">
 					<label>录取规则<span style="color:red">*</span>：</label>
-					<input class="td_text_w" type="text" name="description" id="description" value="<c:out value="${admissionRule.description}"/>" />
+					<textarea class="td_text_wh" type="text" rows="5" cols="80" name="description_e" id="description_e" ><c:out value="${admissionRule.description}"/></textarea>
 				</div>
 			</div>
-			<div class="line"></div>
 			<div class="editRight">
 			</div>
 
@@ -68,8 +74,9 @@ function doBack(){
 	</form>
 	</section>
 	<div class="bgbtn">
-		<button type="button" onclick="doSubmit();" class="left back_dblue btn"><i class="icon-btn icon-save"></i>保存</button>
-		<button type="button" class="left back_dblue btn" onclick="doBack();"><i class="icon-btn icon-goback"></i>返回</button>
+		<button type="button" onclick="editRule();" class="left back_dblue btn"><i class="icon-btn icon-save"></i>保存</button>
+		<button type="button" class="left back_dblue btn" onclick="doClose();"><i class="icon-btn icon-goback"></i>返回</button>
+	</div>
 	</div>
 	</div>
 </body>
@@ -77,5 +84,30 @@ function doBack(){
 
 <script>
 
+    function editRule(){
+        var _ruleId = $("#ruleId").val();
+        var _collegeId = $("#collegeId").val();
+        var description = $("#description_e").val();
 
+        $.ajax({
+            cache:false,
+            type:"post",
+            url:"editRule?ruleId="+_ruleId+"&collegeId="+_collegeId,
+            data:{"description":description},
+            success: function (result) {
+                if (result != null && result.status == 'ok') {
+                    alert("编辑成功");
+                    $(".pass_a").css("display","none");
+                    $(".zezhaoc").hide();
+
+                    //重新加载录取规则信息
+                    var admissionRuleList = result.admissionRuleList;
+                    fileRuleList(admissionRuleList);
+                }
+            },
+            error: function (result) {
+                alert("请求错误");
+            }
+        });
+    }
 </script>

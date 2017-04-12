@@ -12,12 +12,79 @@
 <script>
     function doSubmit() {
         var form = document.saveForm;
-        var description = form.description.value;
-        if (description == null || description == '') {
-            document.saveForm.description.focus();
-            alert("请输入录取规则！");
+        var collegeId = form.collegeId.value;
+        var specialtyId = form.specialtyId.value;
+        var batchId = form.batchId.value;
+        var year = form.year.value;
+        var type = form.type.value;
+        var highScore = form.highScore.value;
+        var lowScore = form.lowScore.value;
+        var averageScore = form.averageScore.value;
+        var admissionNum = form.admissionNum.value;
+        var ruleTab = form.ruleTab.value;
+
+        if (collegeId == null || collegeId == '') {
+            document.saveForm.collegeId.focus();
+            alert("请选择院校！");
             return false;
         }
+        if (specialtyId == null || specialtyId == '') {
+            document.saveForm.specialtyId.focus();
+            alert("请选择科目！");
+            return false;
+        }
+        if (batchId == null || batchId == '') {
+            document.saveForm.batchId.focus();
+            alert("请选择批次！");
+            return false;
+        }
+        if (year == null || year == '') {
+            document.saveForm.year.focus();
+            alert("请选择年代！");
+            return false;
+        }
+        if (type == null || type == '') {
+            document.saveForm.type.focus();
+            alert("请选择类型！");
+            return false;
+        }
+        if (highScore == null || highScore == '') {
+            document.saveForm.highScore.focus();
+            alert("请输入最高分！");
+            return false;
+        }
+        if (lowScore == null || lowScore == '') {
+            document.saveForm.lowScore.focus();
+            alert("请输入最低分！");
+            return false;
+        }
+        if (averageScore == null || averageScore == '') {
+            document.saveForm.averageScore.focus();
+            alert("请输入平均分！");
+            return false;
+        }
+        if (admissionNum == null || admissionNum == '') {
+            document.saveForm.admissionNum.focus();
+            alert("请输入录取人数！");
+            return false;
+        }
+
+        if (ruleTab == 0) {
+            //选择已有
+            var admissionRuleId = form.admissionRuleId.value;
+            if (admissionRuleId == null || admissionRuleId == '') {
+                alert("请选择录取规则！");
+                return false;
+            }
+        } else {
+            var description = form.description.value;
+            if (description == null || description == '') {
+                document.saveForm.description.focus();
+                alert("请输入录取规则！");
+                return false;
+            }
+        }
+
 
         form.submit();
     }
@@ -27,15 +94,16 @@
         document.location.href = "select";
     }
 
-    function ruleTabChange(v){
-        if(v==0){
+    function ruleTabChange(v) {
+        if (v == 0) {
             $("#ruleAlready").show();
             $("#ruleAdd").hide();
-        }else if(v==1){
+        } else if (v == 1) {
             $("#ruleAlready").hide();
             $("#ruleAdd").show();
         }
     }
+
 </script>
 <style>
     .abc {
@@ -173,7 +241,7 @@
                 <div id="ruleAdd" style="display: none;">
                     <div>
                         <label>录取规则描述：</label>
-                        <textarea class="td_text_w" name="description" id="description" rows="5" ></textarea>
+                        <textarea class="td_text_w" name="description" id="description" rows="5"></textarea>
                     </div>
                 </div>
             </div>
@@ -186,14 +254,22 @@
         </button>
     </div>
 </div>
+
+<div class="back_bg" style="display:none;">
+    <%-- <iframe src="<%=basePath%>secuser/toUpdatePwd?login=${ sessionScope.user.login}">
+    </iframe>
+    <jsp:include page="jsp/views/secuser/secuser_update_password.jsp" /> --%>
+</div>
+<div class="zezhaoc" style="display:none;position: absolute;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0,0,0,0.5);"></div>
 </body>
 </html>
 <script type="text/javascript">
     $("#collegeId").on("change", function () {
         //alert("aaaaa");
+        $("#collegeName").val($(this).children("option:selected").text());
         $("#specialtyName").val("");
         $("#specialtyId").html("<option value=''>请选择</option>");
-        $("#ruleList").html("");
+
         //请求院校相关的科目和录取规则
         $.ajax({
             cache: false,
@@ -217,23 +293,7 @@
                     }
 
                     //填充录取规则列表
-                    if (admissionRuleList != null && admissionRuleList.length > 0) {
-                        var _ruleId = "";
-                        var _ruleDesc = "";
-
-                        $.each(admissionRuleList, function (i, item) {
-                            _ruleId = item.id;
-                            _ruleDesc = item.description;
-                            $("#ruleList").append(
-                                "<tr class='goods_tr'>" +
-                                "<td style='width:5%;'><input style='margin-left:20%;' type='radio' name='id' value='" + _ruleId + "'/></td>" +
-                                "<td  style='width:15%;' >" + _ruleDesc + "</td>" +
-                                "<td  style='width:10%;'>" +
-                                "<a href='javascript:void(0)' class='mr10' onclick='location.href='toEditRule?id=" + _ruleId + "'><i class='icon-op icon-op-edit'></i>修改</a>" +
-                                "</td></tr>"
-                            );
-                        });
-                    }
+                    fileRuleList(admissionRuleList);
                 }
             },
             error: function (result) {
@@ -242,4 +302,63 @@
         });
     });
 
+    //科目选择
+    $("#specialtyId").on("change", function () {
+        $("#specialtyName").val($(this).children("option:selected").text());
+    });
+
+    //批次选择
+    $("#batchId").on("change", function () {
+        $("#batchName").val($(this).children("option:selected").text());
+    });
+
+    function toEditRule(_ruleId){
+        $(".back_bg").load('<%=basePath%>admissionInfo/toEditRule?ruleId='+_ruleId);
+        $(".pass_a").css("display","block");
+        $(".back_bg").css("display","block");
+        /* $("body").addClass("opty"); */
+        $(".zezhaoc").show();
+    }
+
+    /**
+     *填充规则列表
+     */
+    function fileRuleList(admissionRuleList) {
+        $("#ruleList").html("");
+        if (admissionRuleList != null && admissionRuleList.length > 0) {
+            var _ruleId = "";
+            var _ruleDesc = "";
+
+            $.each(admissionRuleList, function (i, item) {
+                _ruleId = item.id;
+                _ruleDesc = item.description;
+                $("#ruleList").append(
+                    "<tr class='goods_tr'>" +
+                    "<td style='width:5%;'><input style='margin-left:20%;' type='radio' name='admissionRuleId' value='" + _ruleId + "'/></td>" +
+                    "<td  style='width:15%;' >" + _ruleDesc + "</td>" +
+                    "<td  style='width:10%;'>" +
+                    "<a href='javascript:void(0)' class='mr10' onclick='toEditRule("+_ruleId+")'><i class='icon-op icon-op-edit'></i>修改</a>" +
+                    "<a href='javascript:void(0)' class='mr10' onclick='deleteRule(this,"+_ruleId+");'><i class='icon-op icon-op-edit'></i>删除</a>" +
+                    "</td></tr>"
+                );
+            });
+        }
+    }
+
+function deleteRule(o,_ruleId){
+        $.ajax({
+            cache:false,
+            type:"post",
+            url:"deleteRule?ruleId="+_ruleId,
+            data:{},
+            success: function (result) {
+                if (result != null && result.status == 'ok') {
+                    $(o).closest("tr").remove();
+                }
+            },
+            error: function (result) {
+                alert("请求错误");
+            }
+        });
+}
 </script>

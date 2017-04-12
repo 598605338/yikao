@@ -83,10 +83,11 @@ public class AdmissionInfoController extends BaseController {
             return "admission_info/admission_info_add";
         }
         try {
-            admissionInfoServiceImpl.insert(admissionInfo);
+            admissionInfoServiceImpl.insertAdmissionInfo(admissionInfo);
         } catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("message", "系统错误");
-            return "admission_info/admission_info_add";
+            return "redirect:/admissionInfo/toAdd";
         }
         return "redirect:/admissionInfo/select";
     }
@@ -118,8 +119,8 @@ public class AdmissionInfoController extends BaseController {
      *
      * @param model
      */
-    @RequestMapping(value = "/deleteCollege")
-    public String deleteCollege(String ids, Model model) {
+    @RequestMapping(value = "/deleteInfo")
+    public String deleteInfo(String ids, Model model) {
         if (ids == null) {
             model.addAttribute("message", "请选择要删除的录取信息");
             return "college/college_list";
@@ -156,11 +157,11 @@ public class AdmissionInfoController extends BaseController {
         //查询院校和批次列表
         getPrepareData(model);
 
-        //查询科目列表
-        /*SpecialtyQuery query = new SpecialtyQuery();
-        query.setExportFlag(0);
-        List<Specialty> specialtyList = specialtyService.selectBySerach(query);
-        model.addAttribute("specialtyList", specialtyList);*/
+        //根据院校Id查询科目和录取规则列表
+        Map<String,Object> map = getPrepareDataByCollegeId(Long.valueOf(admissionInfo.getCollegeId()));
+        model.addAttribute("specialtyList",map.get("specialtyList"));
+        model.addAttribute("admissionRuleList",map.get("admissionRuleList"));
+
         return "admission_info/admission_info_edit";
     }
 
@@ -180,7 +181,7 @@ public class AdmissionInfoController extends BaseController {
             return "admission_info/admission_info_edit";
         }
         try {
-            admissionInfoServiceImpl.update(admissionInfo);
+            admissionInfoServiceImpl.updateAdmissionInfo(admissionInfo);
         } catch (Exception e) {
             model.addAttribute("message", "系统错误");
             return "admission_info/admission_info_edit";
@@ -205,12 +206,26 @@ public class AdmissionInfoController extends BaseController {
         //查询批次列表
         List<AdmissionBatch> batchList = admissionBatchService.selectAdmissionBatchDownList();
         model.addAttribute("batchList", batchList);
-
-        //查询录取规则列表
-        /*if(cityId != null && cityId.intValue() > 0){
-            List<Region> countyList = regionServiceImpl.selectRegionByParentId(cityId);
-            model.addAttribute("countyList", countyList);
-        }*/
+    }
+    /**
+     * 准备数据:根据院校Id查询科目和录取规则列表
+     *
+     * @author: lixinling
+     * @date: 2017/3/24 16:40
+     * @param: [model]
+     * @return: void
+     */
+    private Map<String,Object> getPrepareDataByCollegeId(Long collegeId) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        College college = collegeService.selectById(collegeId);
+        String specIds = college.getContainSpecialtyIds();
+        if(!Tools.isEmpty(specIds)) {
+            List<Specialty> specialtyList = specialtyService.selectDownListByIds(specIds.split(","));
+            map.put("specialtyList",specialtyList);
+        }
+        List<AdmissionRule> admissionRuleList = admissionInfoServiceImpl.selectAdmiRuleDownListByCollegeId(collegeId);
+        map.put("admissionRuleList",admissionRuleList);
+        return map;
     }
 
     /**
@@ -230,15 +245,91 @@ public class AdmissionInfoController extends BaseController {
             return resMap;
         }
         try {
-            College college = collegeService.selectById(collegeId);
-            String specIds = college.getContainSpecialtyIds();
-            if(!Tools.isEmpty(specIds)) {
-                List<Specialty> specialtyList = specialtyService.selectDownListByIds(specIds.split(","));
-                resMap.put("specialtyList",specialtyList);
-            }
-            List<AdmissionRule> admissionRuleList = admissionInfoServiceImpl.selectAdmiRuleDownListByCollegeId(collegeId);
-            resMap.put("admissionRuleList",admissionRuleList);
+            Map<String,Object> map = getPrepareDataByCollegeId(collegeId);
+            resMap.put("specialtyList",map.get("specialtyList"));
+            resMap.put("admissionRuleList",map.get("admissionRuleList"));
 
+            Util.writeOk(resMap);
+        } catch (Exception e) {
+            Util.writeError(resMap);
+            Util.writeFail(resMap);
+            return resMap;
+        }
+        return resMap;
+    }
+
+    /**
+     * 根据ruleId删除该条规则信息
+     * lixinling
+     * 2016年8月22日 下午2:23:04
+     *
+     * @param ruleId
+     * @return
+     */
+    @RequestMapping(value = "/deleteRule")
+    @ResponseBody
+    public Object deleteRule(Long ruleId) {
+        Map<String,Object> resMap = new HashMap<String,Object>();
+        if (ruleId == null || ruleId.intValue() == 0) {
+            Util.writeError(resMap);
+            return resMap;
+        }
+        try {
+            admissionInfoServiceImpl.deleteAdmissionRule(ruleId);
+            Util.writeOk(resMap);
+        } catch (Exception e) {
+            Util.writeError(resMap);
+            Util.writeFail(resMap);
+            return resMap;
+        }
+        return resMap;
+    }
+
+    /**
+     * 根据ruleId跳转到编辑规则信息页
+     * lixinling
+     * 2016年8月22日 下午2:23:04
+     *
+     * @param ruleId
+     * @return
+     */
+    @RequestMapping(value = "/toEditRule")
+    public String toEditRule(Long ruleId,Model model) {
+
+        try {
+            AdmissionRule admissionRule = admissionInfoServiceImpl.selectAdmissionRule(ruleId);
+            model.addAttribute("admissionRule",admissionRule);
+
+        } catch (Exception e) {
+            model.addAttribute("message","系统错误");
+            return "admission_info/admission_info_add";
+        }
+        return "admission_info/admission_rule_edit";
+    }
+
+    /**
+     * 根据ruleId编辑规则信息
+     * lixinling
+     * 2016年8月22日 下午2:23:04
+     *
+     * @param ruleId
+     * @return
+     */
+    @RequestMapping(value = "/editRule")
+    @ResponseBody
+    public Object editRule(Integer ruleId,Integer collegeId,String description) {
+        Map<String,Object> resMap = new HashMap<String,Object>();
+        if (ruleId == null || ruleId.longValue() == 0) {
+            Util.writeError(resMap);
+            return resMap;
+        }
+        try {
+            AdmissionRule rule = new AdmissionRule();
+            rule.setId(ruleId);
+            rule.setDescription(description);
+            admissionInfoServiceImpl.updateAdmissionRule(rule);
+            List<AdmissionRule> admissionRuleList = admissionInfoServiceImpl.selectAdmiRuleDownListByCollegeId(Long.valueOf(collegeId));
+            resMap.put("admissionRuleList",admissionRuleList);
             Util.writeOk(resMap);
         } catch (Exception e) {
             Util.writeError(resMap);

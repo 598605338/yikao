@@ -317,5 +317,6 @@
         </configuration>
       </plugin>
     </plugins>
+    <finalName>yikao</finalName>
   </build>
 </project>

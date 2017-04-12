@@ -6,6 +6,9 @@
     <result column="college_id" property="collegeId" jdbcType="INTEGER" />
     <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
     <result column="batch_id" property="batchId" jdbcType="INTEGER" />
+    <result column="college_name" property="collegeName" jdbcType="VARCHAR" />
+    <result column="specialty_name" property="specialtyName" jdbcType="VARCHAR" />
+    <result column="batch_name" property="batchName" jdbcType="VARCHAR" />
     <result column="year" property="year" jdbcType="SMALLINT" />
     <result column="type" property="type" jdbcType="BIT" />
     <result column="admission_num" property="admissionNum" jdbcType="DOUBLE" />
@@ -13,15 +16,17 @@
     <result column="low_score" property="lowScore" jdbcType="DOUBLE" />
     <result column="average_score" property="averageScore" jdbcType="DOUBLE" />
     <result column="admission_rule_id" property="admissionRuleId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, college_id, specialty_id, batch_id, year, type, admission_num, high_score, low_score,
-    average_score, admission_rule_id
+    average_score, admission_rule_id,college_name,specialty_name,batch_name
   </sql>
   <select id="selectBySerach" resultMap="BaseResultMap" parameterType="com.linjia.web.query.AdmissionInfoQuery" >
     select
     <include refid="Base_Column_List" />
-    from t_admission_info
+    ,(SELECT description FROM `t_admission_rule` where id = t.admission_rule_id) AS description
+    from t_admission_info t
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -47,6 +52,15 @@
       </if>
       <if test="batchId != null" >
         batch_id,
+      </if>
+      <if test="collegeName != null" >
+        college_name,
+      </if>
+      <if test="specialtyName != null" >
+        specialty_name,
+      </if>
+      <if test="batchName != null" >
+        batch_name,
       </if>
       <if test="year != null" >
         year,
@@ -83,23 +97,32 @@
       <if test="batchId != null" >
         #{batchId,jdbcType=INTEGER},
       </if>
+      <if test="collegeName != null" >
+        #{collegeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtyName != null" >
+        #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchName != null" >
+        #{batchName,jdbcType=VARCHAR},
+      </if>
       <if test="year != null" >
-        #{year,jdbcType=SMALLINT},
+        #{year,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=BIT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="admissionNum != null" >
         #{admissionNum,jdbcType=INTEGER},
       </if>
       <if test="highScore != null" >
-        #{highScore,jdbcType=REAL},
+        #{highScore,jdbcType=INTEGER},
       </if>
       <if test="lowScore != null" >
-        #{lowScore,jdbcType=REAL},
+        #{lowScore,jdbcType=INTEGER},
       </if>
       <if test="averageScore != null" >
-        #{averageScore,jdbcType=REAL},
+        #{averageScore,jdbcType=INTEGER},
       </if>
       <if test="admissionRuleId != null" >
         #{admissionRuleId,jdbcType=INTEGER},
@@ -122,11 +145,20 @@
       <if test="batchId != null" >
         batch_id = #{batchId,jdbcType=INTEGER},
       </if>
+      <if test="collegeName != null" >
+        college_name = #{collegeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtyName != null" >
+        specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchName != null" >
+        batch_name = #{batchName,jdbcType=VARCHAR},
+      </if>
       <if test="year != null" >
-        year = #{year,jdbcType=SMALLINT},
+        year = #{year,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=BIT},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="admissionNum != null" >
         admission_num = #{admissionNum,jdbcType=INTEGER},
@@ -151,6 +183,9 @@
     set college_id = #{collegeId,jdbcType=INTEGER},
       specialty_id = #{specialtyId,jdbcType=INTEGER},
       batch_id = #{batchId,jdbcType=INTEGER},
+      college_name = #{collegeName,jdbcType=VARCHAR},
+      specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      batch_name = #{batchName,jdbcType=VARCHAR},
       year = #{year,jdbcType=SMALLINT},
       type = #{type,jdbcType=BIT},
       admission_num = #{admissionNum,jdbcType=INTEGER},

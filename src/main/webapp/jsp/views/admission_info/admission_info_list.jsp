@@ -65,7 +65,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<th>批次名</th>
 							<th>年份</th>
 							<th>类型</th>
-							<th>录取人数</th>
+							<th>录取人数(单位:个)</th>
 							<th>最高分</th>
 							<th>最低分</th>
 							<th>平均分</th>
@@ -76,17 +76,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<c:forEach var="item" items="${admissionInfoList }" varStatus="status">
 							<tr class="goods_tr">
 								<td style="width:5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
-								<td  style="width:15%;" ><c:out value="${item.collegeName }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.specialtyName }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.batchName }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.year }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.type }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.admissionNum }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.highScore }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.lowScore }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.averageScore }"/></td>
-								<td  style="width:15%;" ><c:out value="${item.description }"/></td>
-								<td  style="width:10%;">
+								<td  style="width:10%;" ><c:out value="${item.collegeName }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.specialtyName }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.batchName }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.year }"/></td>
+								<td  style="width:8%;" ><c:if test="${item.type==0 }">文化</c:if><c:if test="${item.type==1 }">专业</c:if></td>
+								<td  style="width:8%;" ><c:out value="${item.admissionNum }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.highScore }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.lowScore }"/></td>
+								<td  style="width:8%;" ><c:out value="${item.averageScore }"/></td>
+								<td  style="width:13%;" ><c:out value="${item.description }"/></td>
+								<td  style="width:8%;">
 									<a href="javascript:void(0)" class="mr10" onclick="location.href='toEdit?id=<c:out value="${item.id }" />'"><i class="icon-op icon-op-edit"></i>修改</a>
 								</td>
 							</tr>
@@ -102,9 +102,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				   <form name="pageForm" action="select" method="post">
 				    <input type="hidden" name="pageIndex" id="pageIndex" value="" />
 				    <input type="hidden" name="pageSize" id="pageSize" value="" />
-				    <input type="hidden" name="collegeName" id="collegeName" value="<c:out value="${query.collegeName}"/>" />
-				    <input type="hidden" name="specialtyName" id="specialtyName" value="<c:out value="${query.specialtyName}"/>" />
-				    <input type="hidden" name="batchName" id="batchName" value="<c:out value="${query.batchName}"/>" />
+				    <input type="hidden" name="collegeName"  value="<c:out value="${query.collegeName}"/>" />
+				    <input type="hidden" name="specialtyName"  value="<c:out value="${query.specialtyName}"/>" />
+				    <input type="hidden" name="batchName"  value="<c:out value="${query.batchName}"/>" />
 					</form>
 				   <div id="div_pager"></div>
 				</footer>
@@ -180,7 +180,7 @@ function deleteRecord(){
             ids.push(item.value);
 	});
 	if(ids.length > 0){
-		document.location.href="deleteSpecialty?ids=" + ids;
+		document.location.href="deleteInfo?ids=" + ids;
 	}else{
 		alert("请选择要删除的科目");
 	}

@@ -31,11 +31,11 @@
     delete from t_admission_rule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.linjia.web.model.AdmissionRule" >
+  <insert id="insertSelective" parameterType="com.linjia.web.model.AdmissionRule" useGeneratedKeys="true" keyProperty="id"  >
     insert into t_admission_rule
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="collegeId != null" >
+        college_id,
       </if>
       <if test="name != null" >
         name,
@@ -45,8 +45,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="collegeId != null" >
+        #{collegeId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},

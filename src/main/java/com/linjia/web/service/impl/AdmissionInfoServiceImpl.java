@@ -36,6 +36,80 @@ public class AdmissionInfoServiceImpl extends BaseServiceImpl<AdmissionInfo, Lon
 
 	@Override
 	public List<AdmissionInfo> selectBySerach(AdmissionInfoQuery query) {
+		List<AdmissionInfo> list = mapper.selectBySerach(query);
+		if(list != null && list.size() > 0){
+			int j=0;
+			int rowspan_college = 1;
+			int rowspan_specialty = 1;
+			int rowspan_year = 1;
+			int rowspan_batch = 1;
+			int rowspan_rule = 1;
+			for(int i=list.size()-1;i>-1;i--){
+				j=i-1;
+				AdmissionInfo info_i = list.get(i);
+				AdmissionInfo info_j = null;
+				if(i==0){
+					info_i.setFirstRowFlag_college(true);
+					info_i.setRowspanNum_college(rowspan_college);
+					info_i.setFirstRowFlag_spceialty(true);
+					info_i.setRowspanNum_spceialty(rowspan_specialty);
+					info_i.setFirstRowFlag_year(true);
+					info_i.setRowspanNum_year(rowspan_year);
+					info_i.setFirstRowFlag_batch(true);
+					info_i.setRowspanNum_batch(rowspan_batch);
+					info_i.setFirstRowFlag_rule(true);
+					info_i.setRowspanNum_rule(rowspan_rule);
+					continue;
+				}else{
+					info_j = list.get(j);
+				}
+
+				//合并同院校
+				if(info_i.getCollegeId().intValue() == info_j.getCollegeId().intValue()) {
+					rowspan_college++;
+				}else{
+					info_i.setFirstRowFlag_college(true);
+					info_i.setRowspanNum_college(rowspan_college);
+					rowspan_college = 1;
+				}
+
+				//合并同院校同专业
+				if(info_i.getCollegeId().intValue() == info_j.getCollegeId().intValue() && info_i.getSpecialtyId().intValue() == info_j.getSpecialtyId().intValue()) {
+					rowspan_specialty++;
+				}else{
+					info_i.setFirstRowFlag_spceialty(true);
+					info_i.setRowspanNum_spceialty(rowspan_specialty);
+					rowspan_specialty = 1;
+				}
+
+				//合并同院校同专业同年份
+				if(info_i.getCollegeId().intValue() == info_j.getCollegeId().intValue() && info_i.getSpecialtyId().intValue() == info_j.getSpecialtyId().intValue() && info_i.getYear().intValue() == info_j.getYear().intValue()) {
+					rowspan_year++;
+				}else{
+					info_i.setFirstRowFlag_year(true);
+					info_i.setRowspanNum_year(rowspan_year);
+					rowspan_year = 1;
+				}
+
+				//合并同院校同专业同年份同批次
+				if(info_i.getCollegeId().intValue() == info_j.getCollegeId().intValue() && info_i.getSpecialtyId().intValue() == info_j.getSpecialtyId().intValue() && info_i.getYear().intValue() == info_j.getYear().intValue() && info_i.getBatchId().intValue() == info_j.getBatchId().intValue()) {
+					rowspan_batch++;
+				}else{
+					info_i.setFirstRowFlag_batch(true);
+					info_i.setRowspanNum_batch(rowspan_batch);
+					rowspan_batch = 1;
+				}
+
+				//合并同院校同录取规则
+				if(info_i.getCollegeId().intValue() == info_j.getCollegeId().intValue() && info_i.getAdmissionRuleId().intValue() == info_j.getAdmissionRuleId().intValue()) {
+					rowspan_rule++;
+				}else{
+					info_i.setFirstRowFlag_rule(true);
+					info_i.setRowspanNum_rule(rowspan_rule);
+					rowspan_rule = 1;
+				}
+			}
+		}
 		return mapper.selectBySerach(query);
 	}
 

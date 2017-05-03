@@ -62,10 +62,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<th><input style="margin-left:20%;" type="checkbox" name="selAll" onclick="selAll(this);"/></th>
 							<th>院校名</th>
 							<th>科目名</th>
-							<th>批次名</th>
 							<th>年份</th>
-							<th>类型</th>
+							<th>批次名</th>
 							<th>录取人数(单位:个)</th>
+							<th>类型</th>
 							<th>最高分</th>
 							<th>最低分</th>
 							<th>平均分</th>
@@ -76,16 +76,26 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<c:forEach var="item" items="${admissionInfoList }" varStatus="status">
 							<tr class="goods_tr">
 								<td style="width:5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
-								<td  style="width:10%;" ><c:out value="${item.collegeName }"/></td>
-								<td  style="width:8%;" ><c:out value="${item.specialtyName }"/></td>
-								<td  style="width:8%;" ><c:out value="${item.batchName }"/></td>
-								<td  style="width:8%;" ><c:out value="${item.year }"/></td>
+								<c:if test="${item.firstRowFlag_college == true}">
+								<td  style="width:10%;" rowspan="${item.rowspanNum_college}"><c:out value="${item.collegeName }"/></td>
+								</c:if>
+                                <c:if test="${item.firstRowFlag_spceialty == true}">
+								<td  style="width:8%;" rowspan="${item.rowspanNum_spceialty}"><c:out value="${item.specialtyName }"/></td>
+                                </c:if>
+                                <c:if test="${item.firstRowFlag_year == true}">
+								<td  style="width:8%;" rowspan="${item.rowspanNum_year}"><c:out value="${item.year }"/></td>
+                                </c:if>
+                                <c:if test="${item.firstRowFlag_batch == true}">
+								<td  style="width:8%;" rowspan="${item.rowspanNum_batch}"><c:out value="${item.batchName }"/></td>
+								<td  style="width:8%;" rowspan="${item.rowspanNum_batch}"><c:out value="${item.admissionNum }"/></td>
+                                </c:if>
 								<td  style="width:8%;" ><c:if test="${item.type==0 }">文化</c:if><c:if test="${item.type==1 }">专业</c:if></td>
-								<td  style="width:8%;" ><c:out value="${item.admissionNum }"/></td>
 								<td  style="width:8%;" ><c:out value="${item.highScore }"/></td>
 								<td  style="width:8%;" ><c:out value="${item.lowScore }"/></td>
 								<td  style="width:8%;" ><c:out value="${item.averageScore }"/></td>
-								<td  style="width:13%;" ><c:out value="${item.description }"/></td>
+                                <c:if test="${item.firstRowFlag_rule == true}">
+								<td  style="width:13%;" rowspan="${item.rowspanNum_rule}"><c:out value="${item.description }"/></td>
+                                </c:if>
 								<td  style="width:8%;">
 									<a href="javascript:void(0)" class="mr10" onclick="location.href='toEdit?id=<c:out value="${item.id }" />'"><i class="icon-op icon-op-edit"></i>修改</a>
 								</td>
@@ -119,7 +129,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 //总记录数数
 var totalRecords = ${pnums};
 //每页记录数
-var pageSize=10;
+var pageSize=100;
 //当前页
 var pageNo = ${query.pageIndex}; //这里设置参数名
 if (!pageNo) {

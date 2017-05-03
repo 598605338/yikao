@@ -9,9 +9,9 @@
     <result column="college_name" property="collegeName" jdbcType="VARCHAR" />
     <result column="specialty_name" property="specialtyName" jdbcType="VARCHAR" />
     <result column="batch_name" property="batchName" jdbcType="VARCHAR" />
-    <result column="year" property="year" jdbcType="SMALLINT" />
+    <result column="year" property="year" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="BIT" />
-    <result column="admission_num" property="admissionNum" jdbcType="DOUBLE" />
+    <result column="admission_num" property="admissionNum" jdbcType="INTEGER" />
     <result column="high_score" property="highScore" jdbcType="DOUBLE" />
     <result column="low_score" property="lowScore" jdbcType="DOUBLE" />
     <result column="average_score" property="averageScore" jdbcType="DOUBLE" />
@@ -19,14 +19,16 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, college_id, specialty_id, batch_id, year, type, admission_num, high_score, low_score,
-    average_score, admission_rule_id,college_name,specialty_name,batch_name
+    t.id, t.college_id, t.specialty_id, t.batch_id, t.year, t.type, t.admission_num, t.high_score, t.low_score,
+    t.average_score, t.admission_rule_id,t.college_name,t.specialty_name,t.batch_name
   </sql>
   <select id="selectBySerach" resultMap="BaseResultMap" parameterType="com.linjia.web.query.AdmissionInfoQuery" >
     select
     <include refid="Base_Column_List" />
     ,(SELECT description FROM `t_admission_rule` where id = t.admission_rule_id) AS description
     from t_admission_info t
+    ORDER BY college_id,specialty_id,year desc,batch_id
+    LIMIT #{startIndex},#{pageSize}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select

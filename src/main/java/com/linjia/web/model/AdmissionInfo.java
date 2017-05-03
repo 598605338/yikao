@@ -402,4 +402,96 @@ public class AdmissionInfo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    private Boolean firstRowFlag_college;
+    private Integer rowspanNum_college;
+    private Boolean firstRowFlag_spceialty;
+    private Integer rowspanNum_spceialty;
+    private Boolean firstRowFlag_year;
+    private Integer rowspanNum_year;
+    private Boolean firstRowFlag_batch;
+    private Integer rowspanNum_batch;
+    private Boolean firstRowFlag_rule;
+    private Integer rowspanNum_rule;
+
+
+    public Boolean getFirstRowFlag_college() {
+        return firstRowFlag_college;
+    }
+
+    public void setFirstRowFlag_college(Boolean firstRowFlag_college) {
+        this.firstRowFlag_college = firstRowFlag_college;
+    }
+
+    public Integer getRowspanNum_college() {
+        return rowspanNum_college;
+    }
+
+    public void setRowspanNum_college(Integer rowspanNum_college) {
+        this.rowspanNum_college = rowspanNum_college;
+    }
+
+    public Boolean getFirstRowFlag_spceialty() {
+        return firstRowFlag_spceialty;
+    }
+
+    public void setFirstRowFlag_spceialty(Boolean firstRowFlag_spceialty) {
+        this.firstRowFlag_spceialty = firstRowFlag_spceialty;
+    }
+
+    public Integer getRowspanNum_spceialty() {
+        return rowspanNum_spceialty;
+    }
+
+    public void setRowspanNum_spceialty(Integer rowspanNum_spceialty) {
+        this.rowspanNum_spceialty = rowspanNum_spceialty;
+    }
+
+    public Boolean getFirstRowFlag_year() {
+        return firstRowFlag_year;
+    }
+
+    public void setFirstRowFlag_year(Boolean firstRowFlag_year) {
+        this.firstRowFlag_year = firstRowFlag_year;
+    }
+
+    public Integer getRowspanNum_year() {
+        return rowspanNum_year;
+    }
+
+    public void setRowspanNum_year(Integer rowspanNum_year) {
+        this.rowspanNum_year = rowspanNum_year;
+    }
+
+    public Boolean getFirstRowFlag_batch() {
+        return firstRowFlag_batch;
+    }
+
+    public void setFirstRowFlag_batch(Boolean firstRowFlag_batch) {
+        this.firstRowFlag_batch = firstRowFlag_batch;
+    }
+
+    public Integer getRowspanNum_batch() {
+        return rowspanNum_batch;
+    }
+
+    public void setRowspanNum_batch(Integer rowspanNum_batch) {
+        this.rowspanNum_batch = rowspanNum_batch;
+    }
+
+    public Boolean getFirstRowFlag_rule() {
+        return firstRowFlag_rule;
+    }
+
+    public void setFirstRowFlag_rule(Boolean firstRowFlag_rule) {
+        this.firstRowFlag_rule = firstRowFlag_rule;
+    }
+
+    public Integer getRowspanNum_rule() {
+        return rowspanNum_rule;
+    }
+
+    public void setRowspanNum_rule(Integer rowspanNum_rule) {
+        this.rowspanNum_rule = rowspanNum_rule;
+    }
 }

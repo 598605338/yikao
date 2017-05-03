@@ -364,7 +364,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</li>--%>
 				<li>
 				   <div class="cont_aside_item">
-				         <a class="a ab" href="<%=basePath%>/admissionInfo/select" target="target"><i class="icon icon-leaguer icon-2"></i>成绩管理<p class="ac"><img src="dist/images/1.png"/></p></a>
+				         <a class="a ab" href="<%=basePath%>/admissionInfo/select?pageSize=100" target="target"><i class="icon icon-leaguer icon-2"></i>成绩管理<p class="ac"><img src="dist/images/1.png"/></p></a>
 				   </div>
 				</li>
 			</ul>

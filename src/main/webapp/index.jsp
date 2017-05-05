@@ -48,16 +48,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<shiro:hasPermission name="51">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'orders');">订单</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="61">
+					<shiro:hasPermission name="6">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'operate');">运营</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="71">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'finance');">报表 </a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="81">
-					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员水水</a>
-					</shiro:hasPermission>
 					<shiro:hasPermission name="8">
+					<a href="javascript:void(0);" onclick="changeLeft(this,'leaguer');">会员</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="7">
 					<a href="javascript:void(0);" onclick="changeLeft(this,'base');">基本</a>
 					</shiro:hasPermission>
 				</nav>
@@ -230,7 +230,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</aside>
 			<aside id="left_operate" class="cont_aside height_auto left">
 			   <ul class="one">			   
-					<li>
+					<%--<li>
 					    <div class="cont_aside_item cont_aside_header">
 					         <a class="a ab" href="<%=basePath%>/advManage/selectAdvInfoAll" target="target"><i class="icon icon-operate icon-2"></i>广告管理<p class="ac myDir"><img src="dist/images/1.png"/></p></a>
 					         <ul class="two" style="display:none">
@@ -246,7 +246,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					   <div class="cont_aside_item">
 					        <a class="a ab" href="<%=basePath%>/feedback/select" target="target" ><i class="icon icon-operate icon-1"></i>反馈管理<p class="ac myDir"><img src="dist/images/1.png"/></p></a>
 					   </div>    
-					</li>
+					</li>--%>
 					<li>
 					    <div class="cont_aside_item">
 					         <a class="a ab" href="<%=basePath%>/secrole/select" target="target" ><i class="icon icon-operate icon-3"></i>权限管理<p class="ac myDir"><img src="dist/images/1.png"/></p></a>

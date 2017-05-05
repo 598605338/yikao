@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -59,7 +60,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<a href="javascript:void(0)" onclick="deleteRecord();"><span class="left back_dblue btn"><i class="icon-btn icon-delete"></i>删除</span></a>
 						</div>
 						<thead style="background:#EBEBEB ;">
+                           <shiro:hasPermission name="9">
 							<th><input style="margin-left:20%;" type="checkbox" name="selAll" onclick="selAll(this);"/></th>
+						   </shiro:hasPermission>
 							<th>院校名</th>
 							<th>科目名</th>
 							<th>年份</th>
@@ -70,12 +73,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<th>最低分</th>
 							<th>平均分</th>
 							<th>录取规则</th>
+						   <shiro:hasPermission name="9">
 							<th>操作</th>
+						   </shiro:hasPermission>
 						</thead>
 						<tbody>
 						<c:forEach var="item" items="${admissionInfoList }" varStatus="status">
 							<tr class="goods_tr">
+							   	<shiro:hasPermission name="9">	
 								<td style="width:5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>
+							    </shiro:hasPermission>
 								<c:if test="${item.firstRowFlag_college == true}">
 								<td  style="width:10%;" rowspan="${item.rowspanNum_college}"><c:out value="${item.collegeName }"/></td>
 								</c:if>
@@ -96,9 +103,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <c:if test="${item.firstRowFlag_rule == true}">
 								<td  style="width:13%;" rowspan="${item.rowspanNum_rule}"><c:out value="${item.description }"/></td>
                                 </c:if>
+								<shiro:hasPermission name="9">
 								<td  style="width:8%;">
 									<a href="javascript:void(0)" class="mr10" onclick="location.href='toEdit?id=<c:out value="${item.id }" />'"><i class="icon-op icon-op-edit"></i>修改</a>
 								</td>
+							    </shiro:hasPermission>
 							</tr>
 						</c:forEach>
 						</tbody>

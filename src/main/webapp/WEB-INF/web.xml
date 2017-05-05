@@ -25,10 +25,7 @@
     <param-name>loggingLevel</param-name>
     <param-value>INFO</param-value>
   </context-param>
-  <!--<context-param>
-	<param-name>webAppRootKey</param-name>
-	<param-value>linjia_B_1.root</param-value>
-  </context-param>-->
+
   
   <!-- Shiro Filter -->  
     <filter>  

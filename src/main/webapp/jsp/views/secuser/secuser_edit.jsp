@@ -13,21 +13,11 @@
 function doSubmit(){
 	var form = document.editForm;
 	var login = form.login.value;
-	var password = form.password.value;
-	var confirmPassword = form.confirmPassword.value;
 	var phone = form.phone.value;
 	var level = form.level.value;
 	if(login==null || login==''){
         document.editForm.login.focus();
         alert("请填写用户名！");return false;
-	}
-	if(password==null || password==''){
-        document.editForm.password.focus();
-        alert("请填写密码！");return false;
-	}
-	if(confirmPassword==null || confirmPassword==''){
-        document.editForm.confirmPassword.focus();
-        alert("请填写确认密码！");return false;
 	}
 	if(phone==null || phone==''){
 		document.editForm.phone.focus();
@@ -142,8 +132,8 @@ $("#privilegeIds_"+l[i]).removeAttr("disabled","none");
 }
 </script>
 <script type="text/javascript">
-var browser=navigator.appName
-var b_version=navigator.appVersion
+var browser=navigator.appName;
+var b_version=navigator.appVersion;
 var version=b_version.split(";");
 var trim_Version=version[1].replace(/[ ]/g,""); 
  if(browser=="Microsoft Internet Explorer" && trim_Version=="MSIE9.0") {

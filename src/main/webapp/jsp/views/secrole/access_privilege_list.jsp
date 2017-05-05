@@ -57,11 +57,15 @@
 			</div>
 			<div class="height">
 				<input class="left" type="checkbox" <shiro:lacksRole name="<%=com.linjia.constants.PrivilegeConstants.ROLE.ID_1%>">disabled = "disabled"</shiro:lacksRole>
-					name="privilegeIds" id="privilegeIds_7" value="7" /><label class="left">财务管理：</label> 
+					name="privilegeIds" id="privilegeIds_7" value="7" /><label class="left">基本管理：</label>
 			</div>
 			<div class="height">
 				<input class="left" type="checkbox" <shiro:lacksRole name="<%=com.linjia.constants.PrivilegeConstants.ROLE.ID_1%>">disabled = "disabled"</shiro:lacksRole>
 					name="privilegeIds" id="privilegeIds_8" value="8" /><label class="left">会员管理：</label> 
+			</div>
+		    <div class="height">
+				<input class="left" type="checkbox" <shiro:lacksRole name="<%=com.linjia.constants.PrivilegeConstants.ROLE.ID_1%>">disabled = "disabled"</shiro:lacksRole>
+					name="privilegeIds" id="privilegeIds_9" value="9" /><label class="left">全系统编辑：</label>
 			</div>
     </div>
 	</form>

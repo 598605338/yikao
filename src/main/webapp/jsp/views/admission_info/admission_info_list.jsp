@@ -186,7 +186,7 @@
             return "javascript:submitPageForm(" + pageIndex + "," + pageSize + ");"; //参数名跟上面相同
         }
     });
-    dividePage.generPageHtml2();
+    dividePage.generPageHtml2(pageSize);
 
 
     /*

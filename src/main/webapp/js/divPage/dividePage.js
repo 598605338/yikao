@@ -206,11 +206,13 @@ var dividePage = {
         $("#" + this.pagerid).html(str);
     },
     //生成分页控件Html
-    generPageHtml2: function () {
+    generPageHtml2: function (pgSize) {
         if (!this.inited) {
             return;
         }
-
+        if(pgSize){
+            this.pageSize = pgSize;
+        }
         var str_prv = '', str_next = '';
         if (this.hasPrv) {
             str_prv = '<a href="' + this.getLink2(this.prv,this.pageSize) + '" title="上一页">上一页</a>';

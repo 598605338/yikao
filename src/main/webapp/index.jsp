@@ -456,6 +456,13 @@
                     </div>
                 </li>
             </shiro:hasPermission>
+                <li>
+                    <div class="cont_aside_item">
+                        <a class="a ab" href="<%=basePath%>/studentScore/select?pageSize=20" target="target"><i
+                                class="icon icon-leaguer icon-1"></i>考生成绩查询<p class="ac"><img src="dist/images/1.png"/>
+                        </p></a>
+                    </div>
+                </li>
             <%--<li>
                 <div class="cont_aside_item">
                       <a class="a ab" href="<%=basePath%>/admissionInfo/select" target="target"><i class="icon icon-leaguer icon-1"></i>录取规则管理<p class="ac"><img src="dist/images/1.png"/></p></a>

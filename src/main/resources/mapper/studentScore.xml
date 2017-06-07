@@ -42,7 +42,7 @@
     <if test="specialtyName != null and specialtyName !=''">
       AND specialty_name LIKE concat("%",#{specialtyName,jdbcType=VARCHAR},"%")
     </if>
-    order BY  college_name
+    order BY  rank
     limit #{startIndex},#{pageSize}
   </select>
 
@@ -91,7 +91,7 @@
   </insert>
 
   <insert id="insertBatch" parameterType="list" >
-    insert into t_student_score
+    insert into t_student_score_temp
         (candidate_num,
         candidate_name,
         sex,
@@ -186,4 +186,12 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="createImportTemp" parameterType="java.lang.String" >
+    ${sql}
+  </update>
+
+  <select id="callProcImportInfo"  statementType="CALLABLE" >
+    CALL test.proc_import_student_score()
+  </select>
 </mapper>

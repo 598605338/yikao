@@ -43,4 +43,20 @@ public interface StudentScoreService extends BaseService<StudentScore, Long>{
 	 * @return
 	 */
 	int insertBatch(List<StudentScore> list);
+
+	/**
+	 * 创建导入数据的临时表
+	 * lixinling
+	 * 2016年8月22日 下午2:17:39
+	 * @return
+	 */
+	int createImportTemp();
+
+	/**
+	 * 调用导入信息存储过程
+	 * lixinling
+	 * 2016年8月22日 下午2:17:39
+	 * @return
+	 */
+	void callProcImportInfo();
 }

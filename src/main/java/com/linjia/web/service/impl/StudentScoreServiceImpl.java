@@ -47,4 +47,22 @@ public class StudentScoreServiceImpl extends BaseServiceImpl<StudentScore, Long>
 	public int insertBatch(List<StudentScore> list) {
 		return mapper.insertBatch(list);
 	}
+
+	@Override
+	public int createImportTemp() {
+		String sql="create table t_student_score_temp (`candidate_num` bigint(18) DEFAULT NULL COMMENT '考号',\n" +
+				"  `candidate_name` varchar(10) DEFAULT NULL COMMENT '考生姓名',\n" +
+				"  `sex` tinyint(1) DEFAULT '0' COMMENT '性别：0男；1女',\n" +
+				"  `college_name` varchar(50) DEFAULT NULL COMMENT '院校名称',\n" +
+				"  `specialty_name` varchar(50) DEFAULT NULL COMMENT '专业名称',\n" +
+				"  `score` decimal(4,1) DEFAULT NULL COMMENT '成绩'\n" +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生成绩录取信息导入临时表';";
+
+		return mapper.createImportTemp(sql);
+	}
+
+	@Override
+	public void callProcImportInfo() {
+		mapper.callProcImportInfo();
+	}
 }

@@ -137,4 +137,18 @@ public class TestP {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void test3() {
+		String a ="10";
+		String b="12c";
+		tt(b,a);
+		System.out.println("a="+a);
+		System.out.println("b="+b);
+	}
+
+	public void tt(String a,String b){
+		a = a+"sss";
+		b = b+"a";
+	}
 }

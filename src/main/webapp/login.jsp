@@ -9,7 +9,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>邻家后台管理系统--登录页</title>
+<title>河北艺考志愿网</title>
 <link rel="stylesheet" href="<%=basePath %>dist/css/common.css" />
 <link rel="stylesheet" href="<%=basePath %>dist/css/login.css" />
 <script src="<%=basePath %>dist/js/jquery-1.11.2.js"></script>
@@ -50,7 +50,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<p style="width:50%;display:inline-block;"><input style="width:100%;" type="text" name="validateCode" id="validateCode" /></p>
 						<p style="width:5%;display:inline-block;">
 							<span class="login_smIn_code" style="width:3%;">
-							    <img name="vercode_img" id="vercode_img" alt="点击更换" title="点击更换" src="<%=basePath%>validateCode" onclick="javascript:reloadVerifyCode();" style="margin-left:5px;margin-top:2px;cursor: pointer;">	
+							    <img name="vercode_img" id="vercode_img" alt="点击更换" title="点击更换" src="<%=basePath%>validateCode" onclick="reloadVerifyCode();" style="margin-left:5px;margin-top:2px;cursor: pointer;">
 						    </span>
 						</p>
 					</div>

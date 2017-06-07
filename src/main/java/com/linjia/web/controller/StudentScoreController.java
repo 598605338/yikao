@@ -89,6 +89,9 @@ public class StudentScoreController extends BaseController {
                     List<StudentScore> list = readXls(file.getInputStream(),repeatData);
                     if (list != null && list.size() > 0) {
                         studentScoreService.insertBatch(list);
+
+                        //执行存储过程
+                        studentScoreService.callProcImportInfo();
                     }
 
                     String repeatStr = ", 发现重复数据信息：";
@@ -96,7 +99,7 @@ public class StudentScoreController extends BaseController {
                         String tempStr = repeatData.toString().substring(0, repeatData.lastIndexOf(","));
                         repeatStr += tempStr;
                     }
-                    resMap.put("message", "导入成功" + list.size() + "条" + repeatStr);
+                    resMap.put("message", "导入成功");
                 } catch (Exception e) {
                     resMap.put("message", "导入失败  ");
                     logger.info("导入失败。");
@@ -155,11 +158,11 @@ public class StudentScoreController extends BaseController {
                             continue;
 
                         // 验证此考号candidateNum在此学校此专业是否已经存在
-                        int count = studentScoreService.checkSameData(Long.valueOf(candidateNum),collegeName,specialtyName);
+                        /*int count = studentScoreService.checkSameData(Long.valueOf(candidateNum),collegeName,specialtyName);
                         if (count > 0) {
                             repeatData.append(candidateNum).append(":").append(collegeName).append(":").append(specialtyName).append(",");
                             continue;
-                        }
+                        }*/
                         String candidateName = candidateNameCell == null ? null :  ReadExcel.getValue(candidateNameCell)+"";
                         String sex = sexCell == null ? null : ReadExcel.getValue(sexCell)+"";
                         BigDecimal score = scoreCell == null ? null : new BigDecimal(ReadExcel.getValue(scoreCell)+"");
@@ -173,6 +176,15 @@ public class StudentScoreController extends BaseController {
                         studentScore.setScore(score);
 
                         list.add(studentScore);
+                    }
+
+                    //每读取一万条数据批量插入一次数据到临时表里
+                    if(rowNum%10000==1){
+                        if(rowNum < 10000){
+                            studentScoreService.createImportTemp();
+                        }
+                        studentScoreService.insertBatch(list);
+                        list.clear();
                     }
                 }
             }

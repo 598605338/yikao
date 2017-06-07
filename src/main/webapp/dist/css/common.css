@@ -941,3 +941,12 @@ thead input{
     text-align: left;
     float: left;
 }
+@media screen and (max-device-width: 480px) {
+	#divMain{
+		float: none;
+		width:auto;
+	}
+	#divSidebar {
+		display:none;
+	}
+}

@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>首页</title>
+    <title>河北艺考志愿网--首页</title>
     <link rel="stylesheet" href="./dist/css/common.css"/>
     <link rel="stylesheet" href="./dist/css/style.css"/>
 </head>
@@ -421,12 +421,19 @@
         <ul class="one">
             <li>
                 <div class="cont_aside_item">
+                    <a class="a ab" href="<%=basePath%>/studentScore/select?pageSize=20" target="target"><i
+                            class="icon icon-leaguer icon-1"></i>考生成绩查询<p class="ac"><img src="dist/images/1.png"/>
+                    </p></a>
+                </div>
+            </li>
+            <shiro:hasPermission name="9">
+            <li>
+                <div class="cont_aside_item">
                     <a class="a ab" href="<%=basePath%>/admissionInfo/select?pageSize=100" target="target"><i
                             class="icon icon-leaguer icon-2"></i>成绩管理<p class="ac"><img src="dist/images/1.png"/></p>
                     </a>
                 </div>
             </li>
-            <shiro:hasPermission name="9">
                 <li>
                     <div class="cont_aside_item cont_aside_header">
                         <a class="a ab" href="<%=basePath%>/specialty/select" target="target"><i
@@ -456,13 +463,7 @@
                     </div>
                 </li>
             </shiro:hasPermission>
-                <li>
-                    <div class="cont_aside_item">
-                        <a class="a ab" href="<%=basePath%>/studentScore/select?pageSize=20" target="target"><i
-                                class="icon icon-leaguer icon-1"></i>考生成绩查询<p class="ac"><img src="dist/images/1.png"/>
-                        </p></a>
-                    </div>
-                </li>
+
             <%--<li>
                 <div class="cont_aside_item">
                       <a class="a ab" href="<%=basePath%>/admissionInfo/select" target="target"><i class="icon icon-leaguer icon-1"></i>录取规则管理<p class="ac"><img src="dist/images/1.png"/></p></a>

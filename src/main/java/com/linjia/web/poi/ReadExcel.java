@@ -200,7 +200,7 @@ public class ReadExcel {
     	if (null != hssfCell) {     
             switch (hssfCell.getCellType()) {     
             case HSSFCell.CELL_TYPE_NUMERIC: // 数字     
-            	cellValue=hssfCell.getNumericCellValue();  
+            	cellValue=hssfCell.getNumericCellValue();
                 break;     
             case HSSFCell.CELL_TYPE_STRING: // 字符串     
             	cellValue=hssfCell.getStringCellValue().trim();     

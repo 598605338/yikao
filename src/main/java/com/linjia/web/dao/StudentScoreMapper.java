@@ -4,6 +4,7 @@ package com.linjia.web.dao;
 import com.linjia.base.dao.BaseDao;
 import com.linjia.web.model.StudentScore;
 import com.linjia.web.query.StudentScoreQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -43,5 +44,22 @@ public interface StudentScoreMapper extends BaseDao<StudentScore, Long> {
      * @return
      */
     int insertBatch(List<StudentScore> list);
+
+    /**
+     * 创建导入数据的临时表
+     * lixinling
+     * 2016年8月22日 下午2:17:39
+     * @param sql
+     * @return
+     */
+    int createImportTemp(@Param(value = "sql")String sql);
+
+    /**
+     * 调用导入信息存储过程
+     * lixinling
+     * 2016年8月22日 下午2:17:39
+     * @return
+     */
+    void callProcImportInfo();
 }
 

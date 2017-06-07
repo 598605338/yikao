@@ -36,7 +36,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<form name="form" id="formSubmit" action="select" method="post">
 						<div class="row">
 							<input type="text" name="candidateNum" id="candidateNum" placeholder="考生考号" value="<c:out value="${query.candidateNum }"/>" class="td_text_w" />
-							<input type="text" name="candidateName" id="candidateName" placeholder="考生名称" value="<c:out value="${query.candidateName }"/>" class="td_text_w" />
+							<input type="text" name="candidateName" id="candidateName" placeholder="考生名称" value="<c:out value= "${query.candidateName }"/>" class="td_text_w" />
 							<input type="text" name="collegeName" id="collegeName" placeholder="院校名称" value="<c:out value="${query.collegeName }"/>" class="td_text_w" />
 							<input type="text" name="specialtyName" id="specialtyName" placeholder="科目名称" value="<c:out value="${query.specialtyName }"/>" class="td_text_w" />
 						</div>
@@ -72,11 +72,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<c:forEach var="item" items="${studentScoreList }" varStatus="status">
 							<tr class="goods_tr">
 								<%--<td style="width:2.5%;"><input style="margin-left:20%;" type="checkbox" name="id" value="<c:out value="${item.id }" />"/></td>--%>
-								<td  style="width:15%;" ><c:out value="${item.candidateNum }"/></td>
-								<td  style="width:12%;" ><c:out value="${item.candidateName }"/></td>
+								<td  style="width:15%;" ><a href="javascript:void(0)" onclick="searchByClick('<c:out value="${item.candidateNum }"/>',1)"><c:out value="${item.candidateNum }"/></a></td>
+									<td  style="width:12%;" ><a href="javascript:void(0)" onclick="searchByClick('<c:out value="${item.candidateName }"/>',2)"><c:out value="${item.candidateName }"/></a></td>
 								<td  style="width:8%;" ><c:if test="${item.sex==0}">男</c:if><c:if test="${item.sex==1}">女</c:if></td>
-								<td  style="width:20%;" ><c:out value="${item.collegeName }"/></td>
-								<td  style="width:20%;" ><c:out value="${item.specialtyName }"/></td>
+									<td  style="width:20%;" ><a href="javascript:void(0)" onclick="searchByClick('<c:out value="${item.collegeName }"/>',3)"><c:out value="${item.collegeName }"/></a></td>
+									<td  style="width:20%;" ><a href="javascript:void(0)" onclick="searchByClick('<c:out value="${item.specialtyName }"/>',4)"><c:out value="${item.specialtyName }"/></a></td>
 								<td  style="width:10%;" ><c:out value="${item.score }"/></td>
 								<td  style="width:10%;" ><c:out value="${item.rank }"/></td>
 									<%--<td  style="width:20%;">--%>
@@ -95,10 +95,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				   <form name="pageForm" action="select" method="post">
 				    <input type="hidden" name="pageIndex" id="pageIndex" value="" />
 				    <input type="hidden" name="pageSize" id="pageSize" value="" />
-				    <input type="hidden" name="candidateNum" id="candidateNum" value="<c:out value="${query.candidateNum}"/>" />
-				    <input type="hidden" name="candidateName" id="candidateName" value="<c:out value="${query.candidateName}"/>" />
-				    <input type="hidden" name="collegeName" id="collegeName" value="<c:out value="${query.collegeName}"/>" />
-				    <input type="hidden" name="specialtyName" id="specialtyName" value="<c:out value="${query.specialtyName}"/>" />
+				    <input type="hidden" name="candidateNum" id="candidateNum1" value="<c:out value="${query.candidateNum}"/>" />
+				    <input type="hidden" name="candidateName" id="candidateName1" value="<c:out value="${query.candidateName}"/>" />
+				    <input type="hidden" name="collegeName" id="collegeName1" value="<c:out value="${query.collegeName}"/>" />
+				    <input type="hidden" name="specialtyName" id="specialtyName1" value="<c:out value="${query.specialtyName}"/>" />
 					</form>
 				   <div id="div_pager"></div>
 				</footer>
@@ -112,7 +112,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<form action="" id="upfile" name="upfile" method="post"
 					  enctype="multipart/form-data">
 					<input type="file" class="btn_file left" name="file" /> <a
-						href="javascript:void()" onclick="importProduct();"><span
+						href="javascript:void();" onclick="importProduct(this);"><span
 						class="btn left btn_post">上传文件</span></a>
 					<%--<a href="javascript:void()" onclick="javascript:location.href='download'"><span class="btn left btn_load">下载模板</span></a>--%>
 				</form>
@@ -222,7 +222,7 @@ $(".btn_import").on("click",function(){
 /*
  * 导入
  */
-function importProduct(){
+function importProduct(o){
     var formData = new FormData();
     var files = $('input[name="file"]').prop('files');
     if(files == null){
@@ -243,11 +243,17 @@ function importProduct(){
         },
         success : function(result) {
             alert(result["message"]);
+            $(o).attr("disabled",false);
+            $(o).attr("onclick","importProduct(this)");
         },
         error : function(r) {
             alert(result["message"]);
         }
     });
+
+    //按钮变灰
+    $(o).attr("disabled",true);
+    $(o).attr("onclick","javascript:return false;");
 }
 
 function closePopup(){
@@ -256,5 +262,24 @@ function closePopup(){
     target.css({"display":"none"});
     _div.css({"display":"none"});
     return false;
+}
+
+function searchByClick(val,type){
+    var form = document.form;
+    switch (type){
+		case 1:
+		    $("#candidateNum").val(val);
+		    break;
+		case 2:
+            $("#candidateName").val(val);
+            break;
+        case 3:
+            $("#collegeName").val(val);
+            break;
+        case 4:
+            $("#specialtyName").val(val);
+            break;
+	}
+    form.submit();
 }
 </script>
